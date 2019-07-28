@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.sense.naoto.sense.R;
+import com.sense.naoto.sense.classes.Fashion;
+
 public class FashionFragmentPagerAdapter extends FragmentPagerAdapter {
 
     /*
@@ -20,22 +23,27 @@ public class FashionFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int i) {
 
-        Fragment fm;
+        Fashion fashion;
 
         switch (i) {
             case 0:
-                fm = FashionFragment.newInstance("Fashion1");
+                fashion = new Fashion(R.drawable.fashion1,"量産型コーデ1","これさえきれば大丈夫!!");
                 break;
+
             case 1:
-                fm = FashionFragment.newInstance("Fashion2");
+                fashion = new Fashion(R.drawable.fashion2,"量産型コーデ2","お祭りにも使えるかも!?");
                 break;
+
             case 2:
-                fm = FashionFragment.newInstance("Fashion3");
+                fashion = new Fashion(R.drawable.fashion3,"量産型コーデ3","海もこれでOK!!");
                 break;
+
             default:
-                fm = null;
+                fashion = null;
                 break;
         }
+
+        Fragment fm = FashionFragment.newInstance(fashion);
 
         return fm;
     }

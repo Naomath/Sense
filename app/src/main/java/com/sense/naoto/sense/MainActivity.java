@@ -13,6 +13,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setViews();
+    }
+
+    public void setViews(){
         ViewPager viewPager = findViewById(R.id.viewPager);
         FragmentPagerAdapter pagerAdapter = new FashionFragmentPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
