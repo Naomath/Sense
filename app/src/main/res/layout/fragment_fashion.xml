@@ -13,6 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="TODO"
+        android:background="@color/colorAccent"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,16 +24,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <ImageView
         android:id="@+id/imageButton"
         android:layout_width="60dp"
-        android:layout_height=" 60dp"
+        android:layout_height="60dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/btn_fav"
-        android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.33999997" />
+
+    <com.varunest.sparkbutton.SparkButton
+        android:id="@+id/spark_button"
+        android:layout_width="92dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.331"
+        app:sparkbutton_activeImage="@drawable/active_heart"
+        app:sparkbutton_iconSize="35dp"
+        app:sparkbutton_inActiveImage="@drawable/inactive_heart"
+        app:sparkbutton_primaryColor="@color/colorAccent" />
 
 </android.support.constraint.ConstraintLayout>
