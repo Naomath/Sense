@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FashionSwipe.FashionFragment"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".FashionSwipe.FashionFragment">
 
     <ImageView
         android:id="@+id/fashionImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:contentDescription="TODO"
         android:background="@color/colorAccent"
+        android:contentDescription="TODO"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +24,6 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/imageButton"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginEnd="16dp"
@@ -36,7 +34,7 @@
         app:layout_constraintVertical_bias="0.33999997" />
 
     <com.varunest.sparkbutton.SparkButton
-        android:id="@+id/spark_button"
+        android:id="@+id/fav_button"
         android:layout_width="92dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,5 +45,18 @@
         app:sparkbutton_iconSize="35dp"
         app:sparkbutton_inActiveImage="@drawable/inactive_heart"
         app:sparkbutton_primaryColor="@color/colorAccent" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include layout="@layout/description_bottom_sheet_content" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
 
 </android.support.constraint.ConstraintLayout>

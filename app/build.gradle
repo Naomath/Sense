@@ -38,6 +38,10 @@ dependencies {
 
     //Libraries
     implementation 'com.android.support:design:28.0.0'
+
     implementation 'com.github.varunest:sparkbutton:1.0.6'
+
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
 
 }

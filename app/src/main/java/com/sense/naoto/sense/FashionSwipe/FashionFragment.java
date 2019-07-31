@@ -3,15 +3,20 @@ package com.sense.naoto.sense.FashionSwipe;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.Fashion;
+import com.varunest.sparkbutton.SparkButton;
+import com.varunest.sparkbutton.SparkEventListener;
 
 public class FashionFragment extends Fragment {
     /*
@@ -62,6 +67,42 @@ public class FashionFragment extends Fragment {
     public void setViews(){
         ImageView fashionImage = mView.findViewById(R.id.fashionImageView);
         fashionImage.setImageResource(mFashion.getImageCode());
+
+        SparkButton favButton = mView.findViewById(R.id.fav_button);
+        favButton.setEventListener(new SparkEventListener(){
+            @Override
+            public void onEvent(ImageView button, boolean buttonState) {
+                if (buttonState) {
+                    // Button is active
+                    //TODO:favのボタンの処理　
+                } else {
+                    // Button is inactive
+                    //TODO:favのボタンの処理　
+                }
+            }
+
+            @Override
+            public void onEventAnimationEnd(ImageView button, boolean buttonState) {}
+
+            @Override
+            public void onEventAnimationStart(ImageView button, boolean buttonState) {}
+        });
+
+        View bottomSheet = mView.findViewById(R.id.description_bottom_sheet);
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View view, int i) {
+
+            }
+
+            @Override
+            public void onSlide(@NonNull View view, float v) {
+
+            }
+        });
+
     }
+
 
 }
