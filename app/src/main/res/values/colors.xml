@@ -7,4 +7,5 @@
     <color name="white">#ffffff</color>
     <color name="colorText">#757575</color>
     <color name="colorHashtag">#29b6f6</color>
+    <color name="colorDarkWhite">#fafafa</color>
 </resources>
