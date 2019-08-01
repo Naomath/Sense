@@ -1,7 +1,5 @@
-package com.sense.naoto.sense.FashionSwipe;
+package com.sense.naoto.sense.fashion_swipe;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -42,7 +40,6 @@ public class FashionSwipeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.fragment_fashion_swipe, container, false);
-
         setViews();
         return mView;
     }
@@ -50,9 +47,15 @@ public class FashionSwipeFragment extends Fragment {
     private void setViews(){
 
         ViewPager viewPager = mView.findViewById(R.id.viewPager);
-        FragmentPagerAdapter pagerAdapter = new FashionFragmentPagerAdapter(getActivity().getSupportFragmentManager());
+        FragmentPagerAdapter pagerAdapter = new FashionFragmentPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
     }
 
+
+    @Override
+    public void  onDetach() {
+        super.onDetach();
+
+    }
 }

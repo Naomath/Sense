@@ -1,4 +1,4 @@
-package com.sense.naoto.sense.FashionSwipe;
+package com.sense.naoto.sense.fashion_swipe;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -1,4 +1,4 @@
-package com.sense.naoto.sense.ViewHelpers;
+package com.sense.naoto.sense.view_helper;
 
 import android.support.design.internal.BaselineLayout;
 import android.support.design.internal.BottomNavigationMenuView;
