@@ -11,7 +11,6 @@ public class MainActivityHelper {
         Intent intent  = new Intent(activity, PostFashionActivity.class);
         activity.startActivity(intent);
 
-
     }
 
 }
