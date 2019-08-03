@@ -2,6 +2,8 @@ package com.sense.naoto.sense.post_fashion;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Camera;
@@ -21,6 +23,7 @@ import android.media.ImageReader;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -216,7 +219,7 @@ public class PostFashionActivity extends AppCompatActivity {
             //Orientation
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATION.get(rotation));
-            final File file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+            final File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)  + "/pic.jpg");
 
             ImageReader.OnImageAvailableListener readListener = new ImageReader.OnImageAvailableListener() {
                 @Override
@@ -244,6 +247,7 @@ public class PostFashionActivity extends AppCompatActivity {
                     try {
                         outputStream = new FileOutputStream(file);
                         outputStream.write(bytes);
+
                     } finally {
                         if (null != outputStream) {
                             outputStream.close();
@@ -285,15 +289,15 @@ public class PostFashionActivity extends AppCompatActivity {
     }
 
 
-    protected void createCameraPreview(){
-        try{
+    protected void createCameraPreview() {
+        try {
             SurfaceTexture texture = mTextureView.getSurfaceTexture();
             assert texture != null;
             texture.setDefaultBufferSize(mImageDimension.getWidth(), mImageDimension.getHeight());
             Surface surface = new Surface(texture);
             mCaptureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mCaptureRequestBuilder.addTarget(surface);
-            mCameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback(){
+            mCameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback() {
                 @Override
                 public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
 
@@ -304,20 +308,21 @@ public class PostFashionActivity extends AppCompatActivity {
                     mCameraCaptureSession = cameraCaptureSession;
                     updatePreview();
                 }
+
                 @Override
                 public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
                     Toast.makeText(PostFashionActivity.this, "Configuration change", Toast.LENGTH_SHORT).show();
                 }
             }, null);
 
-        }catch (CameraAccessException e){
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
-    private void openCamera(){
+    private void openCamera() {
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-        try{
+        try {
             mCameraId = manager.getCameraIdList()[0];
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(mCameraId);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
@@ -330,26 +335,26 @@ public class PostFashionActivity extends AppCompatActivity {
             }
 
             manager.openCamera(mCameraId, stateCallback, null);
-        }catch (CameraAccessException e){
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
-     protected void updatePreview(){
-         if (null == mCameraDevice) {
-             Log.e(TAG, "updatePreview error, return");
-         }
-         mCaptureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
-         try{
-             mCameraCaptureSession.setRepeatingRequest(mCaptureRequestBuilder.build(), null, mBackgroundHandler);
+    protected void updatePreview() {
+        if (null == mCameraDevice) {
+            Log.e(TAG, "updatePreview error, return");
+        }
+        mCaptureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+        try {
+            mCameraCaptureSession.setRepeatingRequest(mCaptureRequestBuilder.build(), null, mBackgroundHandler);
 
-         }catch (CameraAccessException e){
-             e.printStackTrace();
-         }
-     }
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
-     private void closeCamera(){
-        if (null != mCameraDevice){
+    private void closeCamera() {
+        if (null != mCameraDevice) {
             mCameraDevice.close();
             mCameraDevice = null;
         }
@@ -358,7 +363,7 @@ public class PostFashionActivity extends AppCompatActivity {
             mImageReader.close();
             mImageReader = null;
         }
-     }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
