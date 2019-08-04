@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode,resultCode,data);
 
         switch(requestCode){
-            case(ActivityConstants.POST_FASHION_ADTIVITY_CODE):
+            case(ActivityConstants.POST_FASHION_ACTIVITY_CODE):
 
                 //homeにfocusがくるように
                 mNavigation.setSelectedItemId(R.id.home);

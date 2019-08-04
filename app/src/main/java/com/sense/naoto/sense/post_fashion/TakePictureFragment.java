@@ -3,6 +3,7 @@ package com.sense.naoto.sense.post_fashion;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -16,7 +17,6 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -36,8 +36,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.sense.naoto.sense.R;
-import com.sense.naoto.sense.activity_helper.PostFashionActivityHelper;
-import com.sense.naoto.sense.interfaces.TakePictureFragmentListener;
+import com.sense.naoto.sense.interfaces.TakePictureFmListener;
+import com.sense.naoto.sense.processings.ImageHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,7 +54,7 @@ public class TakePictureFragment extends Fragment {
 
     private View mView;
 
-    private TakePictureFragmentListener mListener;
+    private TakePictureFmListener mListener;
 
     private static final String TAG = "AndroidCameraApi";
 
@@ -70,13 +70,11 @@ public class TakePictureFragment extends Fragment {
     private String mCameraId;
     protected CameraDevice mCameraDevice;
     protected CameraCaptureSession mCameraCaptureSession;
-    protected CaptureRequest mCaptureRequest;
     protected CaptureRequest.Builder mCaptureRequestBuilder;
     private Size mImageDimension;
     private ImageReader mImageReader;
     private File mFile;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
-    private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
 
@@ -138,7 +136,6 @@ public class TakePictureFragment extends Fragment {
     };
 
 
-
     public TakePictureFragment() {
         // Required empty public constructor
     }
@@ -153,16 +150,17 @@ public class TakePictureFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {}
-        if (getActivity() instanceof TakePictureFragmentListener){
-            mListener = (TakePictureFragmentListener) getActivity();
+        if (getArguments() != null) {
+        }
+        if (getActivity() instanceof TakePictureFmListener) {
+            mListener = (TakePictureFmListener) getActivity();
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView =  inflater.inflate(R.layout.fragment_take_picture, container, false);
+        mView = inflater.inflate(R.layout.fragment_take_picture, container, false);
         setViews();
         return mView;
     }
@@ -172,7 +170,7 @@ public class TakePictureFragment extends Fragment {
         btnEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onFinishActivity();
+                mListener.onFinishTakePicture();
             }
         });
 
@@ -239,25 +237,26 @@ public class TakePictureFragment extends Fragment {
             //Orientation
             int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATION.get(rotation));
-            final File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)  + "/pic.jpg");
+            final File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/pic.jpg");
 
             ImageReader.OnImageAvailableListener readListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
-                    Image image = null;
+                    Image i = null;
                     try {
-                        image = reader.acquireLatestImage();
-                        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                        i = reader.acquireLatestImage();
+                        ByteBuffer buffer = i.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
+                        moveToSetUpFashion(i);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
-                        if (image != null) {
-                            image.close();
+                        if (i != null) {
+                            i.close();
                         }
                     }
                 }
@@ -306,6 +305,21 @@ public class TakePictureFragment extends Fragment {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    private void moveToSetUpFashion(Image image) {
+        //imageのBitmap形式への変換処理
+        final Bitmap bitmap = ImageHelper.fromImageToBitmap(image);
+
+        //遷移処理
+        HandlerThread handlerThread = new HandlerThread("moveToSetUpFashion");
+        handlerThread.start();
+        new Handler(handlerThread.getLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mListener.onMoveToSetUpFashion(bitmap);
+            }
+        }, 500);
     }
 
 
