@@ -237,7 +237,8 @@ public class TakePictureFragment extends Fragment {
             //Orientation
             int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATION.get(rotation));
-            final File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/pic.jpg");
+            final String pathName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/pic.jpg";
+            final File file = new File(pathName);
 
             ImageReader.OnImageAvailableListener readListener = new ImageReader.OnImageAvailableListener() {
                 @Override
@@ -249,7 +250,7 @@ public class TakePictureFragment extends Fragment {
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
-                        moveToSetUpFashion(i);
+                        moveToSetUpFashion(bytes, pathName);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -307,9 +308,9 @@ public class TakePictureFragment extends Fragment {
         }
     }
 
-    private void moveToSetUpFashion(Image image) {
+    private void moveToSetUpFashion(byte[] bytes, final String pathName) {
         //imageのBitmap形式への変換処理
-        final Bitmap bitmap = ImageHelper.fromImageToBitmap(image);
+        final Bitmap bitmap = ImageHelper.fromImageToBitmap(bytes);
 
         //遷移処理
         HandlerThread handlerThread = new HandlerThread("moveToSetUpFashion");
@@ -317,7 +318,7 @@ public class TakePictureFragment extends Fragment {
         new Handler(handlerThread.getLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                mListener.onMoveToSetUpFashion(bitmap);
+                mListener.onMoveToSetUpFashion(bitmap, pathName);
             }
         }, 500);
     }
@@ -349,6 +350,8 @@ public class TakePictureFragment extends Fragment {
                 }
             }, null);
 
+
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -373,6 +376,9 @@ public class TakePictureFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+
+
 
     protected void updatePreview() {
         if (null == mCameraDevice) {

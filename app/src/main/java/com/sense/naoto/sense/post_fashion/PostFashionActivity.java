@@ -33,11 +33,12 @@ public class PostFashionActivity extends AppCompatActivity implements TakePictur
 
 
     @Override
-    public void onMoveToSetUpFashion(Bitmap bitmap) {
+    public void onMoveToSetUpFashion(Bitmap bitmap, String pathName) {
         Fragment fm = new SetUpFashionFragment();
 
         Bundle b = new Bundle();
         b.putParcelable(FragmentConstants.BITMAP_ARG_CODE, bitmap);
+        b.putString(FragmentConstants.FILE_PATH_CODE, pathName);
         fm.setArguments(b);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).commit();

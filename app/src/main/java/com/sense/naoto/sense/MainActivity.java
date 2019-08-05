@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.post:
-                        menuItem.setIcon(R.drawable.outline_add_circle_black_36);
                         MainActivityHelper.launchPostFashionActivity(mActivity);
                         isFragment = false;
                         break;
