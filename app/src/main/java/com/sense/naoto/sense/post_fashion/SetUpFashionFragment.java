@@ -3,6 +3,7 @@ package com.sense.naoto.sense.post_fashion;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.media.ExifInterface;
 import android.media.Image;
 import android.net.Uri;
@@ -13,15 +14,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.sense.naoto.sense.R;
+import com.sense.naoto.sense.activity_helper.PostFashionActivityHelper;
 import com.sense.naoto.sense.constatnt.FragmentConstants;
 import com.sense.naoto.sense.interfaces.SetUpFashionFmListener;
-import com.sense.naoto.sense.processings.ImageHelper;
 
 import java.io.IOException;
+
 
 public class SetUpFashionFragment extends Fragment {
 
@@ -72,7 +76,28 @@ public class SetUpFashionFragment extends Fragment {
             }
         });
 
+        setImage();
+
+        Button btnPost = mView.findViewById(R.id.btn_post);
+        btnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText editTitle = (EditText) mView.findViewById(R.id.edit_title);
+                EditText editDescription = (EditText) mView.findViewById(R.id.edit_description);
+
+                String title = editTitle.getText().toString();
+                String description = editDescription.getText().toString();
+
+                saveFashion(title, description);
+            }
+        });
+
+    }
+
+    private void setImage(){
+
         try {
+
             WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
 
             Display disp = wm.getDefaultDisplay();
@@ -83,8 +108,6 @@ public class SetUpFashionFragment extends Fragment {
             // 向きを取得
             int orientation = Integer.parseInt(exifInterface.getAttribute(ExifInterface.TAG_ORIENTATION));
 
-            imageView.setScaleType(ImageView.ScaleType.MATRIX);
-            imageView.setImageBitmap(mBitmap);
 
             // 画像の幅、高さを取得
             int wOrg = mBitmap.getWidth();
@@ -155,12 +178,38 @@ public class SetUpFashionFragment extends Fragment {
                     lp.height = (int) (wOrg * factor);
                     break;
             }
+            /*
+
+            lp.width = (int) (lp.width * 0.5);
+            lp.height = (int) (lp.height * 0.5);
+
+            Matrix bitmapMatrix= new Matrix();
+            bitmapMatrix.postScale(0.5f, 0.5f);
+            Bitmap resizeBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), bitmapMatrix, true);
+*/
             imageView.setLayoutParams(lp);
             imageView.setImageMatrix(mat);
+            imageView.setScaleType(ImageView.ScaleType.MATRIX);
+            imageView.setImageBitmap(mBitmap);
             imageView.invalidate();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void saveFashion(String title, String description){
+        /*
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        Fashion fashion = realm.createObject(Fashion.class);
+        fashion.setTitle(title);
+        fashion.setDescription(description);
+        fashion.setPathName(mPathName);
+        realm.commitTransaction();
+        */
+        //TODO:Realmの仕様の検討　
+        PostFashionActivityHelper.launchMainActivity(getActivity());
     }
 
 

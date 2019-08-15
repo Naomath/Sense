@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.constatnt.ActivityConstants;
 import com.sense.naoto.sense.fashion_swipe.FashionSwipeFragment;
+import com.sense.naoto.sense.user_page.UserPageFragment;
 import com.sense.naoto.sense.view_helper.BottomNavigationViewHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
                 mNavigation.setSelectedItemId(R.id.home);
 
                 break;
+
+            case (ActivityConstants.SHOWING_MY_FASHION_ACTIVITY_CODE):
+                mNavigation.setSelectedItemId(R.id.user);
+                break;
+
             default:
                 break;
         }
@@ -73,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.home:
                         menuItem.setIcon(R.drawable.round_home_black_36);
-                        fm = new FashionSwipeFragment();
+                        fm = FashionSwipeFragment.newInstance(FashionSwipeFragment.REQUEST_FOLLOWING);
                         isFragment = true;
                         break;
 
@@ -84,9 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.user:
                         menuItem.setIcon(R.drawable.baseline_person_black_36);
-                        fm = new FashionSwipeFragment();
+                        fm = UserPageFragment.newInstance();
                         isFragment = true;
-                        //TODO:正しいfragmentを作る　
                         break;
 
                 }

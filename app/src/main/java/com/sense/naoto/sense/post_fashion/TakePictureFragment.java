@@ -83,6 +83,8 @@ public class TakePictureFragment extends Fragment {
     private TextureView mTextureView;
     private ImageButton mBtnCapture;
 
+    //TODO: 写真の保存をどうにかする　
+
 
     //Listeners
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {

@@ -3,6 +3,8 @@ package com.sense.naoto.sense.classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.UUID;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +12,16 @@ public class Fashion implements Parcelable {
 
 
     @Getter
+    private final String localId = UUID.randomUUID().toString();
+
+    @Getter
     @Setter
     private int imageCode;
+
+
+    @Getter
+    @Setter
+    private String pathName;
 
     @Getter
     @Setter
@@ -30,6 +40,11 @@ public class Fashion implements Parcelable {
         this.description = description;
     }
 
+    public Fashion(String pathName, String title, String description){
+        this.pathName = pathName;
+        this.title = title;
+        this.description = description;
+    }
 
     //ここからParcelableの継承したメソッド
 
@@ -38,6 +53,7 @@ public class Fashion implements Parcelable {
         title = in.readString();
         description = in.readString();
     }
+
 
     public static final Creator<Fashion> CREATOR = new Creator<Fashion>() {
         @Override
@@ -62,4 +78,5 @@ public class Fashion implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(description);
     }
+
 }

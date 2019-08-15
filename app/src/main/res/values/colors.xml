@@ -9,4 +9,5 @@
     <color name="colorHashtag">#29b6f6</color>
     <color name="colorDarkWhite">#fafafa</color>
     <color name="colorClear">#00ffffff</color>
+    <color name="btnStroke">#bdbdbd</color>
 </resources>

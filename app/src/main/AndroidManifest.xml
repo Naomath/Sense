@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sense.naoto.sense">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-feature android:name="android.hardware.camera2.full" />
 
     <application
@@ -21,7 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".post_fashion.PostFashionActivity"></activity>
+        <activity android:name=".post_fashion.PostFashionActivity" />
+        <activity android:name=".showing_my_fashion.ShowingMyFashionActivity"></activity>
     </application>
 
 </manifest>

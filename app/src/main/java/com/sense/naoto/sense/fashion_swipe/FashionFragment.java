@@ -98,6 +98,7 @@ public class FashionFragment extends Fragment {
             }
         });
 
+        //TODO textVIewに適切なテキストを書き込む　
     }
 
 
