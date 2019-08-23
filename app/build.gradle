@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'realm-android'
+apply plugin: 'realm-android'
 
 
 android {
@@ -36,7 +36,7 @@ dependencies {
 
     //Plugins
     compileOnly 'org.projectlombok:lombok:1.18.6'
-    annotationProcessor 'org.projectlombok:lombok:1.18.6'
+    annotationProcessor 'org.projectlombok:lombok:1.18.s6'
 
     //Libraries
     implementation 'com.android.support:design:28.0.0'
@@ -44,6 +44,9 @@ dependencies {
     implementation 'com.github.varunest:sparkbutton:1.0.6'
 
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    implementation 'commons-lang:commons-lang:+'
+
 
 
 }

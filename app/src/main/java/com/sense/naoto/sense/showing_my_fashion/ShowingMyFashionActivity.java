@@ -36,6 +36,7 @@ public class ShowingMyFashionActivity extends AppCompatActivity {
 
     @Override
     public void finish(){
+        super.finish();
         ShowingMyFashionActivityHelper.launchMainActivity(this);
     }
 }

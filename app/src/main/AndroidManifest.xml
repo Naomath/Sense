@@ -23,7 +23,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".post_fashion.PostFashionActivity" />
-        <activity android:name=".showing_my_fashion.ShowingMyFashionActivity"></activity>
+        <activity android:name=".showing_my_fashion.ShowingMyFashionActivity" />
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".sign_up.SignUpActivity"></activity>
     </application>
 
 </manifest>

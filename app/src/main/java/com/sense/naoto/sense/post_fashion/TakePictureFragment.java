@@ -312,7 +312,7 @@ public class TakePictureFragment extends Fragment {
 
     private void moveToSetUpFashion(byte[] bytes, final String pathName) {
         //imageのBitmap形式への変換処理
-        final Bitmap bitmap = ImageHelper.fromImageToBitmap(bytes);
+        final Bitmap bitmap = ImageHelper.fromBytesToBitmap(bytes);
 
         //遷移処理
         HandlerThread handlerThread = new HandlerThread("moveToSetUpFashion");

@@ -28,6 +28,7 @@ public class PostFashionActivity extends AppCompatActivity implements TakePictur
 
     @Override
     public void finish(){
+        super.finish();
         PostFashionActivityHelper.launchMainActivity(PostFashionActivity.this);
     }
 
