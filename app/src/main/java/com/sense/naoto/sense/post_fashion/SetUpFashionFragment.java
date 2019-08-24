@@ -1,19 +1,17 @@
 package com.sense.naoto.sense.post_fashion;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.graphics.Point;
+import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,21 +19,29 @@ import android.widget.ImageView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.activity_helper.PostFashionActivityHelper;
-import com.sense.naoto.sense.constatnt.FragmentConstants;
 import com.sense.naoto.sense.interfaces.SetUpFashionFmListener;
+import com.sense.naoto.sense.processings.ImageHelper;
+import com.squareup.picasso.Picasso;
+
+
 
 import java.io.IOException;
+import java.io.InputStream;
+
+import static android.app.Activity.RESULT_OK;
+import static android.content.Context.WINDOW_SERVICE;
+import static com.sense.naoto.sense.processings.ImageHelper.rotateBitmap;
 
 
 public class SetUpFashionFragment extends Fragment {
+
+    public static int PICK_IMAGE_REQUEST = 1;
 
     private View mView;
 
     private SetUpFashionFmListener mListener;
 
-    private Bitmap mBitmap;
-
-    private String mPathName;
+    private ImageView mImageView;
 
 
     public SetUpFashionFragment() {
@@ -60,7 +66,34 @@ public class SetUpFashionFragment extends Fragment {
         if (getActivity() instanceof SetUpFashionFmListener)
             mListener = (SetUpFashionFmListener) getActivity();
 
+
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+
+            try {
+                InputStream in = getActivity().getContentResolver().openInputStream(data.getData());
+                ExifInterface exifInterface = new ExifInterface(in);
+
+                int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                        ExifInterface.ORIENTATION_UNDEFINED);
+
+                Bitmap bitmap= MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                Bitmap bmRotated = ImageHelper.rotateBitmap(bitmap, orientation);
+                mImageView.setImageBitmap(bmRotated);
+
+            }catch (IOException e){
+
+            }
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,7 +112,7 @@ public class SetUpFashionFragment extends Fragment {
             }
         });
 
-        setImage();
+        //  setImage();
 
         Button btnPost = mView.findViewById(R.id.btn_post);
         btnPost.setOnClickListener(new View.OnClickListener() {
@@ -95,8 +128,22 @@ public class SetUpFashionFragment extends Fragment {
             }
         });
 
-    }
+        mImageView = mView.findViewById(R.id.image_fashion);
+        mImageView.setImageResource(R.drawable.no_fashion_selected);
 
+        Button btnSelect = mView.findViewById(R.id.btn_select_photo);
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        });
+
+    }
+/*
     private void setImage(){
 
         try {
@@ -189,7 +236,7 @@ public class SetUpFashionFragment extends Fragment {
             Matrix bitmapMatrix= new Matrix();
             bitmapMatrix.postScale(0.5f, 0.5f);
             Bitmap resizeBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), bitmapMatrix, true);
-*/
+
             imageView.setLayoutParams(lp);
             imageView.setImageMatrix(mat);
             imageView.setScaleType(ImageView.ScaleType.MATRIX);
@@ -199,9 +246,10 @@ public class SetUpFashionFragment extends Fragment {
             e.printStackTrace();
         }
     }
+    */
 
 
-    private void saveFashion(String title, String description){
+    private void saveFashion(String title, String description) {
         /*
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();

@@ -1,6 +1,8 @@
 package com.sense.naoto.sense.post_fashion;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import com.sense.naoto.sense.interfaces.SetUpFashionFmListener;
 import com.sense.naoto.sense.interfaces.TakePictureFmListener;
 
 public class PostFashionActivity extends AppCompatActivity implements TakePictureFmListener, SetUpFashionFmListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,4 +66,5 @@ public class PostFashionActivity extends AppCompatActivity implements TakePictur
         */
         finish();
     }
+
 }
