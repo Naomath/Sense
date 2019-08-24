@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -16,10 +17,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.activity_helper.PostFashionActivityHelper;
 import com.sense.naoto.sense.interfaces.SetUpFashionFmListener;
+import com.sense.naoto.sense.processings.FireBaseHelper;
 import com.sense.naoto.sense.processings.ImageHelper;
 import com.squareup.picasso.Picasso;
 
@@ -29,11 +33,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.WINDOW_SERVICE;
-import static com.sense.naoto.sense.processings.ImageHelper.rotateBitmap;
 
-
-public class SetUpFashionFragment extends Fragment {
+public class SetUpFashionFragment extends Fragment implements FireBaseHelper.OnFirebaseCompleteListener{
 
     public static int PICK_IMAGE_REQUEST = 1;
 
@@ -42,6 +43,12 @@ public class SetUpFashionFragment extends Fragment {
     private SetUpFashionFmListener mListener;
 
     private ImageView mImageView;
+
+    private Uri mUri = null;
+
+    private ProgressBar mCircleProgress;
+
+    private Button mBtnPost;
 
 
     public SetUpFashionFragment() {
@@ -78,7 +85,9 @@ public class SetUpFashionFragment extends Fragment {
                 && data != null && data.getData() != null) {
 
             try {
-                InputStream in = getActivity().getContentResolver().openInputStream(data.getData());
+                mUri = data.getData();
+
+                InputStream in = getActivity().getContentResolver().openInputStream(mUri);
                 ExifInterface exifInterface = new ExifInterface(in);
 
                 int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
@@ -104,7 +113,7 @@ public class SetUpFashionFragment extends Fragment {
     }
 
     private void setViews() {
-        ImageButton btnBack = mView.findViewById(R.id.btn_back);
+        final ImageButton btnBack = mView.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,8 +123,11 @@ public class SetUpFashionFragment extends Fragment {
 
         //  setImage();
 
-        Button btnPost = mView.findViewById(R.id.btn_post);
-        btnPost.setOnClickListener(new View.OnClickListener() {
+        mCircleProgress = mView.findViewById(R.id.circle_progress);
+
+        //todo:テキストボックスが埋まってないと押せない処理
+        mBtnPost = mView.findViewById(R.id.btn_post);
+        mBtnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText editTitle = (EditText) mView.findViewById(R.id.edit_title);
@@ -123,6 +135,9 @@ public class SetUpFashionFragment extends Fragment {
 
                 String title = editTitle.getText().toString();
                 String description = editDescription.getText().toString();
+
+                mBtnPost.setVisibility(View.GONE);
+                mCircleProgress.setVisibility(View.VISIBLE);
 
                 saveFashion(title, description);
             }
@@ -143,6 +158,26 @@ public class SetUpFashionFragment extends Fragment {
         });
 
     }
+
+
+    private void saveFashion(String title, String description) {
+        FireBaseHelper.OnFirebaseCompleteListener listener = (FireBaseHelper.OnFirebaseCompleteListener) this;
+
+        FireBaseHelper.uploadFashion(title, description, mUri, getActivity(), listener);
+    }
+
+    @Override
+    public void onFirebaseComplete() {
+        PostFashionActivityHelper.launchMainActivityForUploadSuccess(getActivity());
+    }
+
+    @Override
+    public void onFirebaseFailed(){
+        mCircleProgress.setVisibility(View.GONE);
+
+        mBtnPost.setVisibility(View.VISIBLE);
+    }
+
 /*
     private void setImage(){
 
@@ -247,21 +282,6 @@ public class SetUpFashionFragment extends Fragment {
         }
     }
     */
-
-
-    private void saveFashion(String title, String description) {
-        /*
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        Fashion fashion = realm.createObject(Fashion.class);
-        fashion.setTitle(title);
-        fashion.setDescription(description);
-        fashion.setPathName(mPathName);
-        realm.commitTransaction();
-        */
-        PostFashionActivityHelper.launchMainActivity(getActivity());
-        //todo uploadの処理
-    }
 
 
 }

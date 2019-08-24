@@ -10,10 +10,6 @@ import lombok.Setter;
 
 public class Fashion implements Parcelable {
 
-
-    @Getter
-    private final String localId = UUID.randomUUID().toString();
-
     @Getter
     @Setter
     private int fashionResId;
@@ -48,12 +44,24 @@ public class Fashion implements Parcelable {
 
     public Fashion(){}
 
+    //これは中で使う
     public Fashion(int fashionResId, String title, String description, String makerName, String makerImageCode){
         this.fashionResId = fashionResId;
         this.title = title;
         this.description = description;
         this.makerName = makerName;
         this.makerImageCode = makerImageCode;
+    }
+
+    //これは外との通信で使う
+    public Fashion(String externalPathName, String title, String description,
+                   String makerName, String makerId){
+        this.externalPathName = externalPathName;
+        this.title = title;
+        this.description = description;
+        this.makerName = makerName;
+        this.makerId = makerId;
+
     }
 
     //ここからParcelableの継承したメソッド

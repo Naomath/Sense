@@ -13,6 +13,11 @@ public class PostFashionActivityHelper {
         activity.startActivityForResult(intent,ActivityConstants.POST_FASHION_ACTIVITY_CODE);
     }
 
+    public static void launchMainActivityForUploadSuccess(Activity activity){
+        Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivityForResult(intent, ActivityConstants.UPLOAD_SUCCESS);
+    }
+
 
 
 }

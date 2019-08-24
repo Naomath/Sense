@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.constatnt.ActivityConstants;
@@ -54,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
             case (ActivityConstants.SHOWING_MY_FASHION_ACTIVITY_CODE):
                 mNavigation.setSelectedItemId(R.id.user);
+                break;
+
+
+            case (ActivityConstants.UPLOAD_SUCCESS):
+                Toast.makeText(this, "アップロードは成功しました", Toast.LENGTH_LONG).show();
                 break;
 
             default:
