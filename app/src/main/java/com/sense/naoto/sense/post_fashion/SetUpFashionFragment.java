@@ -51,12 +51,15 @@ public class SetUpFashionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
         if (getArguments() != null) {
             mBitmap = (Bitmap) getArguments().get(FragmentConstants.BITMAP_ARG_CODE);
             mPathName = getArguments().getString(FragmentConstants.FILE_PATH_CODE);
         }
+        */
         if (getActivity() instanceof SetUpFashionFmListener)
             mListener = (SetUpFashionFmListener) getActivity();
+
     }
 
     @Override
@@ -208,8 +211,8 @@ public class SetUpFashionFragment extends Fragment {
         fashion.setPathName(mPathName);
         realm.commitTransaction();
         */
-        //TODO:Realmの仕様の検討　
         PostFashionActivityHelper.launchMainActivity(getActivity());
+        //todo uploadの処理
     }
 
 

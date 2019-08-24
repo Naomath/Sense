@@ -16,12 +16,12 @@ public class Fashion implements Parcelable {
 
     @Getter
     @Setter
-    private int imageCode;
+    private int fashionResId;
 
 
     @Getter
     @Setter
-    private String pathName;
+    private String externalPathName;
 
     @Getter
     @Setter
@@ -31,27 +31,39 @@ public class Fashion implements Parcelable {
     @Setter
     private String description;
 
+    @Getter
+    @Setter
+    private String makerName;
+
+    @Getter
+    @Setter
+    private String makerId;
+
+    @Getter
+    @Setter
+    private String makerImageCode;
+    //これはbase64
+
+
 
     public Fashion(){}
 
-    public Fashion(int imageCode, String title, String description){
-        this.imageCode = imageCode;
+    public Fashion(int fashionResId, String title, String description, String makerName, String makerImageCode){
+        this.fashionResId = fashionResId;
         this.title = title;
         this.description = description;
-    }
-
-    public Fashion(String pathName, String title, String description){
-        this.pathName = pathName;
-        this.title = title;
-        this.description = description;
+        this.makerName = makerName;
+        this.makerImageCode = makerImageCode;
     }
 
     //ここからParcelableの継承したメソッド
 
     protected Fashion(Parcel in) {
-        imageCode = in.readInt();
+        fashionResId = in.readInt();
         title = in.readString();
         description = in.readString();
+        makerName = in.readString();
+        makerImageCode = in.readString();
     }
 
 
@@ -74,9 +86,11 @@ public class Fashion implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(imageCode);
+        parcel.writeInt(fashionResId);
         parcel.writeString(title);
         parcel.writeString(description);
+        parcel.writeString(makerName);
+        parcel.writeString(makerImageCode);
     }
 
 }

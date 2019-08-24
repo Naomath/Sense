@@ -21,13 +21,18 @@ public class PostFashionActivity extends AppCompatActivity implements TakePictur
         setViews();
     }
 
-    private void setViews(){
-        Fragment fm = new TakePictureFragment();
+    private void setViews() {
+
+//        Fragment fm = new TakePictureFragment();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).commit();
+
+        Fragment fm = new SetUpFashionFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).commit();
+
     }
 
     @Override
-    public void finish(){
+    public void finish() {
         super.finish();
         PostFashionActivityHelper.launchMainActivity(PostFashionActivity.this);
     }
@@ -52,7 +57,10 @@ public class PostFashionActivity extends AppCompatActivity implements TakePictur
 
     @Override
     public void onFinishSetUpFashion() {
+        /*
         Fragment fm = new TakePictureFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).commit();
+        */
+        finish();
     }
 }

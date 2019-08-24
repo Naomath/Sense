@@ -1,5 +1,6 @@
 package com.sense.naoto.sense.fashion_swipe;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.Fashion;
+import com.sense.naoto.sense.processings.ImageHelper;
 import com.sense.naoto.sense.showing_my_fashion.ShowingMyFashionActivity;
 
 import java.util.ArrayList;
@@ -67,20 +69,27 @@ public class FashionSwipeFragment extends Fragment {
 
         List<Fashion> fashionList = new ArrayList<>();
 
+        String makerName = "ナオト";
+        Bitmap bmpIcon = ImageHelper.fromResourceIdToBitmap(getActivity(),R.drawable.default_icon);
+        String iconCode = ImageHelper.fromBitmapToBase64(bmpIcon);
+
         switch (request) {
             case REQUEST_FOLLOWING:
                 //TODO 検索したデータから取得する　
-                fashionList.add(new Fashion(R.drawable.fashion1, "量産型コーデ1", "これさえきれば大丈夫!!"));
-                fashionList.add(new Fashion(R.drawable.fashion2, "量産型コーデ2", "お祭りにも使えるかも!?"));
-                fashionList.add(new Fashion(R.drawable.fashion3, "量産型コーデ3", "海もこれでOK!!"));
+
+                fashionList.add(new Fashion(R.drawable.fashion1, "量産型コーデ1", "これさえきれば大丈夫!!",makerName, iconCode));
+                fashionList.add(new Fashion(R.drawable.fashion2, "量産型コーデ2", "お祭りにも使えるかも!?",makerName, iconCode));
+                fashionList.add(new Fashion(R.drawable.fashion3, "量産型コーデ3", "海もこれでOK!!",makerName, iconCode));
+
                 break;
             case REQUEST_MINE:
                 //TODO 保存したデータから取得する　
                 String title = "a";
                 String description = "b";
+
                 for (int i = 1; i <= 10; i++) {
-                    fashionList.add(new Fashion(R.drawable.fashion1, title, description));
-                    fashionList.add(new Fashion(R.drawable.fashion2, title, description));
+                    fashionList.add(new Fashion(R.drawable.fashion1, title, description,makerName, iconCode));
+                    fashionList.add(new Fashion(R.drawable.fashion2, title, description,makerName, iconCode));
                 }
                 ShowingMyFashionActivity activity = (ShowingMyFashionActivity) getActivity();
                 currentNumber = activity.startingNumber;

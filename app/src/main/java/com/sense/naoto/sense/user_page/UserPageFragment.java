@@ -1,8 +1,6 @@
 package com.sense.naoto.sense.user_page;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,16 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.classes.User;
 import com.sense.naoto.sense.processings.ImageHelper;
-import com.sense.naoto.sense.processings.SharedPreferencesHelper;
+import com.sense.naoto.sense.processings.UserPreferencesHelper;
 import com.sense.naoto.sense.widgets.ExpandableHeightGridView;
 
 import java.util.ArrayList;
@@ -70,9 +66,7 @@ public class UserPageFragment extends Fragment implements AdapterView.OnItemClic
             }
         });
 
-        //TODO:これらの情報を取得して入れる
-
-        User user = SharedPreferencesHelper.getUserPreferences(getContext());
+        User user = UserPreferencesHelper.getUserPreferences(getContext());
 
         final TextView txv_user_name = mView.findViewById(R.id.txv_user_name);
         txv_user_name.setText(user.getUserName());
@@ -81,13 +75,13 @@ public class UserPageFragment extends Fragment implements AdapterView.OnItemClic
         txv_user_id.setText("id:"+user.getUserId());
 
         final TextView txv_post_number = mView.findViewById(R.id.txv_post_number);
-        txv_post_number.setText(user.getPostNumber());
+        txv_post_number.setText(String.valueOf(user.getPostNumber()));
 
         final TextView txv_folloing_number = mView.findViewById(R.id.txv_following_number);
-        txv_folloing_number.setText(user.getFollowingNumber());
+        txv_folloing_number.setText(String.valueOf(user.getFollowingNumber()));
 
         final TextView txv_follower_number = mView.findViewById(R.id.txv_follower_number);
-        txv_follower_number.setText(user.getFollowerNumber());
+        txv_follower_number.setText(String.valueOf(user.getFollowerNumber()));
 
         ImageView imgvIconImage = mView.findViewById(R.id.user_image);
         Bitmap bmpIcon = ImageHelper.fromBase64ToBitmap(user.getIconImage());
@@ -101,6 +95,7 @@ public class UserPageFragment extends Fragment implements AdapterView.OnItemClic
         for (int i = 1; i <= 10; i++) {
             imgList.add(R.drawable.fashion1);
             imgList.add(R.drawable.fashion2);
+            //todo:ここでサーバからとってきた正しいデータを入れる
         }
         GridAdapter adapter = new GridAdapter(mInflater, R.layout.grid_items, imgList);
         gridView.setAdapter(adapter);

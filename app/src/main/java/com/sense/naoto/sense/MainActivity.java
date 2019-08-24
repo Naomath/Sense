@@ -2,7 +2,6 @@ package com.sense.naoto.sense;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,7 @@ import android.view.MenuItem;
 import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.constatnt.ActivityConstants;
 import com.sense.naoto.sense.fashion_swipe.FashionSwipeFragment;
-import com.sense.naoto.sense.processings.SharedPreferencesHelper;
+import com.sense.naoto.sense.processings.UserPreferencesHelper;
 import com.sense.naoto.sense.user_page.UserPageFragment;
 import com.sense.naoto.sense.view_helper.BottomNavigationViewHelper;
 
@@ -30,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (SharedPreferencesHelper.isLogin(this)){
-
+        if (!UserPreferencesHelper.isLogin(this)){
+            //ログインしていない場合
+            MainActivityHelper.launchLoginActivity(mActivity);
         }
 
         setViews();

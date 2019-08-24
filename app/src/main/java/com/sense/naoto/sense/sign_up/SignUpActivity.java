@@ -3,7 +3,6 @@ package com.sense.naoto.sense.sign_up;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,9 +14,9 @@ import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.activity_helper.SignUpActivityHelper;
 import com.sense.naoto.sense.classes.User;
 import com.sense.naoto.sense.processings.ImageHelper;
-import com.sense.naoto.sense.processings.SharedPreferencesHelper;
+import com.sense.naoto.sense.processings.UserPreferencesHelper;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity{
 
     private Activity mActivity;
     private Context mContext;
@@ -38,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
         final EditText edtPassword = findViewById(R.id.edt_password);
         final EditText edtPasswordCheck = findViewById(R.id.edt_password_check);
 
-        Button btnSignUp = findViewById(R.id.btn_sign_up);
+        Button btnSignUp = findViewById(R.id.btn_sign_in);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +45,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String i2 = edtPasswordCheck.getText().toString();
                 String userName = edtUserName.getText().toString();
 
-                if (userName.equals("")) {
+                if (userName.trim().equals("")) {
                     Toast.makeText(mContext, "ユーザーネームが入力されてません", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -80,7 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
         String imageCode = ImageHelper.fromBitmapToBase64(bitmap);
 
         user.setIconImage(imageCode);
-        SharedPreferencesHelper.updataPreferences(user, mContext);
+        UserPreferencesHelper.updataPreferences(user, mContext);
 
     }
 

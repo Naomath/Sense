@@ -1,5 +1,6 @@
 package com.sense.naoto.sense.fashion_swipe;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -8,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.Fashion;
+import com.sense.naoto.sense.processings.ImageHelper;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 
@@ -62,7 +65,7 @@ public class FashionFragment extends Fragment {
 
     public void setViews(){
         ImageView fashionImage = mView.findViewById(R.id.fashionImageView);
-        fashionImage.setImageResource(mFashion.getImageCode());
+        fashionImage.setImageResource(mFashion.getFashionResId());
 
         SparkButton favButton = mView.findViewById(R.id.fav_button);
         favButton.setEventListener(new SparkEventListener(){
@@ -98,7 +101,20 @@ public class FashionFragment extends Fragment {
             }
         });
 
-        //TODO textVIewに適切なテキストを書き込む　
+        TextView txvTitle = mView.findViewById(R.id.layout_description).findViewById(R.id.title_textView);
+        txvTitle.setText(mFashion.getTitle());
+
+        TextView txvDescription = mView.findViewById(R.id.layout_description).findViewById(R.id.ordinary_description_textView);
+        txvDescription.setText(mFashion.getDescription());
+
+        TextView txvMakerName = mView.findViewById(R.id.layout_description).findViewById(R.id.maker_textView);
+        txvMakerName.setText(mFashion.getMakerName());
+
+        ImageView imvIcon = mView.findViewById(R.id.layout_description).findViewById(R.id.user_image);
+        Bitmap bmpIcon = ImageHelper.fromBase64ToBitmap(mFashion.getMakerImageCode());
+        imvIcon.setImageBitmap(bmpIcon);
+
+        //todo:hashtagの部分の処理をかく　
     }
 
 

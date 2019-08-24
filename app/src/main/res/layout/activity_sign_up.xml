@@ -29,7 +29,7 @@
         android:layout_marginTop="76dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="ID"
+        android:hint="ユーザーネーム"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"

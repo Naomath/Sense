@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "350879498759",
+    "firebase_url": "https://sense-newfashionapp.firebaseio.com",
+    "project_id": "sense-newfashionapp",
+    "storage_bucket": "sense-newfashionapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350879498759:android:d38fb8d8a7bac8d7",
+        "android_client_info": {
+          "package_name": "com.sense.naoto.sense"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "350879498759-3ncou5nt3nr3vusaa34jja8hqiba5hvv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sense.naoto.sense",
+            "certificate_hash": "f8c7c99d7b11973ec105fa0e26521bb722c5c553"
+          }
+        },
+        {
+          "client_id": "350879498759-f83mmem4452tq8bdhuk6da7dt3pfpb1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuz-LCo4k7v6I7zbtFhvWnxjpnHPQtqck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "350879498759-f83mmem4452tq8bdhuk6da7dt3pfpb1g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

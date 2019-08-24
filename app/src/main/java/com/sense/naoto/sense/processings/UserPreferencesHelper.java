@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import com.sense.naoto.sense.classes.User;
 
 
-public class SharedPreferencesHelper {
+public class UserPreferencesHelper {
     /*
     ここで保存するのは
     アカウント名
