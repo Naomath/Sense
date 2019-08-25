@@ -1,4 +1,4 @@
-package com.sense.naoto.sense.post_fashion;
+package com.sense.naoto.sense.save_fashion;
 
 import android.Manifest;
 import android.content.Context;

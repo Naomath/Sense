@@ -1,8 +1,10 @@
 package com.sense.naoto.sense.fashion_swipe;
 
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,9 @@ import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public class FashionFragment extends Fragment {
     /*
     このFragmentはファッションの画像とその他の情報を表示するFragment
@@ -32,7 +37,6 @@ public class FashionFragment extends Fragment {
 
     //Views
     private View mView;
-
 
 
     public FashionFragment() {
@@ -51,30 +55,31 @@ public class FashionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-           mFashion = getArguments().getParcelable(ARGS_KEY);
+            mFashion = getArguments().getParcelable(ARGS_KEY);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView =inflater.inflate(R.layout.fragment_fashion, container, false);
+        mView = inflater.inflate(R.layout.fragment_fashion, container, false);
 
         setViews();
 
         return mView;
     }
 
-    public void setViews(){
+    public void setViews() {
         ImageView fashionImage = mView.findViewById(R.id.fashionImageView);
+       // setFashionImage(fashionImage);
         Picasso.with(getContext())
-                .load(Uri.parse(mFashion.getExternalPathName()))
+                .load(Uri.parse(mFashion.getLocalDeviceUri()))
+                .placeholder(R.drawable.fashion1)
+                .error(R.drawable.fashion2)
                 .into(fashionImage);
 
-
-
         SparkButton favButton = mView.findViewById(R.id.fav_button);
-        favButton.setEventListener(new SparkEventListener(){
+        favButton.setEventListener(new SparkEventListener() {
             @Override
             public void onEvent(ImageView button, boolean buttonState) {
                 if (buttonState) {
@@ -87,10 +92,12 @@ public class FashionFragment extends Fragment {
             }
 
             @Override
-            public void onEventAnimationEnd(ImageView button, boolean buttonState) {}
+            public void onEventAnimationEnd(ImageView button, boolean buttonState) {
+            }
 
             @Override
-            public void onEventAnimationStart(ImageView button, boolean buttonState) {}
+            public void onEventAnimationStart(ImageView button, boolean buttonState) {
+            }
         });
 
         View bottomSheet = mView.findViewById(R.id.description_bottom_sheet);
@@ -127,9 +134,28 @@ public class FashionFragment extends Fragment {
         });
 
         */
-       //todo:userをidから取得してiconの画像を写す
+        //todo:userをidから取得してiconの画像を写す
 
         //todo:hashtagの部分の処理をかく　
+    }
+
+    private void setFashionImage(ImageView imageView) {
+        Uri uri = Uri.parse(mFashion.getLocalDeviceUri());
+
+        try {
+            InputStream in = getActivity().getContentResolver().openInputStream(uri);
+            ExifInterface exifInterface = new ExifInterface(in);
+
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+            Bitmap bmRotated = ImageHelper.rotateBitmap(bitmap, orientation);
+            imageView.setImageBitmap(bmRotated);
+        } catch (IOException e) {
+            //todo:ここのエラー処理
+        }
+
     }
 
 

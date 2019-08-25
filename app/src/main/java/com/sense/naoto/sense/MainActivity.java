@@ -30,10 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (!UserPreferencesHelper.isLogin(this)){
-            //ログインしていない場合
-            MainActivityHelper.launchLoginActivity(mActivity);
-        }
+       //TODo:初めてかどうかでチュートリアルをするかどうかを決める
 
         setViews();
     }
@@ -57,10 +54,6 @@ public class MainActivity extends AppCompatActivity {
                 mNavigation.setSelectedItemId(R.id.user);
                 break;
 
-
-            case (ActivityConstants.UPLOAD_SUCCESS):
-                Toast.makeText(this, "アップロードは成功しました", Toast.LENGTH_LONG).show();
-                break;
 
             default:
                 break;
@@ -91,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.home:
                         menuItem.setIcon(R.drawable.round_home_black_36);
-                        fm = FashionSwipeFragment.newInstance(FashionSwipeFragment.REQUEST_ALL);
+                        fm = FashionSwipeFragment.newInstance(FashionSwipeFragment.REQUEST_MINE);
                         isFragment = true;
                         break;
 

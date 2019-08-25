@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.sense.naoto.sense.MainActivity;
 import com.sense.naoto.sense.constatnt.ActivityConstants;
 
-public class PostFashionActivityHelper {
+public class SaveFashionActivityHelper {
 
     public static void launchMainActivity(Activity activity){
         Intent intent = new Intent(activity, MainActivity.class);

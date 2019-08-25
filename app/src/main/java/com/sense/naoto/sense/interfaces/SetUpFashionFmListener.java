@@ -1,6 +1,5 @@
 package com.sense.naoto.sense.interfaces;
 
 public interface SetUpFashionFmListener {
-    void onFinishUploadFashion();
-    void onCancelUploadFashion();
+    void onLaunchMainActivity();
 }

@@ -1,19 +1,17 @@
-package com.sense.naoto.sense.post_fashion;
+package com.sense.naoto.sense.save_fashion;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.sense.naoto.sense.R;
-import com.sense.naoto.sense.activity_helper.PostFashionActivityHelper;
+import com.sense.naoto.sense.activity_helper.SaveFashionActivityHelper;
 import com.sense.naoto.sense.constatnt.FragmentConstants;
 import com.sense.naoto.sense.interfaces.SetUpFashionFmListener;
 import com.sense.naoto.sense.interfaces.TakePictureFmListener;
 
-public class PostFashionActivity extends AppCompatActivity implements TakePictureFmListener, SetUpFashionFmListener {
+public class SaveFashionActivity extends AppCompatActivity implements TakePictureFmListener, SetUpFashionFmListener {
 
 
     @Override
@@ -26,9 +24,6 @@ public class PostFashionActivity extends AppCompatActivity implements TakePictur
 
     private void setViews() {
 
-//        Fragment fm = new TakePictureFragment();
-//        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).commit();
-
         Fragment fm = new SetUpFashionFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).commit();
 
@@ -36,7 +31,7 @@ public class PostFashionActivity extends AppCompatActivity implements TakePictur
 
     @Override
     public void finish() {
-        PostFashionActivityHelper.launchMainActivity(PostFashionActivity.this);
+        SaveFashionActivityHelper.launchMainActivity(SaveFashionActivity.this);
         super.finish();
     }
 
@@ -59,18 +54,7 @@ public class PostFashionActivity extends AppCompatActivity implements TakePictur
     }
 
     @Override
-    public void onFinishUploadFashion() {
-        /*
-        Fragment fm = new TakePictureFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).commit();
-        */
-        PostFashionActivityHelper.launchMainActivityForUploadSuccess(this);
-        super.finish();
-    }
-
-    @Override
-    public void onCancelUploadFashion(){
+    public void onLaunchMainActivity() {
         finish();
     }
-
 }

@@ -3,7 +3,7 @@ package com.sense.naoto.sense.classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.UUID;
+import org.apache.commons.lang.RandomStringUtils;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +12,11 @@ public class Fashion implements Parcelable {
 
     @Getter
     @Setter
-    private int fashionResId;
+    private String localDeviceUri;
 
+    @Getter
+    @Setter
+    private int fashionResId;
 
     @Getter
     @Setter
@@ -44,28 +47,30 @@ public class Fashion implements Parcelable {
     @Setter
     private String [] imageIds;
 
+    @Getter
+    @Setter
+    private String strDate;
+
+    @Getter
+    @Setter
+    private String prefKey;
+
 
 
     public Fashion(){}
 
-    //これは中で使う
-    public Fashion(int fashionResId, String title, String description, String makerName, String makerImageCode){
-        this.fashionResId = fashionResId;
+
+    public Fashion(String title, String description, String date, String localDeviceUri, String prefKey){
         this.title = title;
         this.description = description;
-        this.makerName = makerName;
-        this.makerImageCode = makerImageCode;
+        this.strDate = date;
+        this.localDeviceUri = localDeviceUri;
+        this.prefKey = prefKey;
     }
 
-    //これは外との通信で使う
-    public Fashion(String externalPathName, String title, String description,
-                   String makerName, String makerId){
-        this.externalPathName = externalPathName;
-        this.title = title;
-        this.description = description;
-        this.makerName = makerName;
-        this.makerId = makerId;
 
+    public static String newPreferenceKey(){
+        return RandomStringUtils.randomAlphabetic(16);
     }
 
     //ここからParcelableの継承したメソッド
