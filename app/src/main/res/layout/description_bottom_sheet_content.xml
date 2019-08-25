@@ -4,29 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/description_bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="250dp"
     android:background="@drawable/fashion_description_background"
     app:behavior_peekHeight="55dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <!-- タイトル -->
-    <TextView
-        android:id="@+id/title_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        android:text="--Summer--"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <!-- 作品の説明部分 -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -66,6 +49,23 @@
 
         </LinearLayout>
     </ScrollView>
+
+
+    <!-- 作品の説明部分 -->
+    <TextView
+        android:id="@+id/title_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:text="--Summer--"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <!-- 作者の名前 -->

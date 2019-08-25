@@ -38,7 +38,11 @@ public class Fashion implements Parcelable {
     @Getter
     @Setter
     private String makerImageCode;
-    //これはbase64
+    //これはbase64FA
+
+    @Getter
+    @Setter
+    private String [] imageIds;
 
 
 

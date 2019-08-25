@@ -1,6 +1,7 @@
 package com.sense.naoto.sense.fashion_swipe;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.processings.ImageHelper;
+import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 
@@ -65,7 +67,11 @@ public class FashionFragment extends Fragment {
 
     public void setViews(){
         ImageView fashionImage = mView.findViewById(R.id.fashionImageView);
-        fashionImage.setImageResource(mFashion.getFashionResId());
+        Picasso.with(getContext())
+                .load(Uri.parse(mFashion.getExternalPathName()))
+                .into(fashionImage);
+
+
 
         SparkButton favButton = mView.findViewById(R.id.fav_button);
         favButton.setEventListener(new SparkEventListener(){
@@ -111,8 +117,17 @@ public class FashionFragment extends Fragment {
         txvMakerName.setText(mFashion.getMakerName());
 
         ImageView imvIcon = mView.findViewById(R.id.layout_description).findViewById(R.id.user_image);
-        Bitmap bmpIcon = ImageHelper.fromBase64ToBitmap(mFashion.getMakerImageCode());
+       /* Bitmap bmpIcon = ImageHelper.fromBase64ToBitmap(mFashion.getMakerImageCode());
         imvIcon.setImageBitmap(bmpIcon);
+        imvIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //todo:他人のを見る時用
+            }
+        });
+
+        */
+       //todo:userをidから取得してiconの画像を写す
 
         //todo:hashtagの部分の処理をかく　
     }

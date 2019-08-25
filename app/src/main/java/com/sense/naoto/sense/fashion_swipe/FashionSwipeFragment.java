@@ -12,13 +12,14 @@ import android.view.ViewGroup;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.Fashion;
+import com.sense.naoto.sense.processings.FireBaseHelper;
 import com.sense.naoto.sense.processings.ImageHelper;
 import com.sense.naoto.sense.showing_my_fashion.ShowingMyFashionActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FashionSwipeFragment extends Fragment {
+public class FashionSwipeFragment extends Fragment implements FireBaseHelper.OnGetItemFromFirebaseListener {
 
     private final static String REQUEST_CODE = "REQUEST";
 
@@ -26,11 +27,18 @@ public class FashionSwipeFragment extends Fragment {
 
     public final static int REQUEST_MINE = 1;
 
+    public final static int REQUEST_ALL = 3;
+
+    private List<Fashion> downloadedList;
+
 
     //Views
     private View mView;
 
     private int request;
+
+    private ViewPager mViewPager;
+
 
     public FashionSwipeFragment() {
         //empty
@@ -50,6 +58,7 @@ public class FashionSwipeFragment extends Fragment {
         if (getArguments() != null) {
             this.request = getArguments().getInt(REQUEST_CODE);
         }
+        downloadedList = new ArrayList<>();
     }
 
     @Override
@@ -65,21 +74,27 @@ public class FashionSwipeFragment extends Fragment {
 
         int currentNumber = 0;
 
-        ViewPager viewPager = mView.findViewById(R.id.viewPager);
+        mViewPager = mView.findViewById(R.id.viewPager);
 
         List<Fashion> fashionList = new ArrayList<>();
 
         String makerName = "ナオト";
-        Bitmap bmpIcon = ImageHelper.fromResourceIdToBitmap(getActivity(),R.drawable.default_icon);
+        Bitmap bmpIcon = ImageHelper.fromResourceIdToBitmap(getActivity(), R.drawable.default_icon);
         String iconCode = ImageHelper.fromBitmapToBase64(bmpIcon);
+        FragmentPagerAdapter pagerAdapter;
 
         switch (request) {
             case REQUEST_FOLLOWING:
                 //TODO 検索したデータから取得する　
 
-                fashionList.add(new Fashion(R.drawable.fashion1, "量産型コーデ1", "これさえきれば大丈夫!!",makerName, iconCode));
-                fashionList.add(new Fashion(R.drawable.fashion2, "量産型コーデ2", "お祭りにも使えるかも!?",makerName, iconCode));
-                fashionList.add(new Fashion(R.drawable.fashion3, "量産型コーデ3", "海もこれでOK!!",makerName, iconCode));
+                fashionList.add(new Fashion(R.drawable.fashion1, "量産型コーデ1", "これさえきれば大丈夫!!", makerName, iconCode));
+                fashionList.add(new Fashion(R.drawable.fashion2, "量産型コーデ2", "お祭りにも使えるかも!?", makerName, iconCode));
+                fashionList.add(new Fashion(R.drawable.fashion3, "量産型コーデ3", "海もこれでOK!!", makerName, iconCode));
+
+                pagerAdapter = new FashionFragmentPagerAdapter(getChildFragmentManager(), fashionList);
+                mViewPager.setAdapter(pagerAdapter);
+
+                mViewPager.setCurrentItem(currentNumber);
 
                 break;
             case REQUEST_MINE:
@@ -88,19 +103,28 @@ public class FashionSwipeFragment extends Fragment {
                 String description = "b";
 
                 for (int i = 1; i <= 10; i++) {
-                    fashionList.add(new Fashion(R.drawable.fashion1, title, description,makerName, iconCode));
-                    fashionList.add(new Fashion(R.drawable.fashion2, title, description,makerName, iconCode));
+                    fashionList.add(new Fashion(R.drawable.fashion1, title, description, makerName, iconCode));
+                    fashionList.add(new Fashion(R.drawable.fashion2, title, description, makerName, iconCode));
                 }
                 ShowingMyFashionActivity activity = (ShowingMyFashionActivity) getActivity();
                 currentNumber = activity.startingNumber;
+
+                pagerAdapter = new FashionFragmentPagerAdapter(getChildFragmentManager(), fashionList);
+                mViewPager.setAdapter(pagerAdapter);
+
+                mViewPager.setCurrentItem(currentNumber);
+
                 break;
 
+            case REQUEST_ALL:
+                //全部取ってくる
+                //サーバーから
+                FireBaseHelper.OnGetItemFromFirebaseListener listener = (FireBaseHelper.OnGetItemFromFirebaseListener) this;
+                FireBaseHelper.callThreeFashion(getActivity(), FireBaseHelper.REQUEST_ALL, listener);
+                break;
+
+
         }
-
-        FragmentPagerAdapter pagerAdapter = new FashionFragmentPagerAdapter(getChildFragmentManager(), fashionList);
-        viewPager.setAdapter(pagerAdapter);
-
-        viewPager.setCurrentItem(currentNumber);
 
     }
 
@@ -108,5 +132,21 @@ public class FashionSwipeFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onAddFashion(Fashion fashion) {
+        downloadedList.add(fashion);
+    }
+
+    @Override
+    public void onFirebaseDownloadCompleted() {
+        FragmentPagerAdapter pagerAdapter = new FashionFragmentPagerAdapter(getChildFragmentManager(), downloadedList);
+        mViewPager.setAdapter(pagerAdapter);
+    }
+
+    @Override
+    public void onFirebaseDownloadFailed() {
+
     }
 }

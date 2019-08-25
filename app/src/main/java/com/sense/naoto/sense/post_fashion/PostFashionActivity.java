@@ -36,8 +36,8 @@ public class PostFashionActivity extends AppCompatActivity implements TakePictur
 
     @Override
     public void finish() {
-        super.finish();
         PostFashionActivityHelper.launchMainActivity(PostFashionActivity.this);
+        super.finish();
     }
 
 
@@ -59,11 +59,17 @@ public class PostFashionActivity extends AppCompatActivity implements TakePictur
     }
 
     @Override
-    public void onFinishSetUpFashion() {
+    public void onFinishUploadFashion() {
         /*
         Fragment fm = new TakePictureFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).commit();
         */
+        PostFashionActivityHelper.launchMainActivityForUploadSuccess(this);
+        super.finish();
+    }
+
+    @Override
+    public void onCancelUploadFashion(){
         finish();
     }
 

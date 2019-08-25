@@ -1,10 +1,7 @@
 package com.sense.naoto.sense.post_fashion;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,15 +15,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.sense.naoto.sense.R;
-import com.sense.naoto.sense.activity_helper.PostFashionActivityHelper;
 import com.sense.naoto.sense.interfaces.SetUpFashionFmListener;
 import com.sense.naoto.sense.processings.FireBaseHelper;
 import com.sense.naoto.sense.processings.ImageHelper;
-import com.squareup.picasso.Picasso;
-
 
 
 import java.io.IOException;
@@ -34,7 +27,7 @@ import java.io.InputStream;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SetUpFashionFragment extends Fragment implements FireBaseHelper.OnFirebaseCompleteListener{
+public class SetUpFashionFragment extends Fragment implements FireBaseHelper.OnFirebaseCompleteListener {
 
     public static int PICK_IMAGE_REQUEST = 1;
 
@@ -93,11 +86,11 @@ public class SetUpFashionFragment extends Fragment implements FireBaseHelper.OnF
                 int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                         ExifInterface.ORIENTATION_UNDEFINED);
 
-                Bitmap bitmap= MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
                 Bitmap bmRotated = ImageHelper.rotateBitmap(bitmap, orientation);
                 mImageView.setImageBitmap(bmRotated);
 
-            }catch (IOException e){
+            } catch (IOException e) {
 
             }
         }
@@ -117,7 +110,7 @@ public class SetUpFashionFragment extends Fragment implements FireBaseHelper.OnF
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mListener != null) mListener.onFinishSetUpFashion();
+                if (mListener != null) mListener.onCancelUploadFashion();
             }
         });
 
@@ -167,12 +160,12 @@ public class SetUpFashionFragment extends Fragment implements FireBaseHelper.OnF
     }
 
     @Override
-    public void onFirebaseComplete() {
-        PostFashionActivityHelper.launchMainActivityForUploadSuccess(getActivity());
+    public void onFirebaseUploadCompleted() {
+        mListener.onFinishUploadFashion();
     }
 
     @Override
-    public void onFirebaseFailed(){
+    public void onFirebaseUploadFailed() {
         mCircleProgress.setVisibility(View.GONE);
 
         mBtnPost.setVisibility(View.VISIBLE);

@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.home:
                         menuItem.setIcon(R.drawable.round_home_black_36);
-                        fm = FashionSwipeFragment.newInstance(FashionSwipeFragment.REQUEST_FOLLOWING);
+                        fm = FashionSwipeFragment.newInstance(FashionSwipeFragment.REQUEST_ALL);
                         isFragment = true;
                         break;
 

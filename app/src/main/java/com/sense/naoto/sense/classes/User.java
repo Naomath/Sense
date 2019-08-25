@@ -2,6 +2,8 @@ package com.sense.naoto.sense.classes;
 
 import org.apache.commons.lang.RandomStringUtils;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +32,11 @@ public class User {
     @Getter
     @Setter
     private String iconImage;
+
+    @Getter
+    @Setter
+    private List<String> imageIds;
+    //これはDatabaseのuploadIdの配列
 
     public User(){}
 
