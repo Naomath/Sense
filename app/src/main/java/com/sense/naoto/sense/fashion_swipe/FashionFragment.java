@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.Fashion;
+import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
 import com.sense.naoto.sense.processings.ImageHelper;
 import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.SparkButton;
@@ -35,8 +36,12 @@ public class FashionFragment extends Fragment {
     //変数
     private Fashion mFashion;
 
+    private GetImageFromDeviceTask imagetask;
+
     //Views
     private View mView;
+
+    private ImageView mFashionImage;
 
 
     public FashionFragment() {
@@ -69,14 +74,19 @@ public class FashionFragment extends Fragment {
         return mView;
     }
 
+    @Override
+    public void onDestroy(){
+        imagetask.setListener(null);
+        super.onDestroy();
+    }
+
     public void setViews() {
-        ImageView fashionImage = mView.findViewById(R.id.fashionImageView);
-       // setFashionImage(fashionImage);
-        Picasso.with(getContext())
-                .load(Uri.parse(mFashion.getLocalDeviceUri()))
-                .placeholder(R.drawable.fashion1)
-                .error(R.drawable.fashion2)
-                .into(fashionImage);
+        mFashionImage = mView.findViewById(R.id.fashionImageView);
+        imagetask = new GetImageFromDeviceTask();
+        imagetask.setListener(createListener());
+        imagetask.setActivity(getActivity());
+        imagetask.execute(Uri.parse(mFashion.getLocalDeviceUri()));
+
 
         SparkButton favButton = mView.findViewById(R.id.fav_button);
         favButton.setEventListener(new SparkEventListener() {
@@ -156,6 +166,16 @@ public class FashionFragment extends Fragment {
             //todo:ここのエラー処理
         }
 
+    }
+
+
+    private GetImageFromDeviceTask.GetImageFromDeviceListener createListener(){
+        return new GetImageFromDeviceTask.GetImageFromDeviceListener() {
+            @Override
+            public void onSuccess(Bitmap bitmap) {
+                mFashionImage.setImageBitmap(bitmap);
+            }
+        };
     }
 
 

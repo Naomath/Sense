@@ -1,6 +1,9 @@
 package com.sense.naoto.sense.save_fashion;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -25,6 +28,7 @@ import com.sense.naoto.sense.processings.ImageHelper;
 import com.sense.naoto.sense.processings.UserPreferencesHelper;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -40,11 +44,13 @@ public class SetUpFashionFragment extends Fragment {
 
     private ImageView mImageView;
 
-    private Uri mUri = null;
+    private Uri mUriOfFile= null;
 
     private ProgressBar mCircleProgress;
 
     private Button mBtnPost;
+
+    private Uri mUri;
 
 
     public SetUpFashionFragment() {
@@ -69,7 +75,6 @@ public class SetUpFashionFragment extends Fragment {
         if (getActivity() instanceof SetUpFashionFmListener)
             mListener = (SetUpFashionFmListener) getActivity();
 
-
     }
 
     @Override
@@ -81,9 +86,11 @@ public class SetUpFashionFragment extends Fragment {
                 && data != null && data.getData() != null) {
 
             try {
-                mUri = data.getData();
+                Uri uriOfContent = data.getData();
+                mUri = uriOfContent;
+               // convertContentToFile(uriOfContent);
 
-                InputStream in = getActivity().getContentResolver().openInputStream(mUri);
+                InputStream in = getActivity().getContentResolver().openInputStream(uriOfContent);
                 ExifInterface exifInterface = new ExifInterface(in);
 
                 int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
@@ -154,6 +161,34 @@ public class SetUpFashionFragment extends Fragment {
         });
 
     }
+
+//    private void convertContentToFile(Uri uri){
+//        Uri fileSchemeUri = uri;
+//        String path = getPath(uri);
+//        fileSchemeUri = Uri.fromFile(new File(path));
+//        mUriOfFile = fileSchemeUri;
+//    }
+//
+//    private String getPath(Uri uri) {
+//        String path = uri.toString();
+//        if (path.matches("^file:.*")) {
+//            return path.replaceFirst("file://", "");
+//        } else if (!path.matches("^content:.*")) {
+//            return path;
+//        }
+//        Context context = getActivity().getApplicationContext();
+//        ContentResolver contentResolver = context.getContentResolver();
+//        String[] columns = { MediaStore.Images.Media.DATA };
+//        Cursor cursor = contentResolver.query(uri, columns, null, null, null);
+//        if (cursor != null){
+//            if (cursor.getCount() > 0) {
+//                cursor.moveToFirst();
+//                path = cursor.getString(0);
+//            }
+//            cursor.close();
+//        }
+//        return path;
+//    }
 
 
     private void saveFashion(String title, String description) {
