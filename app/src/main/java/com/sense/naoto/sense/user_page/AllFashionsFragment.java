@@ -57,7 +57,7 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
         List<Fashion> fahsionList = SavedDataHelper.getMyFashionsOrderedByNew(getContext());
         FASHION_LIST_SIZE = fahsionList.size();
 
-        GridAdapter adapter = new GridAdapter(mInflater, R.layout.grid_items, fahsionList, getActivity());
+        GridFashionAdapter adapter = new GridFashionAdapter(mInflater, R.layout.grid_items, fahsionList, getActivity());
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
     }

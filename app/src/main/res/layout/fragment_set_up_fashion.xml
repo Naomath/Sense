@@ -7,85 +7,20 @@
     android:background="@color/white"
     tools:context=".save_fashion.SetUpFashionFragment">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <FrameLayout
+        android:id="@+id/frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frame">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/btn_select_photo"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/colorPrimary"
-                android:padding="8dp"
-                android:text="ファッション写真を選ぶ"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_fashion" />
-
-
-            <ImageView
-                android:id="@+id/image_fashion"
-                android:layout_width="200dp"
-                android:layout_height="300dp"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="100dp"
-                android:background="@color/colorClear"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/no_fashion_selected"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_input_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_select_photo"
-                app:layout_constraintVertical_bias="0.0">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/edit_title"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:hint="ファッションネーム" />
-            </android.support.design.widget.TextInputLayout>
-
-
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@id/tool_bar" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/frame"
+        android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintBottom_toTopOf="@+id/frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

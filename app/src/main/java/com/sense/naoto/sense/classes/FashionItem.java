@@ -1,9 +1,11 @@
 package com.sense.naoto.sense.classes;
 
+import org.apache.commons.lang.RandomStringUtils;
+
 import lombok.Getter;
 import lombok.Setter;
 
-public class Item {
+public class FashionItem {
 
     @Getter
     @Setter
@@ -17,12 +19,23 @@ public class Item {
     @Setter
     private String strDate;
 
+    @Getter
+    @Setter
+    private String prefKey;
 
-    public Item(){}
+    @Getter
+    @Setter
+    private String imageCode;
+    //base64
 
-    public Item(String localDeviceUri, String name, String strDate){
+
+    public FashionItem(){}
+
+    public FashionItem(String localDeviceUri, String name, String strDate, String prefKey){
         this.localDeviceUri = localDeviceUri;
         this.name = name;
         this.strDate = strDate;
+        this.prefKey = prefKey;
     }
+
 }

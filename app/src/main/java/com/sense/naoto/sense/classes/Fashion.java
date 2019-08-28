@@ -16,10 +16,6 @@ public class Fashion implements Parcelable {
 
     @Getter
     @Setter
-    private String title;
-
-    @Getter
-    @Setter
     private String strDate;
 
     @Getter
@@ -31,8 +27,7 @@ public class Fashion implements Parcelable {
     public Fashion(){}
 
 
-    public Fashion(String title, String date, String localDeviceUri, String prefKey){
-        this.title = title;
+    public Fashion(String date, String localDeviceUri, String prefKey){
         this.strDate = date;
         this.localDeviceUri = localDeviceUri;
         this.prefKey = prefKey;
@@ -48,7 +43,6 @@ public class Fashion implements Parcelable {
 
     protected Fashion(Parcel in) {
         localDeviceUri = in.readString();
-        title = in.readString();
         strDate = in.readString();
         prefKey = in.readString();
     }
@@ -74,7 +68,6 @@ public class Fashion implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(localDeviceUri);
-        parcel.writeString(title);
         parcel.writeString(strDate);
         parcel.writeString(prefKey);
 

@@ -19,7 +19,7 @@ import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GridAdapter extends BaseAdapter {
+public class GridFashionAdapter extends BaseAdapter {
 
     class ViewHolder {
         ImageView imageView;
@@ -37,9 +37,9 @@ public class GridAdapter extends BaseAdapter {
     private int flag;
 
 
-    public GridAdapter() { }
+    public GridFashionAdapter() { }
 
-    public GridAdapter(LayoutInflater inflater, int layoutId, List<Fashion> fashionList, Activity activity) {
+    public GridFashionAdapter(LayoutInflater inflater, int layoutId, List<Fashion> fashionList, Activity activity) {
         super();
         this.inflater = inflater;
         this.layoutId = layoutId;

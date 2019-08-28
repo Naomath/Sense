@@ -20,6 +20,11 @@ public class ImageHelper {
         return bitmap;
     }
 
+    public static byte[] fromBase64ToBytes(String imageCode){
+        byte[] decodedByte = Base64.decode(imageCode, 0);
+        return decodedByte;
+    }
+
     public static byte[] fromBitmapToBytes(Bitmap bitmap) {
         ByteBuffer byteBuffer = ByteBuffer.allocate(bitmap.getByteCount());
         bitmap.copyPixelsToBuffer(byteBuffer);
@@ -33,6 +38,12 @@ public class ImageHelper {
         return bmp;
     }
 
+
+    public static Bitmap fromBase64ToBitmap(String imageCode){
+        byte[] bytes = fromBase64ToBytes(imageCode);
+
+        return fromBytesToBitmap(bytes);
+    }
 
     public static String fromBitmapToBase64(Bitmap image) {
         Bitmap immagex = image;

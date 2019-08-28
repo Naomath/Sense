@@ -130,9 +130,6 @@ public class FashionFragment extends Fragment {
             }
         });
 
-        TextView txvTitle = mView.findViewById(R.id.layout_description).findViewById(R.id.title_textView);
-        txvTitle.setText(mFashion.getTitle());
-
         TextView txvDate = mView.findViewById(R.id.layout_description).findViewById(R.id.txv_date);
         txvDate.setText(mFashion.getStrDate());
 

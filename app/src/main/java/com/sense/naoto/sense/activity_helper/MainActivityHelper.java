@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.sense.naoto.sense.constatnt.ActivityConstants;
-import com.sense.naoto.sense.login.LoginActivity;
 import com.sense.naoto.sense.save_fashion.SaveFashionActivity;
 import com.sense.naoto.sense.showing_my_fashion.ShowingMyFashionActivity;
 

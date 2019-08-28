@@ -5,10 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".user_page.AllItemsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.sense.naoto.sense.widgets.ExpandableHeightGridView
+        android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginTop="4dp"
+        android:horizontalSpacing="2dp"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp"/>
 
 </FrameLayout>

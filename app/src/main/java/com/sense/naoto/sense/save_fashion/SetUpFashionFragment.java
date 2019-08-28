@@ -7,6 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -22,41 +26,48 @@ import android.widget.Spinner;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.Fashion;
+import com.sense.naoto.sense.classes.FashionItem;
 import com.sense.naoto.sense.interfaces.SetUpFashionFmListener;
 import com.sense.naoto.sense.processings.ButtonHelper;
 import com.sense.naoto.sense.processings.CalendarHelper;
 import com.sense.naoto.sense.processings.ImageHelper;
 import com.sense.naoto.sense.processings.SavedDataHelper;
+import com.sense.naoto.sense.user_page.ItemRecycleAdapter;
 
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
 public class SetUpFashionFragment extends Fragment implements TextWatcher {
 
+    //定数
     public static int PICK_IMAGE_REQUEST = 1;
-
     public static final int NEW_FASHION = 0;
-
     public static final int NEW_ITEM = 1;
 
-    private View mView;
 
+    //Views
+    private View mView;
+    private ImageView mImageView;
+    private ProgressBar mCircleProgress;
+    private Button mBtnPost;
+    private ItemRecycleAdapter itemRecycleAdapter;
+
+
+    //listener
     private SetUpFashionFmListener mListener;
 
-    private ImageView mImageView;
 
-    private ProgressBar mCircleProgress;
-
-    private Button mBtnPost;
-
+    //変数
+    private Bitmap mBitmap;
     private Uri mUri;
-
     private boolean isSelected = false;
-
     private int mode;
+    private List<FashionItem> itemList;
 
 
     public SetUpFashionFragment() {
@@ -101,6 +112,8 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
                 Bitmap bmRotated = ImageHelper.rotateBitmap(bitmap, orientation);
                 Bitmap resizedBitmap = ImageHelper.resizeBitmap(1000, bmRotated);
+
+                mBitmap = resizedBitmap;
                 mImageView.setImageBitmap(resizedBitmap);
 
             } catch (IOException e) {
@@ -117,12 +130,14 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
 
         mode = NEW_FASHION;
 
-        setViews();
+        setToolBarViews();
+
+        setNewFashionViews();
         return mView;
     }
 
 
-    private void setViews() {
+    private void setToolBarViews() {
         final ImageButton btnBack = mView.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,37 +150,7 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
 
         mBtnPost = mView.findViewById(R.id.btn_post);
         ButtonHelper.unEnableButton(mBtnPost, getContext());
-        mBtnPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText editTitle = (EditText) mView.findViewById(R.id.edit_title);
 
-                String title = editTitle.getText().toString();
-
-                mBtnPost.setVisibility(View.GONE);
-                mCircleProgress.setVisibility(View.VISIBLE);
-
-                save(title);
-            }
-        });
-
-        mImageView = mView.findViewById(R.id.image_fashion);
-        mImageView.setImageResource(R.drawable.no_fashion_selected);
-
-        final Button btnSelect = mView.findViewById(R.id.btn_select_photo);
-        btnSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-                startActivityForResult(intent, PICK_IMAGE_REQUEST);
-            }
-        });
-
-
-        final EditText edtTitle = mView.findViewById(R.id.edit_title);
-        edtTitle.addTextChangedListener(this);
 
         Spinner spinner = mView.findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -174,15 +159,13 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
 
                 switch (position) {
                     case 0:
-                        btnSelect.setText("ファッション写真を選ぶ");
-                        edtTitle.setHint("ファッションネーム");
+                        setNewFashionViews();
 
                         mode = NEW_FASHION;
 
                         break;
                     case 1:
-                        btnSelect.setText("アイテム写真を選ぶ");
-                        edtTitle.setHint("アイテムネーム");
+                        setNewItemViews();
 
                         mode = NEW_ITEM;
 
@@ -198,30 +181,157 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
 
     }
 
+    private void setNewFashionViews() {
+
+        itemList = new ArrayList<>();
+
+        FrameLayout frame = mView.findViewById(R.id.frame);
+        frame.removeAllViews();
+
+        getLayoutInflater().inflate(R.layout.save_new_fashion, frame);
+
+        final Button btnSelect = frame.findViewById(R.id.btn_select_photo);
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        });
+
+        mImageView = frame.findViewById(R.id.image_fashion);
+        mImageView.setImageResource(R.drawable.no_fashion_selected);
+
+
+        mBtnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBtnPost.setVisibility(View.GONE);
+                mCircleProgress.setVisibility(View.VISIBLE);
+
+                save("");
+            }
+        });
+
+        ImageButton btnAddItem = frame.findViewById(R.id.btn_add_item);
+        btnAddItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<FashionItem> items = SavedDataHelper.getMyItemsOrderedByNew(getContext());
+
+                insertToRecyclerView(items.get(0));
+            }
+        });
+
+        ButtonHelper.unEnableButton(mBtnPost, getContext());
+
+        final RecyclerView recyclerView = mView.findViewById(R.id.recycleView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        itemRecycleAdapter = new ItemRecycleAdapter(null, getActivity());
+        recyclerView.setAdapter(itemRecycleAdapter);
+
+        ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+                // 横にスワイプされたら要素を消す
+                int swipedPosition = viewHolder.getAdapterPosition();
+                ItemRecycleAdapter adapter = (ItemRecycleAdapter) recyclerView.getAdapter();
+                adapter.removeItem(swipedPosition);
+            }
+        };
+
+        (new ItemTouchHelper(callback)).attachToRecyclerView(recyclerView);
+
+    }
+
+    private void setNewItemViews() {
+
+        FrameLayout frame = mView.findViewById(R.id.frame);
+        frame.removeAllViews();
+
+        getLayoutInflater().inflate(R.layout.save_new_item, frame);
+
+        final Button btnSelect = frame.findViewById(R.id.btn_select_photo);
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        });
+
+        mImageView = frame.findViewById(R.id.image_fashion);
+        mImageView.setImageResource(R.drawable.no_fashion_selected);
+
+        final EditText editText = frame.findViewById(R.id.edit_title);
+        editText.addTextChangedListener(this);
+
+
+        mBtnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String title = editText.getText().toString();
+                mBtnPost.setVisibility(View.GONE);
+                mCircleProgress.setVisibility(View.VISIBLE);
+
+                save(title);
+            }
+        });
+
+        ButtonHelper.unEnableButton(mBtnPost, getContext());
+
+    }
+
 
     private void save(String title) {
 
         String strDate = CalendarHelper.getNowDate();
 
+        String prefKey = Fashion.newPreferenceKey();
+
         switch (mode) {
             case NEW_FASHION:
 
-                String prefKey = Fashion.newPreferenceKey();
-
-                Fashion fashion = new Fashion(title, strDate, mUri.toString(), prefKey);
+                Fashion fashion = new Fashion(strDate, mUri.toString(), prefKey);
                 SavedDataHelper.saveNewFashion(getContext(), fashion);
 
                 mListener.onLaunchMainActivity();
                 break;
 
             case NEW_ITEM:
-                //todo;
+
+                FashionItem item = new FashionItem(mUri.toString(), title, strDate, prefKey);
+
+                Bitmap resizedBmp = ImageHelper.resizeBitmap(200, mBitmap);
+
+                SavedDataHelper.saveNewItem(getContext(), item, resizedBmp);
+
+                mListener.onLaunchMainActivity();
                 break;
 
         }
 
     }
 
+    private void insertToRecyclerView(FashionItem item) {
+        if (itemList != null) {
+            int index = itemList.indexOf(item);
+            if (-1 == index) {
+                itemRecycleAdapter.addItem(item);
+            }
+        }
+    }
     //textwatcherの継承したメソッド
 
     @Override

@@ -14,6 +14,8 @@ import com.sense.naoto.sense.interfaces.TakePictureFmListener;
 public class SaveFashionActivity extends AppCompatActivity implements TakePictureFmListener, SetUpFashionFmListener {
 
 
+    private boolean isSuccess = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +33,12 @@ public class SaveFashionActivity extends AppCompatActivity implements TakePictur
 
     @Override
     public void finish() {
-        SaveFashionActivityHelper.launchMainActivity(SaveFashionActivity.this);
+        if (isSuccess){
+            SaveFashionActivityHelper.launchMainActivityForSaveSucucess(this);
+        }else {
+            SaveFashionActivityHelper.launchMainActivity(SaveFashionActivity.this);
+
+        }
         super.finish();
     }
 
@@ -55,6 +62,7 @@ public class SaveFashionActivity extends AppCompatActivity implements TakePictur
 
     @Override
     public void onLaunchMainActivity() {
+        isSuccess = true;
         finish();
     }
 }
