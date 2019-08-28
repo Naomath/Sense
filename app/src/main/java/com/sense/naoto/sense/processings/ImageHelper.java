@@ -43,11 +43,6 @@ public class ImageHelper {
         return imageEncoded;
     }
 
-    public static Bitmap fromBase64ToBitmap(String input) {
-        byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
-    }
-
     public static Bitmap rotateBitmap(Bitmap bitmap, int orientation){
 
         Matrix matrix = new Matrix();
@@ -90,6 +85,37 @@ public class ImageHelper {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static Bitmap resizeBitmap(int maxSize, Bitmap bitmap){
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        Bitmap resizedBitmap = null;
+
+        if (width > maxSize || height > maxSize) {
+            int widthScale = width / maxSize;
+            int heightScale = height / maxSize;
+
+            int resizedWidth = 0;
+            int resizedHeight = 0;
+
+            if (widthScale >= heightScale) {
+                resizedWidth = width / widthScale;
+                resizedHeight = height / widthScale;
+            } else {
+                resizedWidth = width / heightScale;
+                resizedHeight = height / heightScale;
+            }
+
+            resizedBitmap = Bitmap.createScaledBitmap(bitmap,
+                    resizedWidth,
+                    resizedHeight,
+                    true);
+        }else {
+            resizedBitmap = bitmap;
+        }
+        return resizedBitmap;
     }
 }
 

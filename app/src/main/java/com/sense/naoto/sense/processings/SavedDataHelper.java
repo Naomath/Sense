@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.sense.naoto.sense.classes.Fashion;
-import com.sense.naoto.sense.classes.User;
 
 import org.json.JSONArray;
 
@@ -14,48 +13,13 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class UserPreferencesHelper {
-    /*
-    ここで保存するのは
-    アカウント名
-    アカウントのid
-    アカウントの投稿数
-    アカウントのフォロー数
-    アカウントのフォロワー数
-    アカウントのプロフィール画像
-     */
+public class SavedDataHelper {
+
 
     public static final String FASHION_LIST_PREF_KEY = "FASHIONLISTPREFKEY";
 
     public static SharedPreferences getDefaultSharedPreferences(Context context) {
         return context.getSharedPreferences("BasicData", Context.MODE_PRIVATE);
-    }
-
-    public static void updataPreferences(User user, Context context) {
-        SharedPreferences preferences = getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(Key.ACCOUNT_NAME.name(), user.getUserName());
-        editor.putString(Key.ACCOUNT_ID.name(), user.getUserId());
-        editor.putInt(Key.POST_NUMBER.name(), user.getPostNumber());
-        editor.putInt(Key.FOLLOWING_NUMBER.name(), user.getFollowingNumber());
-        editor.putInt(Key.FOLLOWER_NUMBER.name(), user.getFollowerNumber());
-        editor.putString(Key.IMAGE_ICON.name(), user.getIconImage());
-
-        editor.putBoolean(Key.IS_LOGIN.name(), true);
-        editor.apply();
-    }
-
-    public static User getUserPreferences(Context context) {
-        SharedPreferences preferences = getDefaultSharedPreferences(context);
-        User user = new User();
-        user.setUserName(preferences.getString(Key.ACCOUNT_NAME.name(), null));
-        user.setUserId(preferences.getString(Key.ACCOUNT_ID.name(), null));
-        user.setPostNumber(preferences.getInt(Key.POST_NUMBER.name(), 0));
-        user.setFollowingNumber(preferences.getInt(Key.FOLLOWING_NUMBER.name(), 0));
-        user.setFollowerNumber(preferences.getInt(Key.FOLLOWER_NUMBER.name(), 0));
-        user.setIconImage(preferences.getString(Key.IMAGE_ICON.name(), null));
-
-        return user;
     }
 
     public static void saveNewFashion(Context context, Fashion fashion) {
@@ -68,20 +32,6 @@ public class UserPreferencesHelper {
         addNewFashionToList(prefKey, context);
 
     }
-
-
-    public static void updatePreFashion(Context context) {
-        //todo:いつか実装する
-    }
-
-    public static Fashion getFashionByPrefKey(Context context, String prefKey) {
-        SharedPreferences preferences = getDefaultSharedPreferences(context);
-        Gson gson = new Gson();
-
-        Fashion fashion = gson.fromJson(preferences.getString(prefKey, ""), Fashion.class);
-        return fashion;
-    }
-
 
     public static List<Fashion> getMyFashionsOrderedByNew(Context context) {
         List<String> fashionKeyList = getFashionPrefKeyList(context);
@@ -97,6 +47,24 @@ public class UserPreferencesHelper {
         }
 
         return fashionList;
+    }
+
+    public static Fashion getFashionByPrefKey(Context context, String prefKey) {
+        SharedPreferences preferences = getDefaultSharedPreferences(context);
+        Gson gson = new Gson();
+
+        Fashion fashion = gson.fromJson(preferences.getString(prefKey, ""), Fashion.class);
+        return fashion;
+    }
+
+    public static Fashion getFashionByNumber(Context context, int i){
+        //ここで受け取るnumber、なんばん目に作られたか
+        //最初が0
+
+        List<String> prefKeys = getFashionPrefKeyList(context);
+        Fashion fashion = getFashionByPrefKey(context, prefKeys.get(i));
+
+        return fashion;
     }
 
     private static void addNewFashionToList(String prefKey, Context context) {
@@ -131,16 +99,6 @@ public class UserPreferencesHelper {
             }
         }
         return list;
-    }
-
-    protected enum Key {
-        ACCOUNT_NAME,
-        ACCOUNT_ID,
-        POST_NUMBER,
-        FOLLOWING_NUMBER,
-        FOLLOWER_NUMBER,
-        IMAGE_ICON,
-        IS_LOGIN
     }
 
 }

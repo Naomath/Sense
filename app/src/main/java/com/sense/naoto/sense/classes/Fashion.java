@@ -16,36 +16,7 @@ public class Fashion implements Parcelable {
 
     @Getter
     @Setter
-    private int fashionResId;
-
-    @Getter
-    @Setter
-    private String externalPathName;
-
-    @Getter
-    @Setter
     private String title;
-
-    @Getter
-    @Setter
-    private String description;
-
-    @Getter
-    @Setter
-    private String makerName;
-
-    @Getter
-    @Setter
-    private String makerId;
-
-    @Getter
-    @Setter
-    private String makerImageCode;
-    //これはbase64FA
-
-    @Getter
-    @Setter
-    private String [] imageIds;
 
     @Getter
     @Setter
@@ -60,9 +31,8 @@ public class Fashion implements Parcelable {
     public Fashion(){}
 
 
-    public Fashion(String title, String description, String date, String localDeviceUri, String prefKey){
+    public Fashion(String title, String date, String localDeviceUri, String prefKey){
         this.title = title;
-        this.description = description;
         this.strDate = date;
         this.localDeviceUri = localDeviceUri;
         this.prefKey = prefKey;
@@ -73,14 +43,14 @@ public class Fashion implements Parcelable {
         return RandomStringUtils.randomAlphabetic(16);
     }
 
+
     //ここからParcelableの継承したメソッド
 
     protected Fashion(Parcel in) {
-        fashionResId = in.readInt();
+        localDeviceUri = in.readString();
         title = in.readString();
-        description = in.readString();
-        makerName = in.readString();
-        makerImageCode = in.readString();
+        strDate = in.readString();
+        prefKey = in.readString();
     }
 
 
@@ -103,11 +73,11 @@ public class Fashion implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(fashionResId);
+        parcel.writeString(localDeviceUri);
         parcel.writeString(title);
-        parcel.writeString(description);
-        parcel.writeString(makerName);
-        parcel.writeString(makerImageCode);
+        parcel.writeString(strDate);
+        parcel.writeString(prefKey);
+
     }
 
 }

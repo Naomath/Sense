@@ -10,20 +10,15 @@ import com.sense.naoto.sense.showing_my_fashion.ShowingMyFashionActivity;
 
 public class MainActivityHelper {
 
-    public static void launchPostFashionActivity(Activity activity){
-        Intent intent  = new Intent(activity, SaveFashionActivity.class);
+    public static void launchPostFashionActivity(Activity activity) {
+        Intent intent = new Intent(activity, SaveFashionActivity.class);
         activity.startActivity(intent);
 
     }
 
-    public static void launchShowingMyFashionActivity(Activity activity, int position){
+    public static void launchShowingMyFashionActivity(Activity activity, int position) {
         Intent intent = new Intent(activity, ShowingMyFashionActivity.class);
-        intent.putExtra(ActivityConstants.FASHION_NUMBER_ARG,position);
-        activity.startActivity(intent);
-    }
-
-    public static void launchLoginActivity(Activity activity){
-        Intent intent = new Intent(activity, LoginActivity.class);
+        intent.putExtra(ActivityConstants.FASHION_NUMBER_ARG, position);
         activity.startActivity(intent);
     }
 

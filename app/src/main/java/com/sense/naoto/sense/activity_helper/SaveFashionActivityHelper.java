@@ -13,11 +13,10 @@ public class SaveFashionActivityHelper {
         activity.startActivityForResult(intent,ActivityConstants.POST_FASHION_ACTIVITY_CODE);
     }
 
-    public static void launchMainActivityForUploadSuccess(Activity activity){
+    public static void launchMainActivityForSaveSucucess(Activity activity){
         Intent intent = new Intent(activity, MainActivity.class);
-        activity.startActivityForResult(intent, ActivityConstants.UPLOAD_SUCCESS);
+        activity.startActivityForResult(intent,ActivityConstants.SAVE_SUCCESS);
     }
-
 
 
 }

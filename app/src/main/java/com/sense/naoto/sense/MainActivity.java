@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.constatnt.ActivityConstants;
 import com.sense.naoto.sense.fashion_swipe.FashionSwipeFragment;
-import com.sense.naoto.sense.processings.UserPreferencesHelper;
 import com.sense.naoto.sense.user_page.UserPageFragment;
 import com.sense.naoto.sense.view_helper.BottomNavigationViewHelper;
 
@@ -30,30 +29,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       //TODo:初めてかどうかでチュートリアルをするかどうかを決める
+        //TODo:初めてかどうかでチュートリアルをするかどうかを決める
 
         setViews();
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // 注意：superメソッドは呼ぶようにする
         // Activity側のonActivityResultで呼ばないとFragmentのonActivityResultが呼ばれない
-        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
 
-        switch(requestCode){
-            case(ActivityConstants.POST_FASHION_ACTIVITY_CODE):
+        switch (requestCode) {
+            case ActivityConstants.POST_FASHION_ACTIVITY_CODE:
 
                 //homeにfocusがくるように
                 mNavigation.setSelectedItemId(R.id.home);
 
                 break;
 
-            case (ActivityConstants.SHOWING_MY_FASHION_ACTIVITY_CODE):
+            case ActivityConstants.SHOWING_MY_FASHION_ACTIVITY_CODE:
                 mNavigation.setSelectedItemId(R.id.user);
                 break;
 
+            case ActivityConstants.SAVE_SUCCESS:
+                Toast.makeText(this, "保存しました", Toast.LENGTH_LONG).show();
+                break;
 
             default:
                 break;

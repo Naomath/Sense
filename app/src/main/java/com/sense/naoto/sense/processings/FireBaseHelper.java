@@ -47,69 +47,7 @@ public class FireBaseHelper {
         return FirebaseDatabase.getInstance().getReference("users");
     }
 
-    public static void uploadFashion(final String title, final String description, Uri uri
-            , final Activity activity, final OnFirebaseCompleteListener listener) {
 
-        final StorageReference storageReference = FirebaseStorage.getInstance().getReference("imageIds");
-        final DatabaseReference databaseUploadReference = getImageIdsDatabaseReference();
-        final DatabaseReference databaseUserReference = getUsersDatabaseReference();
-
-        final StorageReference filereferrence = storageReference.child(System.currentTimeMillis() + "."
-                + getFileExtension(uri, activity));
-
-        StorageTask mUploadTask = filereferrence.putFile(uri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        filereferrence.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String url = uri.toString();
-                                final User user = UserPreferencesHelper.getUserPreferences(activity);
-
-                                Fashion fashion = new Fashion(url,
-                                        title, description, user.getUserName(), user.getUserId());
-
-                                final String uploadId = databaseUploadReference.push().getKey();
-                                databaseUploadReference.child(uploadId).setValue(fashion);
-
-
-                                databaseUserReference.child(user.getUserId()).setValue(user);
-
-                                databaseUserReference.child(user.getUserId()).child("imageIds").push().setValue(uploadId);
-                                listener.onFirebaseUploadCompleted();
-//
-                            }
-                        });
-
-
-                    }
-                    //todo:userのImageIdsに追加されるのではなく、更新してしまう　
-
-
-                })
-
-
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(activity, "アップロードに失敗しました", Toast.LENGTH_SHORT).show();
-                        listener.onFirebaseUploadFailed();
-                    }
-                });
-
-    }
-
-
-    public static void callThreeFashion(Activity activity, int request, OnGetItemFromFirebaseListener listener) {
-        switch (request) {
-            case REQUEST_ALL:
-                //  list = getThreeFromALlPost();
-                calltThreeFromALlPost(listener);
-                break;
-
-        }
-    }
 
 
     private static void calltThreeFromALlPost(final OnGetItemFromFirebaseListener listener) {

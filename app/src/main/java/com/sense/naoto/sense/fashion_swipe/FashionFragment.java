@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
@@ -42,6 +43,8 @@ public class FashionFragment extends Fragment {
     private View mView;
 
     private ImageView mFashionImage;
+
+    private ProgressBar mProgressBar;
 
 
     public FashionFragment() {
@@ -75,7 +78,7 @@ public class FashionFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         imagetask.setListener(null);
         super.onDestroy();
     }
@@ -85,7 +88,10 @@ public class FashionFragment extends Fragment {
         imagetask = new GetImageFromDeviceTask();
         imagetask.setListener(createListener());
         imagetask.setActivity(getActivity());
-        imagetask.execute(Uri.parse(mFashion.getLocalDeviceUri()));
+
+        GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(2000, Uri.parse(mFashion.getLocalDeviceUri()));
+
+        imagetask.execute(param);
 
 
         SparkButton favButton = mView.findViewById(R.id.fav_button);
@@ -127,52 +133,18 @@ public class FashionFragment extends Fragment {
         TextView txvTitle = mView.findViewById(R.id.layout_description).findViewById(R.id.title_textView);
         txvTitle.setText(mFashion.getTitle());
 
-        TextView txvDescription = mView.findViewById(R.id.layout_description).findViewById(R.id.ordinary_description_textView);
-        txvDescription.setText(mFashion.getDescription());
+        TextView txvDate = mView.findViewById(R.id.layout_description).findViewById(R.id.txv_date);
+        txvDate.setText(mFashion.getStrDate());
 
-        TextView txvMakerName = mView.findViewById(R.id.layout_description).findViewById(R.id.maker_textView);
-        txvMakerName.setText(mFashion.getMakerName());
-
-        ImageView imvIcon = mView.findViewById(R.id.layout_description).findViewById(R.id.user_image);
-       /* Bitmap bmpIcon = ImageHelper.fromBase64ToBitmap(mFashion.getMakerImageCode());
-        imvIcon.setImageBitmap(bmpIcon);
-        imvIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo:他人のを見る時用
-            }
-        });
-
-        */
-        //todo:userをidから取得してiconの画像を写す
-
-        //todo:hashtagの部分の処理をかく　
-    }
-
-    private void setFashionImage(ImageView imageView) {
-        Uri uri = Uri.parse(mFashion.getLocalDeviceUri());
-
-        try {
-            InputStream in = getActivity().getContentResolver().openInputStream(uri);
-            ExifInterface exifInterface = new ExifInterface(in);
-
-            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                    ExifInterface.ORIENTATION_UNDEFINED);
-
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-            Bitmap bmRotated = ImageHelper.rotateBitmap(bitmap, orientation);
-            imageView.setImageBitmap(bmRotated);
-        } catch (IOException e) {
-            //todo:ここのエラー処理
-        }
-
+        mProgressBar = mView.findViewById(R.id.progressBar);
     }
 
 
-    private GetImageFromDeviceTask.GetImageFromDeviceListener createListener(){
+    private GetImageFromDeviceTask.GetImageFromDeviceListener createListener() {
         return new GetImageFromDeviceTask.GetImageFromDeviceListener() {
             @Override
             public void onSuccess(Bitmap bitmap) {
+                mProgressBar.setVisibility(View.GONE);
                 mFashionImage.setImageBitmap(bitmap);
             }
         };
