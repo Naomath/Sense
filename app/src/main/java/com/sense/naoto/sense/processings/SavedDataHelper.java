@@ -187,17 +187,5 @@ public class SavedDataHelper {
         return list;
     }
 
-    public static void saveImageCode(String str, Context context){
-        SharedPreferences preferences = getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("image",str);
-        editor.apply();
-    }
-
-    public static String getImageCode(Context context){
-        SharedPreferences preferences = getDefaultSharedPreferences(context);
-        String str = preferences.getString("image","");
-        return str;
-    }
 
 }

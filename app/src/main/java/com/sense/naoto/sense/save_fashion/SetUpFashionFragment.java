@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.classes.FashionItem;
+import com.sense.naoto.sense.dialogs.SelectItemDialogFragment;
 import com.sense.naoto.sense.interfaces.SetUpFashionFmListener;
 import com.sense.naoto.sense.processings.ButtonHelper;
 import com.sense.naoto.sense.processings.CalendarHelper;
@@ -198,6 +199,7 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                 startActivityForResult(intent, PICK_IMAGE_REQUEST);
+                ButtonHelper.unEnableButton(btnSelect, getContext());
             }
         });
 
@@ -219,9 +221,10 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
         btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<FashionItem> items = SavedDataHelper.getMyItemsOrderedByNew(getContext());
+                SelectItemDialogFragment dialogFragment = new SelectItemDialogFragment();
+                dialogFragment.setActivity(getActivity());
+                dialogFragment.show(getFragmentManager(),"select");
 
-                insertToRecyclerView(items.get(0));
             }
         });
 
