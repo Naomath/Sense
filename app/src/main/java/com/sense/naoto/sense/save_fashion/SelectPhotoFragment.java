@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.sense.naoto.sense.R;
 
@@ -42,6 +43,9 @@ public class SelectPhotoFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_select_photo, container, false);
         setViews();
 
+        //todo:イメージを洗濯していないと次に行けないようにする処理
+        //todo:imageviewに画像をセット
+
         return mView;
     }
 
@@ -52,7 +56,7 @@ public class SelectPhotoFragment extends Fragment {
     }
 
     private void setViews(){
-        Button btnComplete = mView.findViewById(R.id.btn_complete);
+        ImageButton btnComplete = mView.findViewById(R.id.btn_complete);
         btnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +64,7 @@ public class SelectPhotoFragment extends Fragment {
             }
         });
 
-        Button btnBack = mView.findViewById(R.id.btn_back);
+        ImageButton btnBack = mView.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

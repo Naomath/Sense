@@ -11,8 +11,8 @@ import com.sense.naoto.sense.activity_helper.SaveFashionActivityHelper;
 
 public class SaveFashionAndItemActivity extends AppCompatActivity implements ChooseTypeFragment.ChooseTypeFragmentListener
         , SelectPhotoFragment.OnSelectPhotoFragmentListener, SelectItemsFragment.OnSelectItemsListener
-       ,NameItemFragment.OnNameItemFragmentListener, CheckFashionFragment.OnCheckFashionFragmentListener
-        ,CheckItemFragment.OnCheckItemFragmentListener, OnBackFragmentListener {
+        , NameItemFragment.OnNameItemFragmentListener, CheckFashionFragment.OnCheckFashionFragmentListener
+        , CheckItemFragment.OnCheckItemFragmentListener, OnBackFragmentListener {
 
     //定数
     public static final int TYPE_FASHION = 0;
@@ -41,7 +41,7 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
         setFragmentRelated();
 
         ChooseTypeFragment chooseTypeFragment = new ChooseTypeFragment();
-        chooseTypeFragment.setListener(this);
+        chooseTypeFragment.setListeners(this, this);
 
         setFragment(chooseTypeFragment);
     }
@@ -88,7 +88,7 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
 
     @Override
     public void onSelectPhoto() {
-        switch (type){
+        switch (type) {
             case TYPE_FASHION:
                 SelectItemsFragment itemsFragment = new SelectItemsFragment();
                 itemsFragment.setListeners(this, this);
@@ -98,7 +98,7 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
 
             case TYPE_ITEM:
                 NameItemFragment nameItemFragment = new NameItemFragment();
-                nameItemFragment.setListeners(this,this);
+                nameItemFragment.setListeners(this, this);
                 setFragment(nameItemFragment);
 
                 break;
@@ -108,14 +108,14 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
     @Override
     public void onSelectItems() {
         CheckFashionFragment fragment = new CheckFashionFragment();
-        fragment.setListeners(this,this);
+        fragment.setListeners(this, this);
         setFragment(fragment);
     }
 
     @Override
     public void onNameItem() {
         CheckItemFragment fragment = new CheckItemFragment();
-        fragment.setListeners(this,this);
+        fragment.setListeners(this, this);
         setFragment(fragment);
     }
 
@@ -133,7 +133,13 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
 
     @Override
     public void onBack() {
-        fragmentManager.popBackStack();
+        if (count == 1) {
+            SaveFashionActivityHelper.launchMainActivity(this);
+        } else {
+            fragmentManager.popBackStack();
+            count --;
+
+        }
     }
 
 }

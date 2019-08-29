@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.sense.naoto.sense.R;
 
@@ -20,8 +21,9 @@ public class ChooseTypeFragment extends Fragment {
 
 
     //Listener
-    @Setter
-    private ChooseTypeFragmentListener listener;
+
+    private ChooseTypeFragmentListener chooseTypeFragmentListener;
+    private OnBackFragmentListener backFragmentListener;
 
     public ChooseTypeFragment() {
         // Required empty public constructor
@@ -50,13 +52,18 @@ public class ChooseTypeFragment extends Fragment {
         return mView;
     }
 
+    public void setListeners(ChooseTypeFragmentListener chooseTypeFragmentListener, OnBackFragmentListener backFragmentListener){
+        this.chooseTypeFragmentListener = chooseTypeFragmentListener;
+        this.backFragmentListener = backFragmentListener;
+    }
+
     private void setViews(){
 
         Button btnSelectFashion = mView.findViewById(R.id.btn_fashion);
         btnSelectFashion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onDecidedType(SaveFashionAndItemActivity.TYPE_FASHION);
+                chooseTypeFragmentListener.onDecidedType(SaveFashionAndItemActivity.TYPE_FASHION);
             }
         });
 
@@ -64,7 +71,15 @@ public class ChooseTypeFragment extends Fragment {
         btnSelectItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onDecidedType(SaveFashionAndItemActivity.TYPE_ITEM);
+                chooseTypeFragmentListener.onDecidedType(SaveFashionAndItemActivity.TYPE_ITEM);
+            }
+        });
+
+        ImageButton btnBack = mView.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backFragmentListener.onBack();
             }
         });
     }
