@@ -1,4 +1,4 @@
-package com.sense.naoto.sense.user_page;
+package com.sense.naoto.sense.widgets;
 
 import android.app.Activity;
 import android.content.Context;

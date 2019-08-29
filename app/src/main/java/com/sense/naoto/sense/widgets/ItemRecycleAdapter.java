@@ -1,4 +1,4 @@
-package com.sense.naoto.sense.user_page;
+package com.sense.naoto.sense.widgets;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -13,6 +13,7 @@ import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.FashionItem;
 import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
 import com.sense.naoto.sense.processings.ImageHelper;
+import com.sense.naoto.sense.user_page.ItemViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

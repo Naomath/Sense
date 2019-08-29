@@ -1,4 +1,4 @@
-package com.sense.naoto.sense.user_page;
+package com.sense.naoto.sense.widgets;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -7,12 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.sense.naoto.sense.R;
-import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.classes.FashionItem;
 import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
 

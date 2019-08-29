@@ -25,16 +25,13 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.sense.naoto.sense.R;
-import com.sense.naoto.sense.activity_helper.SaveFashionActivityHelper;
 import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.classes.FashionItem;
-import com.sense.naoto.sense.dialogs.SelectItemDialogFragment;
-import com.sense.naoto.sense.interfaces.SetUpFashionFmListener;
 import com.sense.naoto.sense.processings.ButtonHelper;
 import com.sense.naoto.sense.processings.CalendarHelper;
 import com.sense.naoto.sense.processings.ImageHelper;
 import com.sense.naoto.sense.processings.SavedDataHelper;
-import com.sense.naoto.sense.user_page.ItemRecycleAdapter;
+import com.sense.naoto.sense.widgets.ItemRecycleAdapter;
 
 
 import java.io.IOException;
@@ -61,7 +58,6 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
 
 
     //listener
-    private SetUpFashionFmListener mListener;
 
 
     //変数
@@ -72,8 +68,7 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
     private List<FashionItem> itemList;
 
 
-    public SetUpFashionFragment() {
-    }
+    public SetUpFashionFragment() { }
 
     public static SetUpFashionFragment newInstance() {
         SetUpFashionFragment fragment = new SetUpFashionFragment();
@@ -85,8 +80,6 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getActivity() instanceof SetUpFashionFmListener)
-            mListener = (SetUpFashionFmListener) getActivity();
 
     }
 
@@ -150,7 +143,6 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mListener != null) mListener.onLaunchMainActivity();
             }
         });
 
@@ -229,7 +221,7 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
         btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaveFashionActivityHelper.launchSelectItemActivity(getActivity());
+                setSelectItemsFragment();
             }
         });
 
@@ -302,6 +294,12 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
     }
 
 
+    private void setSelectItemsFragment(){
+        Fragment fm = new SelectItemsFragment();
+        getChildFragmentManager().beginTransaction().replace(R.id.big_frame, fm).commit();
+    }
+
+
     private void save(String title) {
 
         String strDate = CalendarHelper.getNowDate();
@@ -314,7 +312,6 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
                 Fashion fashion = new Fashion(strDate, mUri.toString(), prefKey);
                 SavedDataHelper.saveNewFashion(getContext(), fashion);
 
-                mListener.onLaunchMainActivity();
                 break;
 
             case NEW_ITEM:
@@ -325,7 +322,6 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
 
                 SavedDataHelper.saveNewItem(getContext(), item, resizedBmp);
 
-                mListener.onLaunchMainActivity();
                 break;
 
         }

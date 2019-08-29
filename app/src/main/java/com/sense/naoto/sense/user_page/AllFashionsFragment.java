@@ -12,6 +12,7 @@ import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.processings.SavedDataHelper;
 import com.sense.naoto.sense.widgets.ExpandableHeightGridView;
+import com.sense.naoto.sense.widgets.GridFashionAdapter;
 
 import java.util.List;
 

@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.sense.naoto.sense.constatnt.ActivityConstants;
-import com.sense.naoto.sense.save_fashion.SaveFashionActivity;
+import com.sense.naoto.sense.save_fashion.SaveFashionAndItemActivity;
 import com.sense.naoto.sense.showing_my_fashion.ShowingMyFashionActivity;
 
 public class MainActivityHelper {
 
     public static void launchPostFashionActivity(Activity activity) {
-        Intent intent = new Intent(activity, SaveFashionActivity.class);
+        Intent intent = new Intent(activity, SaveFashionAndItemActivity.class);
         activity.startActivity(intent);
 
     }

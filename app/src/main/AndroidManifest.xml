@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/NoActionBar"
         tools:node="replace">
-        <activity android:name=".save_fashion.SelectItemsActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -23,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".save_fashion.SaveFashionActivity"
+            android:name=".save_fashion.SaveFashionAndItemActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".showing_my_fashion.ShowingMyFashionActivity"
