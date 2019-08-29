@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,8 @@ import java.util.List;
 
 import lombok.Setter;
 
+import static android.content.Context.WINDOW_SERVICE;
+
 public class SelectItemDialogFragment extends DialogFragment implements AdapterView.OnItemClickListener{
 
 
@@ -34,7 +38,7 @@ public class SelectItemDialogFragment extends DialogFragment implements AdapterV
 
     public SelectItemDialogFragment() {}
 
-    public static SelectItemDialogFragment newInstance(String param1, String param2) {
+    public static SelectItemDialogFragment newInstance() {
         SelectItemDialogFragment fragment = new SelectItemDialogFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -51,6 +55,18 @@ public class SelectItemDialogFragment extends DialogFragment implements AdapterV
         // 背景を透明にする
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        WindowManager wm = (WindowManager)activity.getSystemService(WINDOW_SERVICE);
+        Display disp = wm.getDefaultDisplay();
+
+        Point realSize = new Point();
+        disp.getRealSize(realSize);
+
+        int realScreenWidth = realSize.x;
+        int realScreenHeight = realSize.y;
+
+        dialog.getWindow().setLayout(realScreenWidth/100*90, realScreenHeight/100*90);
+
+
         ExpandableHeightGridView gridView = dialog.findViewById(R.id.grid_view);
 
         List<FashionItem> itemList = SavedDataHelper.getMyItemsOrderedByNew(getContext());
@@ -60,6 +76,8 @@ public class SelectItemDialogFragment extends DialogFragment implements AdapterV
         GridItemAdapter adapter = new GridItemAdapter(inflater, R.layout.grid_items, itemList, getActivity());
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
+
+        //todo:アイテムがスクロールできるようにする
 
         return dialog;
     }

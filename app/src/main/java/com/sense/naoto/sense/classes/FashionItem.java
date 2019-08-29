@@ -2,10 +2,12 @@ package com.sense.naoto.sense.classes;
 
 import org.apache.commons.lang.RandomStringUtils;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.Setter;
 
-public class FashionItem {
+public class FashionItem implements Serializable {
 
     @Getter
     @Setter

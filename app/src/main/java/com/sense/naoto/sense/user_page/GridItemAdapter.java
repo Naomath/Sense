@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -23,9 +24,10 @@ public class GridItemAdapter extends BaseAdapter {
 
     //todo:保存してある画像から書き出す
 
-    class ViewHolder {
+     class ViewHolder {
         ImageView imageView;
         ProgressBar progressBar;
+        ImageView imvSelected;
     }
 
     private List<FashionItem> itemList = new ArrayList<>();
@@ -62,6 +64,7 @@ public class GridItemAdapter extends BaseAdapter {
             holder = new GridItemAdapter.ViewHolder();
             holder.imageView = view.findViewById(R.id.image_view);
             holder.progressBar = view.findViewById(R.id.circle_progress);
+            holder.imvSelected = view.findViewById(R.id.imgSelected);
             view.setTag(holder);
 
         } else {

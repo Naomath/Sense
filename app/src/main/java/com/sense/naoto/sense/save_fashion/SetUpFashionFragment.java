@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.sense.naoto.sense.R;
+import com.sense.naoto.sense.activity_helper.SaveFashionActivityHelper;
 import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.classes.FashionItem;
 import com.sense.naoto.sense.dialogs.SelectItemDialogFragment;
@@ -74,7 +75,7 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
     public SetUpFashionFragment() {
     }
 
-    public static SetUpFashionFragment newInstance(String param1, String param2) {
+    public static SetUpFashionFragment newInstance() {
         SetUpFashionFragment fragment = new SetUpFashionFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -117,10 +118,16 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
                 mBitmap = resizedBitmap;
                 mImageView.setImageBitmap(resizedBitmap);
 
+                isSelected = true;
+
+                if (mode == NEW_FASHION) ButtonHelper.enableButton(mBtnPost, getContext());
+
             } catch (IOException e) {
                 //todo:ここのエラー処理
             }
         }
+
+
     }
 
 
@@ -149,7 +156,7 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
 
         mCircleProgress = mView.findViewById(R.id.circle_progress);
 
-        mBtnPost = mView.findViewById(R.id.btn_post);
+        mBtnPost = mView.findViewById(R.id.btn_complete);
         ButtonHelper.unEnableButton(mBtnPost, getContext());
 
 
@@ -183,6 +190,7 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
     }
 
     private void setNewFashionViews() {
+        isSelected = false;
 
         itemList = new ArrayList<>();
 
@@ -199,7 +207,6 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                 startActivityForResult(intent, PICK_IMAGE_REQUEST);
-                ButtonHelper.unEnableButton(btnSelect, getContext());
             }
         });
 
@@ -216,19 +223,16 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
                 save("");
             }
         });
+        ButtonHelper.unEnableButton(mBtnPost, getContext());
 
         ImageButton btnAddItem = frame.findViewById(R.id.btn_add_item);
         btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectItemDialogFragment dialogFragment = new SelectItemDialogFragment();
-                dialogFragment.setActivity(getActivity());
-                dialogFragment.show(getFragmentManager(),"select");
-
+                SaveFashionActivityHelper.launchSelectItemActivity(getActivity());
             }
         });
 
-        ButtonHelper.unEnableButton(mBtnPost, getContext());
 
         final RecyclerView recyclerView = mView.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -256,6 +260,7 @@ public class SetUpFashionFragment extends Fragment implements TextWatcher {
     }
 
     private void setNewItemViews() {
+        isSelected = false;
 
         FrameLayout frame = mView.findViewById(R.id.frame);
         frame.removeAllViews();

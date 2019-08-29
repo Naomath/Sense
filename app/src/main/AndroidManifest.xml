@@ -12,25 +12,30 @@
         android:supportsRtl="true"
         android:theme="@style/NoActionBar"
         tools:node="replace">
-        <activity android:name=".MainActivity">
+        <activity android:name=".save_fashion.SelectItemsActivity"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".save_fashion.SaveFashionActivity" />
-        <activity android:name=".showing_my_fashion.ShowingMyFashionActivity" />
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".sign_up.SignUpActivity"></activity>
+        <activity
+            android:name=".save_fashion.SaveFashionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".showing_my_fashion.ShowingMyFashionActivity"
+            android:screenOrientation="portrait" />
     </application>
+
     <uses-feature android:name="android.hardware.camera2.full" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>
