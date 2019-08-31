@@ -43,7 +43,7 @@ public class ItemListAdapter extends ArrayAdapter<FashionItem> {
 
         FashionItem item = fashionItems.get(position);
 
-        ImageView itemImageView = view.findViewById(R.id.item_image);
+        ImageView itemImageView = view.findViewById(R.id.imv_item);
         Bitmap image = ImageHelper.fromBase64ToBitmap(item.getImageCode());
         itemImageView.setImageBitmap(image);
 

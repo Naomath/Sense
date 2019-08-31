@@ -19,11 +19,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/item_image"
+        app:layout_constraintStart_toEndOf="@+id/imv_item"
         app:layout_constraintTop_toTopOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_image"
+        android:id="@+id/imv_item"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"

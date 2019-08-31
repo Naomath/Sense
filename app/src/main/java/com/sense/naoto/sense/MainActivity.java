@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDefaultFragment() {
-        Fragment fm = new FashionSwipeFragment();
+        Fragment fm = FashionSwipeFragment.newInstance(FashionSwipeFragment.REQUEST_MINE);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).commit();
     }
 

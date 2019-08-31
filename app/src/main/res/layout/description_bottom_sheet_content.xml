@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="250dp"
     android:background="@drawable/fashion_description_background"
-    app:behavior_peekHeight="40dp"
+    app:behavior_peekHeight="50dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
 
@@ -39,6 +39,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView" />
+
+    <TextView
+        android:id="@+id/txv_no_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="アイテムはありません"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/txv_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <!-- 作者の名前 -->
     <TextView

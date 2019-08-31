@@ -29,6 +29,10 @@ public class Fashion implements Parcelable {
     @Setter
     private List<String> itemPrefKey = new ArrayList<>();
 
+    @Getter
+    @Setter
+    boolean isFav;
+
     public Fashion(){}
 
 

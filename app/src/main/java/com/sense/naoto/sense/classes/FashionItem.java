@@ -2,6 +2,8 @@ package com.sense.naoto.sense.classes;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,9 +28,12 @@ public class FashionItem implements Serializable {
 
     @Getter
     @Setter
+    private List<String> usedFashionPrefKeys = new ArrayList<>();
+
+    @Getter
+    @Setter
     private String imageCode;
     //base64
-
 
     public FashionItem(){}
 

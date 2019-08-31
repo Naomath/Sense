@@ -18,4 +18,5 @@ public class ShowingMyFashionActivityHelper {
         Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivityForResult(intent, ActivityConstants.SHOWING_MY_FASHION_ACTIVITY_CODE);
     }
+
 }

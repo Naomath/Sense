@@ -68,6 +68,14 @@ public class SelectPhotoFragment extends Fragment {
 
             try {
                 Uri uriOfContent = data.getData();
+
+                final int takeFlags = data.getFlags()
+                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+                getActivity().getContentResolver().takePersistableUriPermission(uriOfContent, takeFlags);
+
+
                 pickedImageUri = uriOfContent;
 
                 InputStream in = getActivity().getContentResolver().openInputStream(uriOfContent);
@@ -165,6 +173,7 @@ public class SelectPhotoFragment extends Fragment {
     }
 
     private void launchGallery() {
+
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
