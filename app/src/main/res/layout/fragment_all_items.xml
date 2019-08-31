@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".user_page.AllItemsFragment">
 
-    <com.sense.naoto.sense.widgets.ExpandableHeightGridView
+    <GridView
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

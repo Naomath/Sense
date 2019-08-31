@@ -7,10 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.FashionItem;
+import com.sense.naoto.sense.processings.SavedDataHelper;
+import com.sense.naoto.sense.widgets.ExpandableHeightGridView;
+import com.sense.naoto.sense.widgets.GridItemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +41,8 @@ public class SelectItemsFragment extends Fragment implements AdapterView.OnItemC
     //０がキャンセルの場合
     //１が完了をした時
 
-    public SelectItemsFragment(){}
+    public SelectItemsFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,84 +53,63 @@ public class SelectItemsFragment extends Fragment implements AdapterView.OnItemC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_select_items, container, false);
+
+        setLists();
         setViews();
-//        setLists();
-//        setViews();
 
         return mView;
     }
 
-    public void setListeners(OnSelectItemsListener selectItemsListener, OnBackFragmentListener backFragmentListener){
+    public void setListeners(OnSelectItemsListener selectItemsListener, OnBackFragmentListener backFragmentListener) {
         this.selectItemsListener = selectItemsListener;
         this.backFragmentListener = backFragmentListener;
     }
 
-    private void setViews(){
-        Button btnComplete = mView.findViewById(R.id.btn_complete);
+    private void setViews() {
+        ImageButton btnComplete = mView.findViewById(R.id.btn_complete);
         btnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectItemsListener.onSelectItems();
+                completeSelect();
             }
         });
 
-        Button btnBack = mView.findViewById(R.id.btn_back);
+        ImageButton btnBack = mView.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 backFragmentListener.onBack();
             }
         });
+
+        GridView gridView = mView.findViewById(R.id.grid_view);
+
+        GridItemAdapter adapter = new GridItemAdapter(getLayoutInflater(), R.layout.grid_items, itemList, getActivity());
+        gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(this);
     }
 
-//
-//    private void setLists() {
-//        itemList = SavedDataHelper.getMyItemsOrderedByNew(getContext());
-//
-//        for (int i = 0; i < itemList.size(); i++) {
-//            isItemSelected.add(false);
-//        }
-//    }
-//
-//    private void setViews() {
-//        Button btnComplete = mView.findViewById(R.id.btn_complete);
-//        btnComplete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                setSelectedItems();
-//                if (selectedItems.size() == 0){
-//                    //つまり何も選択されていない状態
-//                    //todo
-//                }else {
-//                    flag = 1;
-//                    //todo
-//                }
-//            }
-//        });
-//
-//        ImageButton btnBack = mView.findViewById(R.id.btn_back);
-//        btnBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //todo
-//            }
-//        });
-//
-//        ExpandableHeightGridView gridView = mView.findViewById(R.id.grid_view);
-//
-//        GridItemAdapter adapter = new GridItemAdapter(getLayoutInflater(), R.layout.grid_items, itemList, getActivity());
-//        gridView.setAdapter(adapter);
-//        gridView.setOnItemClickListener(this);
-//
-//    }
-//
-//    private void setSelectedItems(){
-//        for (int i = 0;i<isItemSelected.size();i++){
-//            if (isItemSelected.get(i)){
-//                selectedItems.add(itemList.get(i));
-//            }
-//        }
-//    }
+    private void completeSelect(){
+        setSelectedItems();
+        selectItemsListener.onSelectItems(selectedItems);
+    }
+
+
+    private void setLists() {
+        itemList = SavedDataHelper.getMyItemsOrderedByNew(getContext());
+
+        for (int i = 0; i < itemList.size(); i++) {
+            isItemSelected.add(false);
+        }
+    }
+
+    private void setSelectedItems() {
+        for (int i = 0; i < isItemSelected.size(); i++) {
+            if (isItemSelected.get(i)) {
+                selectedItems.add(itemList.get(i));
+            }
+        }
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -132,18 +117,18 @@ public class SelectItemsFragment extends Fragment implements AdapterView.OnItemC
 
         boolean wasSelected = isItemSelected.get(position);
 
-        if (wasSelected){
+        if (wasSelected) {
             isItemSelected.set(position, false);
             imvSelected.setVisibility(View.INVISIBLE);
 
-        }else {
+        } else {
             isItemSelected.set(position, true);
             imvSelected.setVisibility(View.VISIBLE);
 
         }
     }
 
-    public interface OnSelectItemsListener{
-        void onSelectItems();
+    public interface OnSelectItemsListener {
+        void onSelectItems(List<FashionItem> selectedItems);
     }
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.FashionItem;
@@ -52,11 +53,11 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
     }
 
     private void setViews() {
-        ExpandableHeightGridView gridView = mView.findViewById(R.id.grid_view);
-
         List<FashionItem> itemList = SavedDataHelper.getMyItemsOrderedByNew(getContext());
         ITEM_LIST_SIZE = itemList.size();
 
+
+        GridView gridView = mView.findViewById(R.id.grid_view);
         GridItemAdapter adapter = new GridItemAdapter(mInflater, R.layout.grid_items, itemList, getActivity());
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);

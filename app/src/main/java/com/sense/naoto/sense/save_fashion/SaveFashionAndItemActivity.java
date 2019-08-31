@@ -1,5 +1,7 @@
 package com.sense.naoto.sense.save_fashion;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +10,11 @@ import android.os.Bundle;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.activity_helper.SaveFashionActivityHelper;
+import com.sense.naoto.sense.classes.Fashion;
+import com.sense.naoto.sense.classes.FashionItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaveFashionAndItemActivity extends AppCompatActivity implements ChooseTypeFragment.ChooseTypeFragmentListener
         , SelectPhotoFragment.OnSelectPhotoFragmentListener, SelectItemsFragment.OnSelectItemsListener
@@ -20,8 +27,11 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
 
     //変数
     private boolean isSuccess = false;
-
     private int type;
+    private Bitmap pickedImage;
+    private Uri pickedImageUri;
+    private List<FashionItem> selectedItems = new ArrayList<>();
+    private String itemName;
 
     //Fragment関連
     private int count = 0;
@@ -87,7 +97,10 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
 
 
     @Override
-    public void onSelectPhoto() {
+    public void onSelectPhoto(Bitmap bitmap, Uri uri) {
+        pickedImage = bitmap;
+        pickedImageUri = uri;
+
         switch (type) {
             case TYPE_FASHION:
                 SelectItemsFragment itemsFragment = new SelectItemsFragment();
@@ -106,14 +119,21 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
     }
 
     @Override
-    public void onSelectItems() {
+    public void onSelectItems(List<FashionItem> items) {
+
+        for (FashionItem item:items){
+            selectedItems.add(item);
+        }
+
         CheckFashionFragment fragment = new CheckFashionFragment();
         fragment.setListeners(this, this);
         setFragment(fragment);
     }
 
     @Override
-    public void onNameItem() {
+    public void onNameItem(String name) {
+        itemName = name;
+
         CheckItemFragment fragment = new CheckItemFragment();
         fragment.setListeners(this, this);
         setFragment(fragment);

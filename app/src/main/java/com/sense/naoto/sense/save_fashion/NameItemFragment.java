@@ -4,18 +4,25 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextSwitcher;
 
 import com.sense.naoto.sense.R;
+import com.sense.naoto.sense.processings.ButtonHelper;
 
 
-public class NameItemFragment extends Fragment {
+public class NameItemFragment extends Fragment implements TextWatcher {
 
     //View
     private View mView;
+    private ImageButton mBtnComplete;
 
     //Listeners
     private OnNameItemFragmentListener nameListener;
@@ -38,14 +45,20 @@ public class NameItemFragment extends Fragment {
         return mView;
     }
 
-    private void setViews(){
-        Button btnComplete = mView.findViewById(R.id.btn_complete);
-        btnComplete.setOnClickListener(new View.OnClickListener() {
+    private void setViews() {
+
+        final EditText editName = mView.findViewById(R.id.edit_name);
+        editName.addTextChangedListener(this);
+
+        mBtnComplete = mView.findViewById(R.id.btn_complete);
+        mBtnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nameListener.onNameItem();
+                completeNaming(editName.getText().toString());
             }
         });
+
+        ButtonHelper.unEnableCheckButton(mBtnComplete, getContext());
 
         Button btnBack = mView.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -54,15 +67,40 @@ public class NameItemFragment extends Fragment {
                 backFragmentListener.onBack();
             }
         });
+
     }
 
-    public void setListeners(OnNameItemFragmentListener nameListener, OnBackFragmentListener backFragmentListener){
+    public void setListeners(OnNameItemFragmentListener nameListener, OnBackFragmentListener backFragmentListener) {
         this.nameListener = nameListener;
         this.backFragmentListener = backFragmentListener;
     }
 
-    public interface OnNameItemFragmentListener{
-        void onNameItem();
+    private void completeNaming(String name){
+        nameListener.onNameItem(name);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+        if (s.toString().length()>0){
+            ButtonHelper.enableCheckButton(mBtnComplete, getContext());
+        }else {
+            ButtonHelper.unEnableCheckButton(mBtnComplete, getContext());
+        }
+    }
+
+    public interface OnNameItemFragmentListener {
+        void onNameItem(String name);
     }
 
 }
