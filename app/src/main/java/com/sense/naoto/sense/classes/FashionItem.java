@@ -1,6 +1,5 @@
 package com.sense.naoto.sense.classes;
 
-import org.apache.commons.lang.RandomStringUtils;
 
 import java.io.Serializable;
 

@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.FashionItem;
 import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
+import com.sense.naoto.sense.processings.ImageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,7 @@ import java.util.List;
 public class GridItemAdapter extends BaseAdapter {
 
 
-    //todo:保存してある画像から書き出す
-
-     class ViewHolder {
+    class ViewHolder {
         ImageView imageView;
         ProgressBar progressBar;
         ImageView imvSelected;
@@ -32,11 +31,6 @@ public class GridItemAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private int layoutId;
     private Activity mActivity;
-
-    private List<ImageView> imageViews = new ArrayList<>();
-    private List<ProgressBar> progressBars = new ArrayList<>();
-
-    private int flag;
 
 
     public GridItemAdapter() {
@@ -48,7 +42,6 @@ public class GridItemAdapter extends BaseAdapter {
         this.layoutId = layoutId;
         this.itemList = itemList;
         mActivity = activity;
-        flag = 0;
     }
 
 
@@ -68,17 +61,11 @@ public class GridItemAdapter extends BaseAdapter {
         } else {
             holder = (GridItemAdapter.ViewHolder) view.getTag();
         }
+        String imageCode = itemList.get(i).getImageCode();
+        Bitmap image = ImageHelper.fromBase64ToBitmap(imageCode);
 
-        imageViews.add(holder.imageView);
-        progressBars.add(holder.progressBar);
-
-        GetImageFromDeviceTask imagetask = new GetImageFromDeviceTask();
-        imagetask.setListener(createListener());
-        imagetask.setActivity(mActivity);
-
-        GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(500, Uri.parse(itemList.get(i).getLocalDeviceUri()));
-
-        imagetask.execute(param);
+        holder.imageView.setImageBitmap(image);
+        holder.progressBar.setVisibility(View.GONE);
 
         return view;
     }
@@ -98,15 +85,4 @@ public class GridItemAdapter extends BaseAdapter {
         return 0;
     }
 
-    private GetImageFromDeviceTask.GetImageFromDeviceListener createListener() {
-        return new GetImageFromDeviceTask.GetImageFromDeviceListener() {
-            @Override
-            public void onSuccess(Bitmap bitmap) {
-
-                progressBars.get(flag).setVisibility(View.GONE);
-                imageViews.get(flag).setImageBitmap(bitmap);
-                flag++;
-            }
-        };
-    }
 }

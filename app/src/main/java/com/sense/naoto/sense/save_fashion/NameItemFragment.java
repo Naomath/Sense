@@ -1,6 +1,7 @@
 package com.sense.naoto.sense.save_fashion;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,10 +13,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextSwitcher;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.processings.ButtonHelper;
+
+import lombok.Setter;
 
 
 public class NameItemFragment extends Fragment implements TextWatcher {
@@ -28,9 +32,15 @@ public class NameItemFragment extends Fragment implements TextWatcher {
     private OnNameItemFragmentListener nameListener;
     private OnBackFragmentListener backFragmentListener;
 
+
+    //変数
+    @Setter
+    private Bitmap image;
+
     public NameItemFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +56,8 @@ public class NameItemFragment extends Fragment implements TextWatcher {
     }
 
     private void setViews() {
+        ImageView imageView = mView.findViewById(R.id.imageView);
+        imageView.setImageBitmap(image);
 
         final EditText editName = mView.findViewById(R.id.edit_name);
         editName.addTextChangedListener(this);
@@ -60,7 +72,7 @@ public class NameItemFragment extends Fragment implements TextWatcher {
 
         ButtonHelper.unEnableCheckButton(mBtnComplete, getContext());
 
-        Button btnBack = mView.findViewById(R.id.btn_back);
+        ImageButton btnBack = mView.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

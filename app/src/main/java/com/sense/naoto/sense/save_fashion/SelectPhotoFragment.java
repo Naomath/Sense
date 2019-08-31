@@ -22,6 +22,8 @@ import com.sense.naoto.sense.processings.ImageHelper;
 import java.io.IOException;
 import java.io.InputStream;
 
+import lombok.Setter;
+
 import static android.app.Activity.RESULT_OK;
 
 public class SelectPhotoFragment extends Fragment {
@@ -39,8 +41,11 @@ public class SelectPhotoFragment extends Fragment {
     private OnBackFragmentListener backListener;
 
     //変数
-    Bitmap pickedImage;
-    Uri pickedImageUri;
+    private Bitmap pickedImage;
+    private Uri pickedImageUri;
+    private boolean hasBitmap = false;
+    @Setter
+    private int type = 0;
 
     public SelectPhotoFragment() {
         // Required empty public constructor
@@ -73,13 +78,27 @@ public class SelectPhotoFragment extends Fragment {
 
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
                 Bitmap bmRotated = ImageHelper.rotateBitmap(bitmap, orientation);
-                Bitmap resizedBitmap = ImageHelper.resizeBitmap(1000, bmRotated);
+
+                int size = 0;
+
+                switch (type) {
+                    case SaveFashionAndItemActivity.TYPE_FASHION:
+                        size = 1000;
+                        break;
+                    case SaveFashionAndItemActivity.TYPE_ITEM:
+                        size = 300;
+                        break;
+                }
+
+                Bitmap resizedBitmap = ImageHelper.resizeBitmap(size, bmRotated);
 
                 pickedImage = resizedBitmap;
 
                 mImageView.setImageBitmap(resizedBitmap);
 
                 ButtonHelper.enableCheckButton(mBtnComplete, getContext());
+
+                hasBitmap = true;
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -100,18 +119,16 @@ public class SelectPhotoFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_select_photo, container, false);
         setViews();
 
-        //todo:イメージを洗濯していないと次に行けないようにする処理
-
         return mView;
     }
 
     public void setListeners(OnSelectPhotoFragmentListener selectListener,
-                             OnBackFragmentListener backListener){
+                             OnBackFragmentListener backListener) {
         this.selectListener = selectListener;
         this.backListener = backListener;
     }
 
-    private void setViews(){
+    private void setViews() {
         Button btnSelectPhoto = mView.findViewById(R.id.btn_select_photo);
         btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +145,6 @@ public class SelectPhotoFragment extends Fragment {
                 selectListener.onSelectPhoto(pickedImage, pickedImageUri);
             }
         });
-        ButtonHelper.unEnableCheckButton(mBtnComplete, getContext());
 
         ImageButton btnBack = mView.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -139,9 +155,16 @@ public class SelectPhotoFragment extends Fragment {
         });
 
         mImageView = mView.findViewById(R.id.imageView);
+
+        if (hasBitmap) {
+            mImageView.setImageBitmap(pickedImage);
+            ButtonHelper.enableCheckButton(mBtnComplete, getContext());
+        } else {
+            ButtonHelper.unEnableCheckButton(mBtnComplete, getContext());
+        }
     }
 
-    private void launchGallery(){
+    private void launchGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
@@ -149,7 +172,7 @@ public class SelectPhotoFragment extends Fragment {
     }
 
 
-    public interface OnSelectPhotoFragmentListener{
+    public interface OnSelectPhotoFragmentListener {
         void onSelectPhoto(Bitmap image, Uri uri);
     }
 

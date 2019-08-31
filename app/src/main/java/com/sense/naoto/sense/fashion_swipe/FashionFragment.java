@@ -12,19 +12,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.Fashion;
+import com.sense.naoto.sense.classes.FashionItem;
 import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
 import com.sense.naoto.sense.processings.ImageHelper;
+import com.sense.naoto.sense.processings.SavedDataHelper;
+import com.sense.naoto.sense.widgets.ItemListAdapter;
 import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class FashionFragment extends Fragment {
     /*
@@ -73,7 +78,7 @@ public class FashionFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_fashion, container, false);
 
         setViews();
-
+        setBottomSheetViews();
         return mView;
     }
 
@@ -116,6 +121,10 @@ public class FashionFragment extends Fragment {
             }
         });
 
+        mProgressBar = mView.findViewById(R.id.progressBar);
+    }
+
+    public void setBottomSheetViews(){
         View bottomSheet = mView.findViewById(R.id.description_bottom_sheet);
         BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -130,10 +139,14 @@ public class FashionFragment extends Fragment {
             }
         });
 
-        TextView txvDate = mView.findViewById(R.id.layout_description).findViewById(R.id.txv_date);
+        TextView txvDate = bottomSheet.findViewById(R.id.txv_date);
         txvDate.setText(mFashion.getStrDate());
 
-        mProgressBar = mView.findViewById(R.id.progressBar);
+        List<FashionItem> items = SavedDataHelper.getItemsByPrefKeyList(getContext(), mFashion.getItemPrefKey());
+
+        ListView itemListView = bottomSheet.findViewById(R.id.listView);
+        ItemListAdapter adapter = new ItemListAdapter(getContext(), R.layout.item_list_row,items);
+        itemListView.setAdapter(adapter);
     }
 
 

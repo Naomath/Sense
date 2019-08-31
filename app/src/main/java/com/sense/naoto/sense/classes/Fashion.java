@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import org.apache.commons.lang.RandomStringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +25,9 @@ public class Fashion implements Parcelable {
     @Setter
     private String prefKey;
 
-
+    @Getter
+    @Setter
+    private List<String> itemPrefKey = new ArrayList<>();
 
     public Fashion(){}
 
@@ -31,6 +36,13 @@ public class Fashion implements Parcelable {
         this.strDate = date;
         this.localDeviceUri = localDeviceUri;
         this.prefKey = prefKey;
+    }
+
+    public Fashion(String date, String localDeviceUri, String prefKey, List<String> itemPrefKeys){
+        this.strDate = date;
+        this.localDeviceUri = localDeviceUri;
+        this.prefKey = prefKey;
+        this.itemPrefKey = itemPrefKeys;
     }
 
 

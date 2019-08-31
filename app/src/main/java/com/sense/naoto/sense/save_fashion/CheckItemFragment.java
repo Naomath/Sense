@@ -1,6 +1,7 @@
 package com.sense.naoto.sense.save_fashion;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,8 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
+
+import lombok.Setter;
 
 
 public class CheckItemFragment extends Fragment {
@@ -20,6 +26,12 @@ public class CheckItemFragment extends Fragment {
     //Listeners
     private OnCheckItemFragmentListener itemListener;
     private OnBackFragmentListener backListener;
+
+    //変数
+    @Setter
+    private Bitmap image;
+    @Setter
+    private String name;
 
     public CheckItemFragment() {
         // Required empty public constructor
@@ -45,7 +57,7 @@ public class CheckItemFragment extends Fragment {
 
     private void setViews() {
 
-        Button btnSelectFashion = mView.findViewById(R.id.btn_complete);
+        ImageButton btnSelectFashion = mView.findViewById(R.id.btn_complete);
         btnSelectFashion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,13 +65,19 @@ public class CheckItemFragment extends Fragment {
             }
         });
 
-        Button btnSelectItem = mView.findViewById(R.id.btn_back);
+        ImageButton btnSelectItem = mView.findViewById(R.id.btn_back);
         btnSelectItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 backListener.onBack();
             }
         });
+
+        ImageView imageView = mView.findViewById(R.id.imageView);
+        imageView.setImageBitmap(image);
+
+        TextView txvName = mView.findViewById(R.id.txv_item_name);
+        txvName.setText(name);
     }
 
 

@@ -34,6 +34,8 @@ public class SelectItemsFragment extends Fragment implements AdapterView.OnItemC
     private List<FashionItem> itemList = new ArrayList<>();
     private List<FashionItem> selectedItems = new ArrayList<>();
     private List<Boolean> isItemSelected = new ArrayList<>();
+    private boolean hasSelectedItems = false;
+    private int numberOfSelected = 0;
 
 
     //変数
@@ -120,11 +122,17 @@ public class SelectItemsFragment extends Fragment implements AdapterView.OnItemC
         if (wasSelected) {
             isItemSelected.set(position, false);
             imvSelected.setVisibility(View.INVISIBLE);
+            numberOfSelected --;
 
+            if (numberOfSelected == 0){
+                hasSelectedItems = false;
+            }
         } else {
             isItemSelected.set(position, true);
             imvSelected.setVisibility(View.VISIBLE);
 
+            hasSelectedItems = true;
+            numberOfSelected++;
         }
     }
 

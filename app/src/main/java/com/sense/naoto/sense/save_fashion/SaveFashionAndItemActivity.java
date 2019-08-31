@@ -12,6 +12,8 @@ import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.activity_helper.SaveFashionActivityHelper;
 import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.classes.FashionItem;
+import com.sense.naoto.sense.processings.CalendarHelper;
+import com.sense.naoto.sense.processings.SavedDataHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,33 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
         count++;
     }
 
+    private Fashion generateFashion(){
+        List<String> itemPrefKeys = new ArrayList<>();
+        String strDate= CalendarHelper.getNowDate();
+        String prefKey = Fashion.newPreferenceKey();
+
+        Fashion fashion;
+
+        if (selectedItems.size()>0){
+            for (FashionItem item:selectedItems){
+                itemPrefKeys.add(item.getPrefKey());
+            }
+
+            fashion = new Fashion(strDate, pickedImageUri.toString(), prefKey, itemPrefKeys);
+        }else {
+
+            fashion = new Fashion(strDate, pickedImageUri.toString(), prefKey);
+        }
+
+        return fashion;
+    }
+
+    private FashionItem generateFashionItem(){
+        String strDate= CalendarHelper.getNowDate();
+        String prefKey = Fashion.newPreferenceKey();
+
+        return new FashionItem(pickedImageUri.toString(), itemName, strDate, prefKey);
+    }
 
     @Override
     public void finish() {
@@ -92,6 +121,7 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
 
         SelectPhotoFragment fragment = new SelectPhotoFragment();
         fragment.setListeners(this, this);
+        fragment.setType(type);
         setFragment(fragment);
     }
 
@@ -112,6 +142,7 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
             case TYPE_ITEM:
                 NameItemFragment nameItemFragment = new NameItemFragment();
                 nameItemFragment.setListeners(this, this);
+                nameItemFragment.setImage(pickedImage);
                 setFragment(nameItemFragment);
 
                 break;
@@ -127,6 +158,11 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
 
         CheckFashionFragment fragment = new CheckFashionFragment();
         fragment.setListeners(this, this);
+        fragment.setBitmap(pickedImage);
+        if (selectedItems.size()>0){
+            fragment.setFashionItems(selectedItems);
+        }
+
         setFragment(fragment);
     }
 
@@ -136,19 +172,24 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
 
         CheckItemFragment fragment = new CheckItemFragment();
         fragment.setListeners(this, this);
+        fragment.setImage(pickedImage);
+        fragment.setName(itemName);
         setFragment(fragment);
     }
 
 
     @Override
     public void onCheckFashion() {
+        SavedDataHelper.saveNewFashion(this, generateFashion());
         SaveFashionActivityHelper.launchMainActivity(this);
     }
 
 
     @Override
     public void onCheckItem() {
+        SavedDataHelper.saveNewItem(this, generateFashionItem(), pickedImage);
         SaveFashionActivityHelper.launchMainActivity(this);
+
     }
 
     @Override

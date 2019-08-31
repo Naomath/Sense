@@ -3,6 +3,7 @@ package com.sense.naoto.sense.processings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.sense.naoto.sense.classes.Fashion;
@@ -10,7 +11,6 @@ import com.sense.naoto.sense.classes.FashionItem;
 
 import org.json.JSONArray;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,7 +53,7 @@ public class SavedDataHelper {
     }
 
     public static List<Fashion> getMyFashionsOrderedByNew(Context context) {
-        List<String> fashionKeyList = getFashionPrefKeyList(context);
+        List<String> fashionKeyList = getFashionPrefAllKeyList(context);
 
         Collections.reverse(fashionKeyList);
         //これにより新しい順にFashionのPrefKeyが並ぶ
@@ -69,7 +69,7 @@ public class SavedDataHelper {
     }
 
     public static List<FashionItem> getMyItemsOrderedByNew(Context context){
-        List<String> itemKeyList = getItemPrefKeyList(context);
+        List<String> itemKeyList = getItemPrefAllKeyList(context);
 
         Collections.reverse(itemKeyList);
 
@@ -99,11 +99,21 @@ public class SavedDataHelper {
         return item;
     }
 
+    public static List<FashionItem> getItemsByPrefKeyList(Context context, List<String> prefKeys){
+        List<FashionItem> items = new ArrayList<>();
+
+        for (String key:prefKeys){
+            items.add(getItemByPrefKey(context, key));
+        }
+
+        return items;
+    }
+
     public static Fashion getFashionByNumber(Context context, int i) {
         //ここで受け取るnumber、なんばん目に作られたか
         //最初が0
 
-        List<String> prefKeys = getFashionPrefKeyList(context);
+        List<String> prefKeys = getFashionPrefAllKeyList(context);
         Fashion fashion = getFashionByPrefKey(context, prefKeys.get(i));
 
         return fashion;
@@ -112,7 +122,7 @@ public class SavedDataHelper {
     public static FashionItem getItemByNumber(Context context, int i) {
         //ここで受け取るnumber、なんばん目に作られたか
         //最初が0
-        List<String> prefKeys = getItemPrefKeyList(context);
+        List<String> prefKeys = getItemPrefAllKeyList(context);
         FashionItem item = getItemByPrefKey(context, prefKeys.get(i));
 
         return item;
@@ -120,7 +130,7 @@ public class SavedDataHelper {
 
     private static void addNewFashionToList(String prefKey, Context context) {
         SharedPreferences preferences = getDefaultSharedPreferences(context);
-        List<String> list = getFashionPrefKeyList(context);
+        List<String> list = getFashionPrefAllKeyList(context);
         //ここまでで今までにあった物を入れている
 
         list.add(prefKey);
@@ -136,7 +146,7 @@ public class SavedDataHelper {
 
     private static void addNewItemToList(String prefKey, Context context) {
         SharedPreferences preferences = getDefaultSharedPreferences(context);
-        List<String> list = getItemPrefKeyList(context);
+        List<String> list = getItemPrefAllKeyList(context);
 
         list.add(prefKey);
         JSONArray jsonArray = new JSONArray();
@@ -148,7 +158,7 @@ public class SavedDataHelper {
         editor.apply();
     }
 
-    private static List<String> getFashionPrefKeyList(Context context) {
+    private static List<String> getFashionPrefAllKeyList(Context context) {
         SharedPreferences preferences = getDefaultSharedPreferences(context);
 
         List<String> list = new ArrayList<String>();
@@ -168,7 +178,7 @@ public class SavedDataHelper {
     }
 
 
-    private static List<String> getItemPrefKeyList(Context context) {
+    private static List<String> getItemPrefAllKeyList(Context context) {
         SharedPreferences preferences = getDefaultSharedPreferences(context);
 
         List<String> list = new ArrayList<>();
