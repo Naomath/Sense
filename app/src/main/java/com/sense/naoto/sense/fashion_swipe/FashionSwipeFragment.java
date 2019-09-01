@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.Fashion;
@@ -96,9 +97,13 @@ public class FashionSwipeFragment extends Fragment{
             case REQUEST_MINE:
 
                 fashionList = SavedDataHelper.getMyFashionsOrderedByNew(getContext());
+                if (fashionList.size()>0){
+                    pagerAdapter = new FashionFragmentPagerAdapter(getChildFragmentManager(), fashionList, REQUEST_MINE);
+                    mViewPager.setAdapter(pagerAdapter);
 
-                pagerAdapter = new FashionFragmentPagerAdapter(getChildFragmentManager(), fashionList, REQUEST_MINE);
-                mViewPager.setAdapter(pagerAdapter);
+                    TextView txvNoFashion = mView.findViewById(R.id.txv_no_fashion);
+                    txvNoFashion.setVisibility(View.GONE);
+                }
 
                 break;
 

@@ -6,15 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.FashionItem;
 import com.sense.naoto.sense.processings.SavedDataHelper;
-import com.sense.naoto.sense.widgets.ExpandableHeightGridView;
 import com.sense.naoto.sense.widgets.GridItemAdapter;
 
 import java.util.ArrayList;
@@ -55,7 +54,6 @@ public class SelectItemsFragment extends Fragment implements AdapterView.OnItemC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_select_items, container, false);
-
         setLists();
         setViews();
 
@@ -84,11 +82,16 @@ public class SelectItemsFragment extends Fragment implements AdapterView.OnItemC
             }
         });
 
-        GridView gridView = mView.findViewById(R.id.grid_view);
+        if (itemList.size()>0) {
+            GridView gridView = mView.findViewById(R.id.grid_view);
 
-        GridItemAdapter adapter = new GridItemAdapter(getLayoutInflater(), R.layout.grid_items, itemList, getActivity());
-        gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(this);
+            GridItemAdapter adapter = new GridItemAdapter(getLayoutInflater(), R.layout.fashion_item_grid, itemList, getActivity());
+            gridView.setAdapter(adapter);
+            gridView.setOnItemClickListener(this);
+
+            TextView txvNoItem = mView.findViewById(R.id.txv_no_items);
+            txvNoItem.setVisibility(View.GONE);
+        }
     }
 
     private void completeSelect(){
@@ -98,6 +101,9 @@ public class SelectItemsFragment extends Fragment implements AdapterView.OnItemC
 
 
     private void setLists() {
+        itemList.clear();
+        isItemSelected.clear();
+        selectedItems.clear();
         itemList = SavedDataHelper.getMyItemsOrderedByNew(getContext());
 
         for (int i = 0; i < itemList.size(); i++) {

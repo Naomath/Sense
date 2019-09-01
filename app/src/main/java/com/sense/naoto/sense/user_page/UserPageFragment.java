@@ -1,6 +1,5 @@
 package com.sense.naoto.sense.user_page;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,11 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.sense.naoto.sense.R;
-import com.sense.naoto.sense.activity_helper.MainActivityHelper;
-
+import com.sense.naoto.sense.widgets.UserPagePager;
 
 
 public class UserPageFragment extends Fragment{

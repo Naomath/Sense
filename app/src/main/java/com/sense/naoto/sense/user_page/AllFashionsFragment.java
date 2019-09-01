@@ -6,12 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.processings.SavedDataHelper;
-import com.sense.naoto.sense.widgets.ExpandableHeightGridView;
 import com.sense.naoto.sense.widgets.GridFashionAdapter;
 
 import java.util.List;
@@ -53,14 +54,20 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
     }
 
     private void setViews(){
-        ExpandableHeightGridView gridView = mView.findViewById(R.id.grid_view);
+        GridView gridView = mView.findViewById(R.id.grid_view);
 
         List<Fashion> fahsionList = SavedDataHelper.getMyFashionsOrderedByNew(getContext());
         FASHION_LIST_SIZE = fahsionList.size();
 
-        GridFashionAdapter adapter = new GridFashionAdapter(mInflater, R.layout.grid_items, fahsionList, getActivity());
-        gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(this);
+        if (FASHION_LIST_SIZE >0){
+            GridFashionAdapter adapter = new GridFashionAdapter(mInflater, R.layout.fashion_grid, fahsionList, getActivity());
+            gridView.setAdapter(adapter);
+            gridView.setOnItemClickListener(this);
+
+            TextView txvNoFashion = mView.findViewById(R.id.txv_no_fashion);
+            txvNoFashion.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

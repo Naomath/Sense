@@ -10,14 +10,17 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextSwitcher;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.processings.ButtonHelper;
+import com.sense.naoto.sense.widgets.ItemTypeAdapter;
 
 import lombok.Setter;
 
@@ -36,6 +39,7 @@ public class NameItemFragment extends Fragment implements TextWatcher {
     //変数
     @Setter
     private Bitmap image;
+    private int itemType = 0;
 
     public NameItemFragment() {
         // Required empty public constructor
@@ -80,6 +84,21 @@ public class NameItemFragment extends Fragment implements TextWatcher {
             }
         });
 
+        Spinner spinner = mView.findViewById(R.id.spinner);
+        ItemTypeAdapter adapter = new ItemTypeAdapter(getContext(), R.layout.spinner_item_row_large);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                itemType = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     public void setListeners(OnNameItemFragmentListener nameListener, OnBackFragmentListener backFragmentListener) {
@@ -88,7 +107,7 @@ public class NameItemFragment extends Fragment implements TextWatcher {
     }
 
     private void completeNaming(String name){
-        nameListener.onNameItem(name);
+        nameListener.onNameItem(name, itemType);
     }
 
     @Override
@@ -112,7 +131,7 @@ public class NameItemFragment extends Fragment implements TextWatcher {
     }
 
     public interface OnNameItemFragmentListener {
-        void onNameItem(String name);
+        void onNameItem(String name, int itemType);
     }
 
 }

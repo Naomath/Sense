@@ -34,6 +34,7 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
     private Uri pickedImageUri;
     private List<FashionItem> selectedItems = new ArrayList<>();
     private String itemName;
+    private int itemType;
 
     //Fragment関連
     private int count = 0;
@@ -102,7 +103,7 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
         String strDate= CalendarHelper.getNowDate();
         String prefKey = Fashion.newPreferenceKey();
 
-        return new FashionItem(pickedImageUri.toString(), itemName, strDate, prefKey);
+        return new FashionItem(pickedImageUri.toString(), itemName, strDate, prefKey,itemType);
     }
 
     @Override
@@ -152,6 +153,7 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
     @Override
     public void onSelectItems(List<FashionItem> items) {
 
+        selectedItems.clear();
         for (FashionItem item:items){
             selectedItems.add(item);
         }
@@ -167,13 +169,15 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
     }
 
     @Override
-    public void onNameItem(String name) {
+    public void onNameItem(String name, int itemType) {
         itemName = name;
+        this.itemType = itemType;
 
         CheckItemFragment fragment = new CheckItemFragment();
         fragment.setListeners(this, this);
         fragment.setImage(pickedImage);
         fragment.setName(itemName);
+        fragment.setItemType(itemType);
         setFragment(fragment);
     }
 

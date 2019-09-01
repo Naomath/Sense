@@ -24,6 +24,7 @@ public class GridFashionAdapter extends BaseAdapter {
     class ViewHolder {
         ImageView imageView;
         ProgressBar progressBar;
+        ImageView imvFav;
     }
 
     private List<Fashion> fashionList = new ArrayList<>();
@@ -37,7 +38,7 @@ public class GridFashionAdapter extends BaseAdapter {
     private int flag;
 
 
-    public GridFashionAdapter() { }
+    public GridFashionAdapter() {}
 
     public GridFashionAdapter(LayoutInflater inflater, int layoutId, List<Fashion> fashionList, Activity activity) {
         super();
@@ -53,12 +54,15 @@ public class GridFashionAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder;
 
+        Fashion fashion = fashionList.get(i);
+
         if (view == null) {
             view = inflater.inflate(layoutId, viewGroup, false);
 
             holder = new ViewHolder();
             holder.imageView = view.findViewById(R.id.image_view);
             holder.progressBar = view.findViewById(R.id.circle_progress);
+            holder.imvFav = view.findViewById(R.id.imv_fav);
             view.setTag(holder);
 
         } else {
@@ -68,11 +72,18 @@ public class GridFashionAdapter extends BaseAdapter {
         imageViews.add(holder.imageView);
         progressBars.add(holder.progressBar);
 
+        if (fashion.isFav()){
+            holder.imvFav.setImageResource(R.drawable.active_heart);
+        }else {
+            holder.imvFav.setVisibility(View.GONE);
+
+        }
+
         GetImageFromDeviceTask imagetask = new GetImageFromDeviceTask();
         imagetask.setListener(createListener());
         imagetask.setActivity(mActivity);
 
-        GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(500, Uri.parse(fashionList.get(i).getLocalDeviceUri()));
+        GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(500, Uri.parse(fashion.getLocalDeviceUri()));
 
         imagetask.execute(param);
 

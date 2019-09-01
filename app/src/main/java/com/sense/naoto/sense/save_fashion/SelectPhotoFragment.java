@@ -137,7 +137,7 @@ public class SelectPhotoFragment extends Fragment {
     }
 
     private void setViews() {
-        Button btnSelectPhoto = mView.findViewById(R.id.btn_select_photo);
+        ImageButton btnSelectPhoto = mView.findViewById(R.id.btn_select_photo);
         btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

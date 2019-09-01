@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
@@ -16,7 +17,6 @@ import com.sense.naoto.sense.classes.FashionItem;
 import com.sense.naoto.sense.processings.SavedDataHelper;
 import com.sense.naoto.sense.widgets.GridFashionAdapter;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -89,13 +89,16 @@ public class AllFashionTaggedItemFragment extends Fragment  implements AdapterVi
 
         if (list.size()>0){
             GridView gridView = mView.findViewById(R.id.grid_view);
-            GridFashionAdapter adapter = new GridFashionAdapter(inflater, R.layout.grid_items, list, getActivity());
+            GridFashionAdapter adapter = new GridFashionAdapter(inflater, R.layout.fashion_grid, list, getActivity());
             gridView.setAdapter(adapter);
             gridView.setOnItemClickListener(this);
 
             TextView txvNoFashion = mView.findViewById(R.id.txv_no_fashion);
             txvNoFashion.setVisibility(View.GONE);
         }
+
+        ImageView imvItemType = mView.findViewById(R.id.imv_item_type);
+        imvItemType.setImageResource(FashionItem.getTypeResID(mItem.getType()));
 
 
     }

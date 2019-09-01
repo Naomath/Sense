@@ -23,7 +23,6 @@ public class GridItemAdapter extends BaseAdapter {
 
     class ViewHolder {
         ImageView imageView;
-        ProgressBar progressBar;
         ImageView imvSelected;
     }
 
@@ -44,7 +43,6 @@ public class GridItemAdapter extends BaseAdapter {
         mActivity = activity;
     }
 
-
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         GridItemAdapter.ViewHolder holder;
@@ -54,7 +52,6 @@ public class GridItemAdapter extends BaseAdapter {
 
             holder = new GridItemAdapter.ViewHolder();
             holder.imageView = view.findViewById(R.id.image_view);
-            holder.progressBar = view.findViewById(R.id.circle_progress);
             holder.imvSelected = view.findViewById(R.id.imgSelected);
             view.setTag(holder);
 
@@ -65,7 +62,6 @@ public class GridItemAdapter extends BaseAdapter {
         Bitmap image = ImageHelper.fromBase64ToBitmap(imageCode);
 
         holder.imageView.setImageBitmap(image);
-        holder.progressBar.setVisibility(View.GONE);
 
         return view;
     }

@@ -1,8 +1,11 @@
-package com.sense.naoto.sense.user_page;
+package com.sense.naoto.sense.widgets;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.sense.naoto.sense.user_page.AllFashionsFragment;
+import com.sense.naoto.sense.user_page.AllItemsFragment;
 
 public class UserPagePager extends FragmentPagerAdapter {
 
@@ -34,9 +37,9 @@ public class UserPagePager extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "ファッション";
+                return "COORDINATES";
             case 1:
-                return "アイテム";
+                return "ITEMS";
             default:
                 return null;
         }

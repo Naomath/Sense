@@ -76,16 +76,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                mNavigation.getMenu().getItem(0).setIcon(R.drawable.outline_home_black_36);
-                mNavigation.getMenu().getItem(1).setIcon(R.drawable.outline_add_circle_outline_black_36);
-                mNavigation.getMenu().getItem(2).setIcon(R.drawable.outline_person_black_36);
+                mNavigation.getMenu().getItem(0).setIcon(R.drawable.outline_home_black_24);
+                mNavigation.getMenu().getItem(1).setIcon(R.drawable.outline_add_circle_outline_black_24);
+                mNavigation.getMenu().getItem(2).setIcon(R.drawable.outline_person_black_24);
 
                 Fragment fm = null;
                 boolean isFragment = false;
 
                 switch (menuItem.getItemId()) {
                     case R.id.home:
-                        menuItem.setIcon(R.drawable.round_home_black_36);
+                        menuItem.setIcon(R.drawable.round_home_black_24);
                         fm = FashionSwipeFragment.newInstance(FashionSwipeFragment.REQUEST_MINE);
                         isFragment = true;
                         break;
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.user:
-                        menuItem.setIcon(R.drawable.baseline_person_black_36);
+                        menuItem.setIcon(R.drawable.baseline_person_black_24);
                         fm = UserPageFragment.newInstance();
                         isFragment = true;
                         break;

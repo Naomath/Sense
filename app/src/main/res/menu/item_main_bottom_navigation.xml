@@ -4,19 +4,19 @@
 
     <item
         android:id="@+id/home"
-        android:icon="@drawable/outline_home_black_36"
+        android:icon="@drawable/outline_home_black_24"
         android:title="home"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/post"
-        android:icon="@drawable/outline_add_circle_outline_black_36"
+        android:icon="@drawable/outline_add_circle_outline_black_24"
         android:title="post"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/user"
-        android:icon="@drawable/outline_person_black_36"
+        android:icon="@drawable/outline_person_black_24"
         android:title="user"
         app:showAsAction="ifRoom"/>
 

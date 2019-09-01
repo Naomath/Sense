@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="250dp"
     android:background="@drawable/fashion_description_background"
-    app:behavior_peekHeight="50dp"
+    app:behavior_peekHeight="45dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
 

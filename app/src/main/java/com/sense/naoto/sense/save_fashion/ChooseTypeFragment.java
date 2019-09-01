@@ -59,7 +59,7 @@ public class ChooseTypeFragment extends Fragment {
 
     private void setViews(){
 
-        Button btnSelectFashion = mView.findViewById(R.id.btn_fashion);
+        ImageButton btnSelectFashion = mView.findViewById(R.id.btn_fashion);
         btnSelectFashion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +67,7 @@ public class ChooseTypeFragment extends Fragment {
             }
         });
 
-        Button btnSelectItem = mView.findViewById(R.id.btn_item);
+        ImageButton btnSelectItem = mView.findViewById(R.id.btn_item);
         btnSelectItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

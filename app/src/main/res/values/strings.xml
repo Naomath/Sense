@@ -2,8 +2,6 @@
     <string name="app_name">Sense</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string-array name="add_something_list">
-        <item>新規ファッション</item>
-        <item>新規アイテム</item>
-    </string-array>
+    <string name="no_fashion">まだコーディネートが登録されていません。下の『＋』ボタンから登録できます。</string>
+    <string name="no_item">まだアイテムが登録されていません.下の『＋』ボタンから登録できます。</string>
 </resources>

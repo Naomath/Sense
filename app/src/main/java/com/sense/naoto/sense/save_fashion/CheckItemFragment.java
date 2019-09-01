@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
+import com.sense.naoto.sense.classes.FashionItem;
 
 import lombok.Setter;
 
@@ -32,6 +33,8 @@ public class CheckItemFragment extends Fragment {
     private Bitmap image;
     @Setter
     private String name;
+    @Setter
+    private int itemType;
 
     public CheckItemFragment() {
         // Required empty public constructor
@@ -78,6 +81,12 @@ public class CheckItemFragment extends Fragment {
 
         TextView txvName = mView.findViewById(R.id.txv_item_name);
         txvName.setText(name);
+
+        ImageView imvItemType = mView.findViewById(R.id.imv_item_type);
+        imvItemType.setImageResource(FashionItem.getTypeResID(itemType));
+
+        TextView txvTypeName = mView.findViewById(R.id.txv_item_type);
+        txvTypeName.setText(FashionItem.getTypeName(itemType));
     }
 
 
