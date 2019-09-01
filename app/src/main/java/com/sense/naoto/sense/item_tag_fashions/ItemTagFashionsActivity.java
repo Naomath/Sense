@@ -16,6 +16,7 @@ public class ItemTagFashionsActivity extends AppCompatActivity implements OnItem
 
     //変数
     private FashionItem mItem;
+    private int where;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,8 @@ public class ItemTagFashionsActivity extends AppCompatActivity implements OnItem
 
         String prefKey = ItemTagFashionActivityHelper.getSentItemPrefKey(this);
         mItem = SavedDataHelper.getItemByPrefKey(this, prefKey);
+
+        where = ItemTagFashionActivityHelper.getWhereFrom(this);
 
         setFragment(getAllFashionTaggedItemFragment());
     }
@@ -47,7 +50,7 @@ public class ItemTagFashionsActivity extends AppCompatActivity implements OnItem
 
     @Override
     public void onBackActivity() {
-        ItemTagFashionActivityHelper.launchMainActivity(this);
+        ItemTagFashionActivityHelper.launchMainActivity(this, where);
     }
 
     @Override

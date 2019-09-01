@@ -22,9 +22,10 @@ public class MainActivityHelper {
         activity.startActivity(intent);
     }
 
-    public static void launchItemTagFashionsActivity(Activity activity, String prefKey){
+    public static void launchItemTagFashionsActivity(Activity activity, String prefKey, int where){
         Intent intent = new Intent(activity, ItemTagFashionsActivity.class);
         intent.putExtra("prefKey", prefKey);
+        intent.putExtra("where",where);
         activity.startActivity(intent);
     }
 

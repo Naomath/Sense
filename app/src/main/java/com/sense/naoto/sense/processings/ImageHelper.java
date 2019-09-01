@@ -11,6 +11,7 @@ import android.util.Base64;
 import com.sense.naoto.sense.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 public class ImageHelper {
@@ -128,5 +129,6 @@ public class ImageHelper {
         }
         return resizedBitmap;
     }
+
 }
 

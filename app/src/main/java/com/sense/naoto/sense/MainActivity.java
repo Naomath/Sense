@@ -29,25 +29,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //TODo:初めてかどうかでチュートリアルをするかどうかを決める
-
         setViews();
+        Intent intent = getIntent();
+        if (intent!=null){
+            doFromIntent(intent);
+        }
     }
 
+    private void doFromIntent(Intent intent){
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // 注意：superメソッドは呼ぶようにする
-        // Activity側のonActivityResultで呼ばないとFragmentのonActivityResultが呼ばれない
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case ActivityConstants.POST_FASHION_ACTIVITY_CODE:
-
-                //homeにfocusがくるように
-                mNavigation.setSelectedItemId(R.id.home);
-
-                break;
+        int request = intent.getIntExtra("request",0);
+        switch (request) {
 
             case ActivityConstants.SHOWING_MY_FASHION_ACTIVITY_CODE:
                 mNavigation.setSelectedItemId(R.id.user);
@@ -57,7 +49,15 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "保存しました", Toast.LENGTH_LONG).show();
                 break;
 
-            default:
+        }
+
+        int where = intent.getIntExtra("where",3);
+        switch (where){
+            case 0:
+                mNavigation.setSelectedItemId(R.id.home);
+                break;
+            case 1:
+                mNavigation.setSelectedItemId(R.id.user);
                 break;
         }
     }
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
                 mNavigation.getMenu().getItem(0).setIcon(R.drawable.outline_home_black_24);
                 mNavigation.getMenu().getItem(1).setIcon(R.drawable.outline_add_circle_outline_black_24);
-                mNavigation.getMenu().getItem(2).setIcon(R.drawable.outline_person_black_24);
+                mNavigation.getMenu().getItem(2).setIcon(R.drawable.outline_view_module_black_24);
 
                 Fragment fm = null;
                 boolean isFragment = false;
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.user:
-                        menuItem.setIcon(R.drawable.baseline_person_black_24);
+                        menuItem.setIcon(R.drawable.baseline_view_module_black_24);
                         fm = UserPageFragment.newInstance();
                         isFragment = true;
                         break;

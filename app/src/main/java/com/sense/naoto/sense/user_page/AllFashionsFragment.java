@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
@@ -15,17 +16,22 @@ import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.processings.SavedDataHelper;
 import com.sense.naoto.sense.widgets.GridFashionAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class AllFashionsFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class AllFashionsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-
+    //Views
     private View mView;
-
     private LayoutInflater mInflater;
+    private GridView mGridView;
 
+    //変数
     private int FASHION_LIST_SIZE = 0;
+    private int mode = 0;
+    //０がall
+    //１がfav
 
     public AllFashionsFragment() {
         // Required empty public constructor
@@ -53,26 +59,31 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
         return mView;
     }
 
-    private void setViews(){
-        GridView gridView = mView.findViewById(R.id.grid_view);
 
-        List<Fashion> fahsionList = SavedDataHelper.getMyFashionsOrderedByNew(getContext());
-        FASHION_LIST_SIZE = fahsionList.size();
+    private void setViews() {
+        mGridView = mView.findViewById(R.id.grid_view);
+        List<Fashion> allFashions = getAllFashions();
+        FASHION_LIST_SIZE = allFashions.size();
 
-        if (FASHION_LIST_SIZE >0){
-            GridFashionAdapter adapter = new GridFashionAdapter(mInflater, R.layout.fashion_grid, fahsionList, getActivity());
-            gridView.setAdapter(adapter);
-            gridView.setOnItemClickListener(this);
 
-            TextView txvNoFashion = mView.findViewById(R.id.txv_no_fashion);
-            txvNoFashion.setVisibility(View.GONE);
-        }
+        final GridFashionAdapter adapter = new GridFashionAdapter(mInflater, R.layout.fashion_grid, allFashions, getActivity());
+        mGridView.setAdapter(adapter);
+        mGridView.setOnItemClickListener(this);
+
+        TextView txvNoFashion = mView.findViewById(R.id.txv_no_fashion);
+        txvNoFashion.setVisibility(View.GONE);
+
 
     }
 
+    private List<Fashion> getAllFashions() {
+        return SavedDataHelper.getMyFashionsOrderedByNew(getContext());
+    }
+
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        int i = FASHION_LIST_SIZE - 1 -position;
+        int i = FASHION_LIST_SIZE - 1 - position;
         //ここのnumberは何番目に作られたかなので、positionと1をsizeから引いてうまくする
 
         MainActivityHelper.launchShowingMyFashionActivity(getActivity(), i);

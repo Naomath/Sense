@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.Fashion;
-import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
+import com.sense.naoto.sense.processings.ImageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +32,7 @@ public class GridFashionAdapter extends BaseAdapter {
     private int layoutId;
     private Activity mActivity;
 
-    private List<ImageView> imageViews = new ArrayList<>();
-    private List<ProgressBar> progressBars = new ArrayList<>();
+
 
     private int flag;
 
@@ -61,7 +60,6 @@ public class GridFashionAdapter extends BaseAdapter {
 
             holder = new ViewHolder();
             holder.imageView = view.findViewById(R.id.image_view);
-            holder.progressBar = view.findViewById(R.id.circle_progress);
             holder.imvFav = view.findViewById(R.id.imv_fav);
             view.setTag(holder);
 
@@ -69,8 +67,6 @@ public class GridFashionAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        imageViews.add(holder.imageView);
-        progressBars.add(holder.progressBar);
 
         if (fashion.isFav()){
             holder.imvFav.setImageResource(R.drawable.active_heart);
@@ -79,13 +75,9 @@ public class GridFashionAdapter extends BaseAdapter {
 
         }
 
-        GetImageFromDeviceTask imagetask = new GetImageFromDeviceTask();
-        imagetask.setListener(createListener());
-        imagetask.setActivity(mActivity);
+        Bitmap bitmap = ImageHelper.fromBase64ToBitmap(fashion.getImageCode());
+        holder.imageView.setImageBitmap(bitmap);
 
-        GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(500, Uri.parse(fashion.getLocalDeviceUri()));
-
-        imagetask.execute(param);
 
         return view;
     }
@@ -105,15 +97,4 @@ public class GridFashionAdapter extends BaseAdapter {
         return 0;
     }
 
-    private GetImageFromDeviceTask.GetImageFromDeviceListener createListener() {
-        return new GetImageFromDeviceTask.GetImageFromDeviceListener() {
-            @Override
-            public void onSuccess(Bitmap bitmap) {
-
-                progressBars.get(flag).setVisibility(View.GONE);
-                imageViews.get(flag).setImageBitmap(bitmap);
-                flag++;
-            }
-        };
-    }
 }

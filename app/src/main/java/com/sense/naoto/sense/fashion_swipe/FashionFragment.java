@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -91,6 +92,7 @@ public class FashionFragment extends Fragment {
         return mView;
     }
 
+
     @Override
     public void onDestroy() {
         imagetask.setListener(null);
@@ -103,9 +105,10 @@ public class FashionFragment extends Fragment {
         imagetask.setListener(createListener());
         imagetask.setActivity(getActivity());
 
-        GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(2000, Uri.parse(mFashion.getLocalDeviceUri()));
+        GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(1000,Uri.parse(mFashion.getLocalDeviceUri()));
 
         imagetask.execute(param);
+
 
 
         SparkButton favButton = mView.findViewById(R.id.fav_button);
@@ -171,7 +174,7 @@ public class FashionFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         FashionItem item = (FashionItem) itemListView.getItemAtPosition(position);
-                        MainActivityHelper.launchItemTagFashionsActivity(getActivity(), item.getPrefKey());
+                        MainActivityHelper.launchItemTagFashionsActivity(getActivity(), item.getPrefKey(), 0);
                     }
                 });
             }

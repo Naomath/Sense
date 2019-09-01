@@ -16,7 +16,8 @@ public class SaveFashionActivityHelper {
 
     public static void launchMainActivityForSaveSucucess(Activity activity){
         Intent intent = new Intent(activity, MainActivity.class);
-        activity.startActivityForResult(intent,ActivityConstants.SAVE_SUCCESS);
+        intent.putExtra("request",ActivityConstants.SAVE_SUCCESS);
+        activity.startActivity(intent);
     }
 
 }

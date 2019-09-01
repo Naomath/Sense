@@ -13,6 +13,7 @@ import com.sense.naoto.sense.activity_helper.SaveFashionActivityHelper;
 import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.classes.FashionItem;
 import com.sense.naoto.sense.processings.CalendarHelper;
+import com.sense.naoto.sense.processings.ImageHelper;
 import com.sense.naoto.sense.processings.SavedDataHelper;
 
 import java.util.ArrayList;
@@ -184,15 +185,19 @@ public class SaveFashionAndItemActivity extends AppCompatActivity implements Cho
 
     @Override
     public void onCheckFashion() {
-        SavedDataHelper.saveNewFashion(this, generateFashion());
-        SaveFashionActivityHelper.launchMainActivity(this);
+        Bitmap resizedBitmap = ImageHelper.resizeBitmap(500, pickedImage);
+
+        SavedDataHelper.saveNewFashion(this, generateFashion(), resizedBitmap);
+        SaveFashionActivityHelper.launchMainActivityForSaveSucucess(this);
     }
 
 
     @Override
     public void onCheckItem() {
-        SavedDataHelper.saveNewItem(this, generateFashionItem(), pickedImage);
-        SaveFashionActivityHelper.launchMainActivity(this);
+        Bitmap resizedBitmap = ImageHelper.resizeBitmap(500, pickedImage);
+
+        SavedDataHelper.saveNewItem(this, generateFashionItem(), resizedBitmap);
+        SaveFashionActivityHelper.launchMainActivityForSaveSucucess(this);
 
     }
 

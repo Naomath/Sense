@@ -33,6 +33,11 @@ public class Fashion implements Parcelable {
     @Setter
     boolean isFav;
 
+    @Getter
+    @Setter
+    private String imageCode;
+    //allなんちゃらで使うよう
+
     public Fashion(){}
 
 

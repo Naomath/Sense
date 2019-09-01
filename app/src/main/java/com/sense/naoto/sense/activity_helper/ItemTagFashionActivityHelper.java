@@ -12,8 +12,14 @@ public class ItemTagFashionActivityHelper {
         return intent.getStringExtra("prefKey");
     }
 
-    public static void launchMainActivity(Activity activity){
+    public static int getWhereFrom(Activity activity){
+        Intent intent = activity.getIntent();
+        return intent.getIntExtra("where",0);
+    }
+
+    public static void launchMainActivity(Activity activity, int where){
         Intent intent = new Intent(activity, MainActivity.class);
+        intent.putExtra("where", where);
         activity.startActivity(intent);
     }
 }

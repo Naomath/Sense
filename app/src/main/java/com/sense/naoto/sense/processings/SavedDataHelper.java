@@ -20,16 +20,19 @@ public class SavedDataHelper {
 
 
     public static final String FASHION_LIST_PREF_KEY = "FASHIONLISTPREFKEY";
-
     public static final String ITEM_LIST_PREF_KEY = "ITEMLISTPREFKEY";
 
     private static SharedPreferences getDefaultSharedPreferences(Context context) {
         return context.getSharedPreferences("sense_data", Context.MODE_PRIVATE);
     }
 
-    public static void saveNewFashion(Context context, Fashion fashion) {
+    public static void saveNewFashion(Context context, Fashion fashion, Bitmap bitmap) {
         SharedPreferences preferences = getDefaultSharedPreferences(context);
         String prefKey = fashion.getPrefKey();
+
+        String imadeCode = ImageHelper.fromBitmapToBase64(bitmap);
+
+        fashion.setImageCode(imadeCode);
 
         Gson gson = new Gson();
         preferences.edit().putString(prefKey, gson.toJson(fashion)).apply();
@@ -160,8 +163,6 @@ public class SavedDataHelper {
         return item;
     }
 
-
-
     public static void changeFavState(Context context, Fashion fashion) {
         boolean wasFav = fashion.isFav();
         boolean isFav = false;
@@ -213,6 +214,7 @@ public class SavedDataHelper {
         editor.apply();
     }
 
+
     private static List<String> getFashionPrefAllKeyList(Context context) {
         SharedPreferences preferences = getDefaultSharedPreferences(context);
 
@@ -231,6 +233,7 @@ public class SavedDataHelper {
         }
         return list;
     }
+
 
 
     private static List<String> getItemPrefAllKeyList(Context context) {

@@ -87,16 +87,7 @@ public class SelectPhotoFragment extends Fragment {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
                 Bitmap bmRotated = ImageHelper.rotateBitmap(bitmap, orientation);
 
-                int size = 0;
-
-                switch (type) {
-                    case SaveFashionAndItemActivity.TYPE_FASHION:
-                        size = 1000;
-                        break;
-                    case SaveFashionAndItemActivity.TYPE_ITEM:
-                        size = 300;
-                        break;
-                }
+                int size = 1000;
 
                 Bitmap resizedBitmap = ImageHelper.resizeBitmap(size, bmRotated);
 

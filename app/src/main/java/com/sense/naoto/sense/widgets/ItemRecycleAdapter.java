@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.FashionItem;
-import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
 import com.sense.naoto.sense.processings.ImageHelper;
 import com.sense.naoto.sense.user_page.ItemViewHolder;
 

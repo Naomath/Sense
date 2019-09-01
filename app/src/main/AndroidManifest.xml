@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/NoActionBar"
         tools:node="replace">
-        <activity android:name=".item_tag_fashions.ItemTagFashionsActivity"></activity>
+        <activity android:name=".item_tag_fashions.ItemTagFashionsActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">

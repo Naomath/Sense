@@ -12,7 +12,6 @@ import android.widget.ProgressBar;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.FashionItem;
-import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
 import com.sense.naoto.sense.processings.ImageHelper;
 
 import java.util.ArrayList;

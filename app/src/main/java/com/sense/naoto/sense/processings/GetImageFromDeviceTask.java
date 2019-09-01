@@ -43,7 +43,10 @@ public class GetImageFromDeviceTask extends AsyncTask<GetImageFromDeviceTask.Par
         }
 
         return image;
+
+
     }
+
 
     // 途中経過をメインスレッドに返す
     @Override
@@ -72,7 +75,7 @@ public class GetImageFromDeviceTask extends AsyncTask<GetImageFromDeviceTask.Par
         void onSuccess(Bitmap bitmap);
     }
 
-    public static class Param{
+    public static class Param {
         @Getter
         @Setter
         private int maxSize;
@@ -80,9 +83,10 @@ public class GetImageFromDeviceTask extends AsyncTask<GetImageFromDeviceTask.Par
         @Setter
         private Uri uri;
 
-        public Param(){}
+        public Param() {
+        }
 
-        public Param(int maxSize, Uri uri){
+        public Param(int maxSize, Uri uri) {
             this.maxSize = maxSize;
             this.uri = uri;
         }

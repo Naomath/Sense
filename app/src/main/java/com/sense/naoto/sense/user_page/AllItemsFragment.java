@@ -76,6 +76,6 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //gridViewの要素がクリックされた時
         String prefKey = itemList.get(position).getPrefKey();
-        MainActivityHelper.launchItemTagFashionsActivity(getActivity(), prefKey);
+        MainActivityHelper.launchItemTagFashionsActivity(getActivity(), prefKey, 1);
     }
 }
