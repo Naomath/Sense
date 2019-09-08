@@ -29,14 +29,34 @@ public class GetImageFromDeviceTask extends AsyncTask<GetImageFromDeviceTask.Par
         try {
             InputStream in = activity.getContentResolver().openInputStream(params[0].getUri());
             ExifInterface exifInterface = new ExifInterface(in);
-
+            in.close();
             int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                     ExifInterface.ORIENTATION_UNDEFINED);
 
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), params[0].getUri());
-            Bitmap  rotatedImage = ImageHelper.rotateBitmap(bitmap, orientation);
+            in = activity.getContentResolver().openInputStream(params[0].getUri());
 
-            image = ImageHelper.resizeBitmap(params[0].getMaxSize(), rotatedImage);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(in, null, options);
+            int originalWidth = options.outWidth;
+            int originalHeight = options.outHeight;
+
+            in.close();
+
+            in = activity.getContentResolver().openInputStream(params[0].getUri());
+
+            int scaleW = originalWidth / params[0].getMaxWidth();
+            int scaleH = originalHeight / params[0].getMaxHeight();
+            if (scaleW >= scaleH) {
+                options.inSampleSize = scaleW;
+            } else {
+                options.inSampleSize = scaleH;
+            }
+
+            options.inJustDecodeBounds = false;
+            Bitmap bitmap = BitmapFactory.decodeStream(in, null, options);
+
+            image = ImageHelper.rotateBitmap(bitmap, orientation);
 
         } catch (IOException e) {
 
@@ -78,7 +98,10 @@ public class GetImageFromDeviceTask extends AsyncTask<GetImageFromDeviceTask.Par
     public static class Param {
         @Getter
         @Setter
-        private int maxSize;
+        private int maxWidth;
+        @Getter
+        @Setter
+        private int maxHeight;
         @Getter
         @Setter
         private Uri uri;
@@ -86,8 +109,9 @@ public class GetImageFromDeviceTask extends AsyncTask<GetImageFromDeviceTask.Par
         public Param() {
         }
 
-        public Param(int maxSize, Uri uri) {
-            this.maxSize = maxSize;
+        public Param(int maxWidth, int maxHeight, Uri uri) {
+            this.maxWidth = maxWidth;
+            this.maxHeight = maxHeight;
             this.uri = uri;
         }
     }

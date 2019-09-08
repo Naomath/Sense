@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case ActivityConstants.SAVE_SUCCESS:
-                Toast.makeText(this, "保存しました", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Saved", Toast.LENGTH_LONG).show();
                 break;
 
         }

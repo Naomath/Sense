@@ -52,6 +52,7 @@ public class FashionFragment extends Fragment {
     private GetImageFromDeviceTask imagetask;
     private boolean isInitialized = false;
     private int mRequest;
+    private boolean isDoGetImage = false;
 
 
     //Views
@@ -101,15 +102,26 @@ public class FashionFragment extends Fragment {
 
     public void setViews() {
         mFashionImage = mView.findViewById(R.id.fashionImageView);
-        imagetask = new GetImageFromDeviceTask();
-        imagetask.setListener(createListener());
-        imagetask.setActivity(getActivity());
 
-        GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(1000,Uri.parse(mFashion.getLocalDeviceUri()));
+        ViewTreeObserver observer = mFashionImage.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (!isDoGetImage){
+                    isDoGetImage = true;
 
-        imagetask.execute(param);
+                    imagetask = new GetImageFromDeviceTask();
+                    imagetask.setListener(createListener());
+                    imagetask.setActivity(getActivity());
 
+                    GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(mFashionImage.getWidth(),
+                            mFashionImage.getHeight(),Uri.parse(mFashion.getLocalDeviceUri()));
 
+                    imagetask.execute(param);
+
+                }
+            }
+        });
 
         SparkButton favButton = mView.findViewById(R.id.fav_button);
         favButton.setEventListener(new SparkEventListener() {

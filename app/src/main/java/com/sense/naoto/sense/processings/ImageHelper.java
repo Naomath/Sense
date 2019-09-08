@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.util.Base64;
 
 import com.sense.naoto.sense.R;
@@ -21,7 +22,7 @@ public class ImageHelper {
         return bitmap;
     }
 
-    public static byte[] fromBase64ToBytes(String imageCode){
+    public static byte[] fromBase64ToBytes(String imageCode) {
         byte[] decodedByte = Base64.decode(imageCode, 0);
         return decodedByte;
     }
@@ -40,7 +41,7 @@ public class ImageHelper {
     }
 
 
-    public static Bitmap fromBase64ToBitmap(String imageCode){
+    public static Bitmap fromBase64ToBitmap(String imageCode) {
         byte[] bytes = fromBase64ToBytes(imageCode);
 
         return fromBytesToBitmap(bytes);
@@ -55,7 +56,7 @@ public class ImageHelper {
         return imageEncoded;
     }
 
-    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation){
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
 
         Matrix matrix = new Matrix();
         switch (orientation) {
@@ -92,14 +93,13 @@ public class ImageHelper {
             Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
             bitmap.recycle();
             return bmRotated;
-        }
-        catch (OutOfMemoryError e) {
+        } catch (OutOfMemoryError e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static Bitmap resizeBitmap(int maxSize, Bitmap bitmap){
+    public static Bitmap resizeBitmap(int maxSize, Bitmap bitmap) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
 
@@ -124,7 +124,7 @@ public class ImageHelper {
                     resizedWidth,
                     resizedHeight,
                     true);
-        }else {
+        } else {
             resizedBitmap = bitmap;
         }
         return resizedBitmap;
