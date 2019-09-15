@@ -3,7 +3,6 @@ package com.sense.naoto.sense.processings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.sense.naoto.sense.classes.Fashion;
@@ -17,7 +16,6 @@ import java.util.List;
 
 
 public class SavedDataHelper {
-
 
     public static final String FASHION_LIST_PREF_KEY = "FASHIONLISTPREFKEY";
     public static final String ITEM_LIST_PREF_KEY = "ITEMLISTPREFKEY";
@@ -155,12 +153,10 @@ public class SavedDataHelper {
         return item;
     }
 
-    public static FashionItem getRandomFashionItem(Context context) {
+    public static String getRandomFashionItemPrefKey(Context context) {
         List<String> itemKeys = getItemPrefAllKeyList(context);
         Collections.shuffle(itemKeys);
-
-        String prefKey = itemKeys.get(0);
-        return getItemByPrefKey(context, prefKey);
+        return itemKeys.get(0);
     }
 
     public static void changeFavState(Context context, Fashion fashion) {

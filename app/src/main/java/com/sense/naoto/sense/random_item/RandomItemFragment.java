@@ -9,18 +9,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.sense.naoto.sense.MainActivity;
 import com.sense.naoto.sense.R;
+import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.classes.FashionItem;
+import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
+import com.sense.naoto.sense.processings.RandomItemHelper;
 import com.sense.naoto.sense.processings.SavedDataHelper;
 
 import java.util.List;
 
-public class RandomItemFragment extends Fragment {
+public class RandomItemFragment extends Fragment implements ShowRandomItemDialog.OnShowRandomItemDialogListener {
+
 
     //View
     private View mView;
+    private final Fragment fragment = this;
 
-    public RandomItemFragment() {}
+    public RandomItemFragment() {
+    }
 
     public static RandomItemFragment newInstance() {
         RandomItemFragment fragment = new RandomItemFragment();
@@ -44,13 +51,28 @@ public class RandomItemFragment extends Fragment {
         return mView;
     }
 
-    private void setViews(){
+    private void setViews() {
         Button btnRandom = mView.findViewById(R.id.btn_random);
         btnRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SavedDataHelper.isFashionItem(getContext())){
+                if (SavedDataHelper.isFashionItem(getContext())) {
                     //todo:itemがが一つでもある時
+
+                    String prefKey = null;
+
+                    if (RandomItemHelper.isDoneRandom(getContext())){
+                        //すでにガチャが引かれている
+                        prefKey = RandomItemHelper.getPresentRandomItemPrefKey(getContext());
+
+                    }else {
+                        prefKey = SavedDataHelper.getRandomFashionItemPrefKey(getContext());
+                        RandomItemHelper.alertDoneRandom(getContext(), prefKey);
+                    }
+
+                    ShowRandomItemDialog dialog = ShowRandomItemDialog.newInstance(fragment, prefKey);
+                    dialog.show(getFragmentManager(), "show");
+
                 }
             }
         });
@@ -58,4 +80,9 @@ public class RandomItemFragment extends Fragment {
 
     }
 
+    @Override
+    public void onShowFashionsButtonClicked(FashionItem item) {
+        String prefKey = item.getPrefKey();
+        MainActivityHelper.launchItemTagFashionsActivity(getActivity(), prefKey, 0);
+    }
 }

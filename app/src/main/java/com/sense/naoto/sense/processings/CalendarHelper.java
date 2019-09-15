@@ -11,6 +11,28 @@ public class CalendarHelper {
         return date_string;
     }
 
+    public static String getNowDateString(){
+        Calendar calendar = Calendar.getInstance();
+        String date_string = getStringDate(calendar);
+
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(date_string);
+        buffer.append("str");
+
+        return buffer.toString();
+    }
+
+    public static String getNowDateBoolean(){
+        Calendar calendar = Calendar.getInstance();
+        String date_string = getStringDate(calendar);
+
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(date_string);
+        buffer.append("boolean");
+
+        return buffer.toString();
+    }
+
     private static String getStringDate(Calendar calendar){
         //ここは日にちを受け取りそれを文字列にして前しているこのクラスの中枢
         String year = String.valueOf(calendar.get(Calendar.YEAR));
