@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.sense.naoto.sense.MainActivity;
 import com.sense.naoto.sense.R;
@@ -52,24 +53,13 @@ public class RandomItemFragment extends Fragment implements ShowRandomItemDialog
     }
 
     private void setViews() {
-        Button btnRandom = mView.findViewById(R.id.btn_random);
+        ImageButton btnRandom = mView.findViewById(R.id.btn_random);
         btnRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (SavedDataHelper.isFashionItem(getContext())) {
                     //todo:itemがが一つでもある時
-
-                    String prefKey = null;
-
-                    if (RandomItemHelper.isDoneRandom(getContext())){
-                        //すでにガチャが引かれている
-                        prefKey = RandomItemHelper.getPresentRandomItemPrefKey(getContext());
-
-                    }else {
-                        prefKey = SavedDataHelper.getRandomFashionItemPrefKey(getContext());
-                        RandomItemHelper.alertDoneRandom(getContext(), prefKey);
-                    }
-
+                    String prefKey = SavedDataHelper.getRandomFashionItemPrefKey(getContext());
                     ShowRandomItemDialog dialog = ShowRandomItemDialog.newInstance(fragment, prefKey);
                     dialog.show(getFragmentManager(), "show");
 

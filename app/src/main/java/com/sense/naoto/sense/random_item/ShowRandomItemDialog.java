@@ -85,7 +85,7 @@ public class ShowRandomItemDialog extends DialogFragment {
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int dialogWidth = (int) (metrics.widthPixels * 0.9);
-        int dialogHeight = (int) (metrics.heightPixels * 0.8);
+        int dialogHeight = (int) (metrics.heightPixels * 0.9);
 
         lp.width = dialogWidth;
         lp.height = dialogHeight;

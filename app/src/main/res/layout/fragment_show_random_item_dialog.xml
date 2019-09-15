@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="TODAY'S ITEM"
+        android:text="YOUR ITEM"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -57,7 +57,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_item_name"
-        app:layout_constraintVertical_bias="0.74" />
+        app:layout_constraintVertical_bias="0.55" />
 
     <TextView
         android:id="@+id/textView12"
