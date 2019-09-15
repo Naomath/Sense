@@ -174,7 +174,7 @@ public class FashionFragment extends Fragment {
 
         if (items.size()>0){
             final ListView itemListView = bottomSheet.findViewById(R.id.listView);
-            ItemListAdapter adapter = new ItemListAdapter(getContext(), R.layout.item_list_row,items);
+            ItemListAdapter adapter = new ItemListAdapter(getContext(), R.layout.item_list_row,items, getActivity());
             itemListView.setAdapter(adapter);
 
             TextView txvNoItems = bottomSheet.findViewById(R.id.txv_no_items);

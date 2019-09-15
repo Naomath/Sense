@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".user_page.AllFashionsFragment">
 
+<!--   <Spinner-->
+<!--       android:id="@+id/spinner"-->
+<!--       android:layout_width="wrap_content"-->
+<!--       android:layout_height="wrap_content"-->
+<!--       android:layout_marginStart="8dp"-->
+<!--       android:layout_marginTop="4dp"-->
+<!--       app:layout_constraintBottom_toTopOf="@+id/txv_no_fashion"-->
+<!--       app:layout_constraintEnd_toEndOf="parent"-->
+<!--       app:layout_constraintHorizontal_bias="0.0"-->
+<!--       app:layout_constraintStart_toStartOf="parent"-->
+<!--       app:layout_constraintTop_toTopOf="parent"-->
+<!--       app:layout_constraintVertical_bias="0.0"-->
+<!--       tools:visibility="gone" />-->
+
    <TextView
        android:id="@+id/txv_no_fashion"
        android:layout_width="0dp"
@@ -18,13 +32,15 @@
        android:textSize="18sp"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent" />
+       app:layout_constraintTop_toTopOf="parent"
+       tools:visibility="visible" />
 
 
    <GridView
        android:id="@+id/grid_view"
        android:layout_width="0dp"
        android:layout_height="0dp"
+       android:layout_marginTop="2dp"
        android:horizontalSpacing="2dp"
        android:numColumns="3"
        android:stretchMode="columnWidth"
@@ -33,8 +49,6 @@
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintHorizontal_bias="0.0"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent">
-
-   </GridView>
+       app:layout_constraintTop_toTopOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

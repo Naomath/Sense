@@ -87,7 +87,7 @@ public class CheckFashionFragment extends Fragment {
 
         if (fashionItems.size()>0){
             ListView listView = mView.findViewById(R.id.listView);
-            ItemListAdapter adapter = new ItemListAdapter(getContext(), R.layout.item_list_row, fashionItems);
+            ItemListAdapter adapter = new ItemListAdapter(getContext(), R.layout.item_list_row, fashionItems, getActivity());
             listView.setAdapter(adapter);
 
             txvNoItems.setVisibility(View.GONE);

@@ -13,8 +13,11 @@ import android.widget.Toast;
 import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.constatnt.ActivityConstants;
 import com.sense.naoto.sense.fashion_swipe.FashionSwipeFragment;
+import com.sense.naoto.sense.random_item.RandomItemFragment;
 import com.sense.naoto.sense.user_page.UserPageFragment;
 import com.sense.naoto.sense.view_helper.BottomNavigationViewHelper;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.home:
                         menuItem.setIcon(R.drawable.round_home_black_24);
-                        fm = FashionSwipeFragment.newInstance(FashionSwipeFragment.REQUEST_MINE);
+                        fm = new RandomItemFragment();
                         isFragment = true;
                         break;
 
@@ -117,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDefaultFragment() {
-        Fragment fm = FashionSwipeFragment.newInstance(FashionSwipeFragment.REQUEST_MINE);
+        Fragment fm = new RandomItemFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).commit();
     }
 

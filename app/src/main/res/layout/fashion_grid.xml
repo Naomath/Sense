@@ -25,4 +25,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/inactive_heart" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/image_view"
+        app:layout_constraintTop_toTopOf="@+id/image_view" />
+
 </android.support.constraint.ConstraintLayout>

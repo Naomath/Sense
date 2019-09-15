@@ -14,7 +14,9 @@ import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.processings.SavedDataHelper;
+import com.sense.naoto.sense.widgets.FashionIsFavAdapter;
 import com.sense.naoto.sense.widgets.GridFashionAdapter;
+import com.sense.naoto.sense.widgets.ItemTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +28,14 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
     private View mView;
     private LayoutInflater mInflater;
     private GridView mGridView;
+    private GridFashionAdapter mGridAdapter;
 
     //変数
     private int FASHION_LIST_SIZE = 0;
     private int mode = 0;
     //０がall
     //１がfav
+    private List<Fashion> mList = new ArrayList<>();
 
     public AllFashionsFragment() {
         // Required empty public constructor
@@ -62,22 +66,71 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
 
     private void setViews() {
         mGridView = mView.findViewById(R.id.grid_view);
-        List<Fashion> allFashions = getAllFashions();
-        FASHION_LIST_SIZE = allFashions.size();
+        mList = getAllFashions();
+        FASHION_LIST_SIZE = mList.size();
 
+        if(FASHION_LIST_SIZE > 0) {
 
-        final GridFashionAdapter adapter = new GridFashionAdapter(mInflater, R.layout.fashion_grid, allFashions, getActivity());
-        mGridView.setAdapter(adapter);
-        mGridView.setOnItemClickListener(this);
+            mGridAdapter = new GridFashionAdapter(mInflater, R.layout.fashion_grid, mList, getActivity());
+            mGridView.setAdapter(mGridAdapter);
+            mGridView.setOnItemClickListener(this);
 
-        TextView txvNoFashion = mView.findViewById(R.id.txv_no_fashion);
-        txvNoFashion.setVisibility(View.GONE);
+            TextView txvNoFashion = mView.findViewById(R.id.txv_no_fashion);
+            txvNoFashion.setVisibility(View.GONE);
 
+        }
 
+//        Spinner spinner = mView.findViewById(R.id.spinner);
+//        FashionIsFavAdapter spinnerAdapter = new FashionIsFavAdapter(getContext(), R.layout.spinner_item_fashion_type);
+//        spinner.setAdapter(spinnerAdapter);
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//                if (mode != position){
+//                    //つまり今のと違うのが選択された場合
+//                    mode = position;
+//
+//                    switch (mode){
+//                        case 0:
+//                            mList.clear();
+//                            mList = getAllFashions();
+//                            refreshGridView();
+//                            break;
+//                        case 1:
+//                            mList.clear();
+//                            mList = getFavFashions();
+//                            refreshGridView();
+//                            break;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+
+    }
+
+    private void refreshGridView(){
+        mGridAdapter.refresh(mList);
     }
 
     private List<Fashion> getAllFashions() {
         return SavedDataHelper.getMyFashionsOrderedByNew(getContext());
+    }
+
+    private List<Fashion> getFavFashions(){
+        List<Fashion> favs = new ArrayList<>();
+
+        for (Fashion item:getAllFashions()){
+            if (item.isFav()){
+                favs.add(item);
+            }
+        }
+        return favs;
     }
 
 

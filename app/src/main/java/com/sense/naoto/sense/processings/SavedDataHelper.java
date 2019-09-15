@@ -30,10 +30,6 @@ public class SavedDataHelper {
         SharedPreferences preferences = getDefaultSharedPreferences(context);
         String prefKey = fashion.getPrefKey();
 
-        String imadeCode = ImageHelper.fromBitmapToBase64(bitmap);
-
-        fashion.setImageCode(imadeCode);
-
         Gson gson = new Gson();
         preferences.edit().putString(prefKey, gson.toJson(fashion)).apply();
 
@@ -47,11 +43,7 @@ public class SavedDataHelper {
 
     public static void saveNewItem(Context context, FashionItem item, Bitmap bitmap) {
         SharedPreferences preferences = getDefaultSharedPreferences(context);
-
-        String imageCode = ImageHelper.fromBitmapToBase64(bitmap);
         String preKey = item.getPrefKey();
-
-        item.setImageCode(imageCode);
 
         Gson gson = new Gson();
         preferences.edit().putString(preKey, gson.toJson(item)).apply();
@@ -123,10 +115,10 @@ public class SavedDataHelper {
     }
 
 
-    public static List<Fashion> getFashionsByPrefKeyList(Context context, List<String> prefKeys){
+    public static List<Fashion> getFashionsByPrefKeyList(Context context, List<String> prefKeys) {
         List<Fashion> fashions = new ArrayList<>();
 
-        for (String key:prefKeys){
+        for (String key : prefKeys) {
             fashions.add(getFashionByPrefKey(context, key));
         }
 
@@ -163,6 +155,14 @@ public class SavedDataHelper {
         return item;
     }
 
+    public static FashionItem getRandomFashionItem(Context context) {
+        List<String> itemKeys = getItemPrefAllKeyList(context);
+        Collections.shuffle(itemKeys);
+
+        String prefKey = itemKeys.get(0);
+        return getItemByPrefKey(context, prefKey);
+    }
+
     public static void changeFavState(Context context, Fashion fashion) {
         boolean wasFav = fashion.isFav();
         boolean isFav = false;
@@ -175,6 +175,18 @@ public class SavedDataHelper {
         fashion.setFav(isFav);
         updateFashion(context, fashion);
     }
+
+    public static boolean isFashionItem(Context context) {
+        //fashionItemが一つでも登録されているか調べる
+        List<String> itemKeys = getItemPrefAllKeyList(context);
+
+        if (itemKeys.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     private static void addNewFashionToList(String prefKey, Context context) {
         SharedPreferences preferences = getDefaultSharedPreferences(context);
@@ -233,7 +245,6 @@ public class SavedDataHelper {
         }
         return list;
     }
-
 
 
     private static List<String> getItemPrefAllKeyList(Context context) {
