@@ -28,7 +28,6 @@ import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
 import com.sense.naoto.sense.processings.ImageHelper;
 import com.sense.naoto.sense.processings.SavedDataHelper;
 import com.sense.naoto.sense.widgets.ItemListAdapter;
-import com.squareup.picasso.Picasso;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 
