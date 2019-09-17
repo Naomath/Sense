@@ -80,12 +80,12 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
 
         }
 
-//        Spinner spinner = mView.findViewById(R.id.spinner);
-//        FashionIsFavAdapter spinnerAdapter = new FashionIsFavAdapter(getContext(), R.layout.spinner_item_fashion_type);
-//        spinner.setAdapter(spinnerAdapter);
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Spinner spinner = mView.findViewById(R.id.spinner);
+        FashionIsFavAdapter spinnerAdapter = new FashionIsFavAdapter(getContext(), R.layout.spinner_item_fashion_type);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //
 //                if (mode != position){
 //                    //つまり今のと違うのが選択された場合
@@ -104,13 +104,13 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
 //                            break;
 //                    }
 //                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
