@@ -36,4 +36,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/inactive_heart" />
 
+
 </android.support.constraint.ConstraintLayout>

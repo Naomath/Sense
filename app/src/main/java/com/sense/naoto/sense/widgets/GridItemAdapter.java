@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.FashionItem;
@@ -26,6 +27,7 @@ public class GridItemAdapter extends BaseAdapter {
         ImageView imageView;
         ImageView imvSelected;
         ProgressBar progressBar;
+        TextView prefKey;
     }
 
     //定数
@@ -37,7 +39,7 @@ public class GridItemAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private int layoutId;
     private Activity mActivity;
-
+    private CheckIsSelectedListener listener;
 
     //GetImageTask関連
     private List<Boolean> isDones = new ArrayList<>();
@@ -63,6 +65,25 @@ public class GridItemAdapter extends BaseAdapter {
         }
     }
 
+    public GridItemAdapter(LayoutInflater inflater, int layoutId, List<FashionItem> itemList,
+                           Activity activity, CheckIsSelectedListener listener) {
+        super();
+        this.inflater = inflater;
+        this.layoutId = layoutId;
+        this.usedList = itemList;
+        mActivity = activity;
+        SIZE = itemList.size();
+        this.listener = listener;
+
+        for (FashionItem item : itemList) {
+            allitemList.add(item);
+        }
+
+        for (int i = 0; i < SIZE; i++) {
+            isDones.add(false);
+        }
+    }
+
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         final ViewHolder holder;
@@ -76,6 +97,7 @@ public class GridItemAdapter extends BaseAdapter {
             holder.imageView = view.findViewById(R.id.image_view);
             holder.imvSelected = view.findViewById(R.id.imgSelected);
             holder.progressBar = view.findViewById(R.id.progressBar);
+            holder.prefKey = view.findViewById(R.id.prefKey);
 
             view.setTag(holder);
 
@@ -83,9 +105,20 @@ public class GridItemAdapter extends BaseAdapter {
             holder = (GridItemAdapter.ViewHolder) view.getTag();
         }
 
+        if (listener!=null){
+            //つまりセレクトモードの時
+            boolean isSelected = listener.onCheckSelected(item.getPrefKey());
+            if (isSelected){
+                holder.imvSelected.setVisibility(View.VISIBLE);
+            } else {
+                holder.imvSelected.setVisibility(View.GONE);
+            }
+        }
+
         if (bmpMap.get(item.getPrefKey()) != null) {
             holder.imageView.setImageBitmap(bmpMap.get(item.getPrefKey()));
             holder.progressBar.setVisibility(View.GONE);
+
         } else {
 
             ViewTreeObserver observer = holder.imageView.getViewTreeObserver();
@@ -110,6 +143,8 @@ public class GridItemAdapter extends BaseAdapter {
             });
 
         }
+
+        holder.prefKey.setText(item.getPrefKey());
 
 
         return view;
@@ -164,6 +199,11 @@ public class GridItemAdapter extends BaseAdapter {
                 bmpMap.put(prefKey, bitmap);
             }
         };
+    }
+
+
+    public interface CheckIsSelectedListener{
+        boolean onCheckSelected(String prefKey);
     }
 
 }

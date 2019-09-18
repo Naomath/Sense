@@ -40,13 +40,6 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
     private int mode = 0;
 
 
-    public static AllItemsFragment newInstance(String param1, String param2) {
-        AllItemsFragment fragment = new AllItemsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +104,8 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
 
         if (ITEM_LIST_SIZE > 0) {
             mGridView = mView.findViewById(R.id.grid_view);
-            mGridItemAdapter = new GridItemAdapter(mInflater, R.layout.fashion_item_grid, itemList, getActivity());
+            mGridItemAdapter = new GridItemAdapter(mInflater, R.layout.fashion_item_grid,
+                    itemList, getActivity());
             mGridView.setAdapter(mGridItemAdapter);
             mGridView.setOnItemClickListener(this);
 

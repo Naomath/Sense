@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,30 +18,39 @@ import com.sense.naoto.sense.processings.SavedDataHelper;
 import com.sense.naoto.sense.widgets.GridItemAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class SelectItemsFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class SelectItemsFragment extends Fragment implements AdapterView.OnItemClickListener, GridItemAdapter.CheckIsSelectedListener {
 
 
     //View
     private View mView;
+    private List<ImageView> imvTypeSelected = new ArrayList<>();
+    private TextView txvNoItem;
+    private GridItemAdapter mGridItemAdapter;
+
 
     //Listeners
     OnSelectItemsListener selectItemsListener;
     OnBackFragmentListener backFragmentListener;
 
     //List
-    private List<FashionItem> itemList = new ArrayList<>();
+    private List<FashionItem> allItemList = new ArrayList<>();
+    private HashMap<String, FashionItem> allItemMap = new HashMap<>();
     private List<FashionItem> selectedItems = new ArrayList<>();
-    private List<Boolean> isItemSelected = new ArrayList<>();
-    private boolean hasSelectedItems = false;
-    private int numberOfSelected = 0;
+    private HashMap<String, Boolean> areItemSelected = new HashMap<>();
+
 
 
     //変数
     private int flag = 0;
     //０がキャンセルの場合
     //１が完了をした時
+
+    private int mode =0;
+    //0がall１がtopsってやつ
 
     public SelectItemsFragment() {
     }
@@ -82,39 +92,120 @@ public class SelectItemsFragment extends Fragment implements AdapterView.OnItemC
             }
         });
 
-        if (itemList.size()>0) {
+        txvNoItem = mView.findViewById(R.id.txv_no_items);
+
+        HorizontalScrollView typeFrame = mView.findViewById(R.id.horizontalScroll);
+
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_all_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_tops_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_bottom_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_outer_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_dress_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_bag_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_shoes_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_accessory_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_other_selected));
+
+        imvTypeSelected.get(0).setVisibility(View.VISIBLE);
+
+        List<ImageButton> btns = new ArrayList<>();
+        btns.add((ImageButton) mView.findViewById(R.id.btn_all));
+        btns.add((ImageButton) mView.findViewById(R.id.btn_tops));
+        btns.add((ImageButton) mView.findViewById(R.id.btn_bottom));
+        btns.add((ImageButton) mView.findViewById(R.id.btn_outer));
+        btns.add((ImageButton) mView.findViewById(R.id.btn_dress));
+        btns.add((ImageButton) mView.findViewById(R.id.btn_bag));
+        btns.add((ImageButton) mView.findViewById(R.id.btn_shoes));
+        btns.add((ImageButton) mView.findViewById(R.id.btn_accessory));
+        btns.add((ImageButton) mView.findViewById(R.id.btn_other));
+
+        for (int i = 0; i < btns.size(); i++) {
+            final int mode = i;
+
+            btns.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectType(mode);
+                }
+            });
+        }
+
+        if (allItemList.size() > 0) {
             GridView gridView = mView.findViewById(R.id.grid_view);
 
-            GridItemAdapter adapter = new GridItemAdapter(getLayoutInflater(), R.layout.fashion_item_grid, itemList, getActivity());
-            gridView.setAdapter(adapter);
+            mGridItemAdapter = new GridItemAdapter(getLayoutInflater(), R.layout.fashion_item_grid,
+                    allItemList, getActivity(), this);
+            gridView.setAdapter(mGridItemAdapter);
             gridView.setOnItemClickListener(this);
 
-            TextView txvNoItem = mView.findViewById(R.id.txv_no_items);
+
             txvNoItem.setVisibility(View.GONE);
+        } else {
+            typeFrame.setVisibility(View.GONE);
+
+            txvNoItem.setVisibility(View.VISIBLE);
         }
     }
 
-    private void completeSelect(){
+    private void completeSelect() {
         setSelectedItems();
         selectItemsListener.onSelectItems(selectedItems);
     }
 
 
     private void setLists() {
-        itemList.clear();
-        isItemSelected.clear();
+        allItemMap.clear();
+        allItemList.clear();
         selectedItems.clear();
-        itemList = SavedDataHelper.getMyItemsOrderedByNew(getContext());
+        areItemSelected.clear();
 
-        for (int i = 0; i < itemList.size(); i++) {
-            isItemSelected.add(false);
+        allItemList = SavedDataHelper.getMyItemsOrderedByNew(getContext());
+
+        for (int i = 0; i < allItemList.size(); i++) {
+            FashionItem item = allItemList.get(i);
+
+            areItemSelected.put(item.getPrefKey(), false);
+            allItemMap.put(item.getPrefKey(), item);
         }
     }
 
     private void setSelectedItems() {
-        for (int i = 0; i < isItemSelected.size(); i++) {
-            if (isItemSelected.get(i)) {
-                selectedItems.add(itemList.get(i));
+        for (Map.Entry<String, Boolean> entry : areItemSelected.entrySet()) {
+            if (entry.getValue()){
+                //つまり登録されているのなら
+                final String key = entry.getKey();
+
+                selectedItems.add(allItemMap.get(key));
+            }
+        }
+    }
+
+    private void selectType(int i){
+        for (ImageView item : imvTypeSelected) {
+            item.setVisibility(View.GONE);
+        }
+
+        imvTypeSelected.get(i).setVisibility(View.VISIBLE);
+
+        if (i != mode) {
+            //違うものが押された時
+            mode = i;
+
+            i = i - 1;
+            //itemadapterではtopsが0扱いなので
+            if (i == -1) {
+                txvNoItem.setVisibility(View.GONE);
+
+                mGridItemAdapter.changeToAll();
+            } else {
+                int number = mGridItemAdapter.changeToSpecific(i);
+                //このナンバーが何この要素が入っているか
+                if (number ==0){
+                    //何も要素が入っていない時
+                    txvNoItem.setVisibility(View.VISIBLE);
+                }else {
+                    txvNoItem.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -122,24 +213,26 @@ public class SelectItemsFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ImageView imvSelected = view.findViewById(R.id.imgSelected);
+        TextView txvPrefKey = view.findViewById(R.id.prefKey);
 
-        boolean wasSelected = isItemSelected.get(position);
+        String prefKey = txvPrefKey.getText().toString();
+
+        boolean wasSelected = areItemSelected.get(prefKey);
 
         if (wasSelected) {
-            isItemSelected.set(position, false);
+            areItemSelected.put(prefKey, false);
             imvSelected.setVisibility(View.INVISIBLE);
-            numberOfSelected --;
 
-            if (numberOfSelected == 0){
-                hasSelectedItems = false;
-            }
         } else {
-            isItemSelected.set(position, true);
+            areItemSelected.put(prefKey, true);
             imvSelected.setVisibility(View.VISIBLE);
 
-            hasSelectedItems = true;
-            numberOfSelected++;
         }
+    }
+
+    @Override
+    public boolean onCheckSelected(String prefKey) {
+        return areItemSelected.get(prefKey);
     }
 
     public interface OnSelectItemsListener {

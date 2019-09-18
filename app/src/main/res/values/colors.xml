@@ -8,12 +8,12 @@
     <color name="white">#FFFFFF</color>
     <color name="colorText">#757575</color>
     <color name="colorHashtag">#29b6f6</color>
-    <color name="colorDarkWhite">#fafafa</color>
+    <color name="colorDarkWhite">#FAFAFA</color>
     <color name="colorClear">#00FFFFFF</color>
     <color name="btnStroke">#bdbdbd</color>
     <color name="colorUnSelected">#88757575</color>
     <color name="colorSelected">#889e9e9e</color>
     <color name="colorClearWhite">#88ffffff</color>
     <color name="colorRandomGreenClear">#80006666</color>
-    <color name="colorDarkWhiteClear">#80fafafa</color>
+    <color name="colorDarkWhiteClear">#80FAFAFA</color>
 </resources>

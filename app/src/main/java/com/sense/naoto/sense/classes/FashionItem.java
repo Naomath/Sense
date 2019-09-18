@@ -46,6 +46,11 @@ public class FashionItem implements Serializable {
     @Setter
     private int type;
 
+    @Getter
+    @Setter
+    private boolean isSelected = false;
+    //コーデの登録の際の、アイテムのセレクトの時にしか使わない
+
     public FashionItem() {
     }
 
