@@ -78,6 +78,10 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
         imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_all_selected));
         imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_tops_selected));
         imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_bottom_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_outer_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_dress_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_bag_selected));
+        imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_shoes_selected));
         imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_accessory_selected));
         imvTypeSelected.add((ImageView) mView.findViewById(R.id.imv_other_selected));
 
@@ -85,7 +89,10 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
         btns.add((ImageButton) mView.findViewById(R.id.btn_all));
         btns.add((ImageButton) mView.findViewById(R.id.btn_tops));
         btns.add((ImageButton) mView.findViewById(R.id.btn_bottom));
-        //todo:
+        btns.add((ImageButton) mView.findViewById(R.id.btn_outer));
+        btns.add((ImageButton) mView.findViewById(R.id.btn_dress));
+        btns.add((ImageButton) mView.findViewById(R.id.btn_bag));
+        btns.add((ImageButton) mView.findViewById(R.id.btn_shoes));
         btns.add((ImageButton) mView.findViewById(R.id.btn_accessory));
         btns.add((ImageButton) mView.findViewById(R.id.btn_other));
 

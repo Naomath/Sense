@@ -12,8 +12,7 @@
         android:layout_height="51dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/grid_view">
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/frame"
@@ -121,7 +120,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/btn_tops"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
 
             <ImageView
                 android:id="@+id/imv_bottom"
@@ -214,6 +214,162 @@
                 app:layout_constraintTop_toTopOf="@id/btn_outer" />
 
             <ImageButton
+                android:id="@+id/btn_dress"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/colorClear"
+                android:scaleType="fitXY"
+                android:src="@drawable/type_button_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/btn_outer"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imv_dress"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/dress_icon"
+                app:layout_constraintBottom_toBottomOf="@id/btn_dress"
+                app:layout_constraintStart_toStartOf="@id/btn_dress"
+                app:layout_constraintTop_toTopOf="@id/btn_dress" />
+
+
+            <TextView
+                android:id="@+id/txv_dress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="DRESS"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_dress"
+                app:layout_constraintEnd_toEndOf="@id/btn_dress"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/btn_dress"
+                app:layout_constraintTop_toTopOf="@id/btn_dress"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <ImageView
+                android:id="@+id/imv_dress_selected"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorDarkWhiteClear"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/btn_dress"
+                app:layout_constraintEnd_toEndOf="@id/btn_dress"
+                app:layout_constraintStart_toStartOf="@id/btn_dress"
+                app:layout_constraintTop_toTopOf="@id/btn_dress" />
+
+            <ImageButton
+                android:id="@+id/btn_bag"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/colorClear"
+                android:scaleType="fitXY"
+                android:src="@drawable/type_button_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/btn_dress"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imv_bag"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/bag_icon"
+                app:layout_constraintBottom_toBottomOf="@id/btn_bag"
+                app:layout_constraintStart_toStartOf="@id/btn_bag"
+                app:layout_constraintTop_toTopOf="@id/btn_bag" />
+
+
+            <TextView
+                android:id="@+id/txv_bag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="DRESS"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_bag"
+                app:layout_constraintEnd_toEndOf="@id/btn_bag"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/btn_bag"
+                app:layout_constraintTop_toTopOf="@id/btn_bag"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <ImageView
+                android:id="@+id/imv_bag_selected"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorDarkWhiteClear"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/btn_bag"
+                app:layout_constraintEnd_toEndOf="@id/btn_bag"
+                app:layout_constraintStart_toStartOf="@id/btn_bag"
+                app:layout_constraintTop_toTopOf="@id/btn_bag" />
+
+            <ImageButton
+                android:id="@+id/btn_shoes"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/colorClear"
+                android:scaleType="fitXY"
+                android:src="@drawable/type_button_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/btn_bag"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imv_shoes"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/shoes_icon"
+                app:layout_constraintBottom_toBottomOf="@id/btn_shoes"
+                app:layout_constraintStart_toStartOf="@id/btn_shoes"
+                app:layout_constraintTop_toTopOf="@id/btn_shoes" />
+
+
+            <TextView
+                android:id="@+id/txv_shoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="SHOES"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_shoes"
+                app:layout_constraintEnd_toEndOf="@id/btn_shoes"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/btn_shoes"
+                app:layout_constraintTop_toTopOf="@id/btn_shoes"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <ImageView
+                android:id="@+id/imv_shoes_selected"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorDarkWhiteClear"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/btn_shoes"
+                app:layout_constraintEnd_toEndOf="@id/btn_shoes"
+                app:layout_constraintStart_toStartOf="@id/btn_shoes"
+                app:layout_constraintTop_toTopOf="@id/btn_shoes" />
+
+            <ImageButton
                 android:id="@+id/btn_accessory"
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
@@ -224,7 +380,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/btn_outer"
+                app:layout_constraintStart_toEndOf="@id/btn_shoes"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -340,15 +496,17 @@
 
     <GridView
         android:id="@+id/grid_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:horizontalSpacing="2dp"
         android:numColumns="4"
         android:stretchMode="columnWidth"
         android:verticalSpacing="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/horizontalScroll" />
+        app:layout_constraintTop_toBottomOf="@id/horizontalScroll"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
