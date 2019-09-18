@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.classes.FashionItem;
+import com.sense.naoto.sense.dialogFragments.OneMessageDialog;
 import com.sense.naoto.sense.processings.SavedDataHelper;
 
 public class RandomItemFragment extends Fragment implements ShowRandomItemDialog.OnShowRandomItemDialogListener {
@@ -50,11 +51,16 @@ public class RandomItemFragment extends Fragment implements ShowRandomItemDialog
             @Override
             public void onClick(View v) {
                 if (SavedDataHelper.isFashionItem(getContext())) {
-                    //todo:itemがが一つでもある時
+                    //itemがが一つでもある時
                     String prefKey = SavedDataHelper.getRandomFashionItemPrefKey(getContext());
                     ShowRandomItemDialog dialog = ShowRandomItemDialog.newInstance(fragment, prefKey);
                     dialog.show(getFragmentManager(), "show");
 
+                }else{
+                    //まだアイテムが一つも登録されていない時
+                    String message = getString(R.string.no_item);
+                    OneMessageDialog dialog = OneMessageDialog.newInstance("アイテムがありません",message);
+                    dialog.show(getFragmentManager(),"one");
                 }
             }
         });
