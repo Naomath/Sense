@@ -124,6 +124,7 @@ public class GridFashionAdapter extends BaseAdapter {
 
         }
 
+
         return view;
     }
 
