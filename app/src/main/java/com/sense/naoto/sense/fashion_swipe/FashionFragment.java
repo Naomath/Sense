@@ -1,14 +1,11 @@
 package com.sense.naoto.sense.fashion_swipe;
 
 import android.graphics.Bitmap;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,21 +15,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.activity_helper.MainActivityHelper;
 import com.sense.naoto.sense.classes.Fashion;
 import com.sense.naoto.sense.classes.FashionItem;
-import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
-import com.sense.naoto.sense.processings.ImageHelper;
+import com.sense.naoto.sense.processings.GetImageTask;
 import com.sense.naoto.sense.processings.SavedDataHelper;
 import com.sense.naoto.sense.widgets.ItemListAdapter;
 import com.varunest.sparkbutton.SparkButton;
 import com.varunest.sparkbutton.SparkEventListener;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 public class FashionFragment extends Fragment {
@@ -48,7 +41,7 @@ public class FashionFragment extends Fragment {
 
     //変数
     private Fashion mFashion;
-    private GetImageFromDeviceTask imagetask;
+    private GetImageTask imagetask;
     private boolean isInitialized = false;
     private int mRequest;
     private boolean isDoGetImage = false;
@@ -109,11 +102,11 @@ public class FashionFragment extends Fragment {
                 if (!isDoGetImage){
                     isDoGetImage = true;
 
-                    imagetask = new GetImageFromDeviceTask();
+                    imagetask = new GetImageTask();
                     imagetask.setListener(createListener());
                     imagetask.setActivity(getActivity());
 
-                    GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(mFashionImage.getWidth(),
+                    GetImageTask.Param param = new GetImageTask.Param(mFashionImage.getWidth(),
                             mFashionImage.getHeight(),Uri.parse(mFashion.getLocalDeviceUri()));
 
                     imagetask.execute(param);
@@ -195,8 +188,8 @@ public class FashionFragment extends Fragment {
     }
 
 
-    private GetImageFromDeviceTask.GetImageFromDeviceListener createListener() {
-        return new GetImageFromDeviceTask.GetImageFromDeviceListener() {
+    private GetImageTask.GetImageFromDeviceListener createListener() {
+        return new GetImageTask.GetImageFromDeviceListener() {
             @Override
             public void onSuccess(Bitmap bitmap) {
                 mProgressBar.setVisibility(View.GONE);

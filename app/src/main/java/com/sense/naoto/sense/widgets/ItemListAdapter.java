@@ -15,8 +15,7 @@ import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.FashionItem;
-import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
-import com.sense.naoto.sense.processings.ImageHelper;
+import com.sense.naoto.sense.processings.GetImageTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class ItemListAdapter extends ArrayAdapter<FashionItem> {
 
     //GetImageTask関連
     private List<Boolean> isDones = new ArrayList<>();
-    private List<GetImageFromDeviceTask> tasks = new ArrayList<>();
+    private List<GetImageTask> tasks = new ArrayList<>();
     private int taskFlag = 0;
 
     private List<ProgressBar> progressBarList = new ArrayList<>();
@@ -51,7 +50,7 @@ public class ItemListAdapter extends ArrayAdapter<FashionItem> {
         SIZE = fashionItems.size();
         for (int i = 0; i < SIZE; i++) {
             isDones.add(false);
-            tasks.add(new GetImageFromDeviceTask());
+            tasks.add(new GetImageTask());
         }
     }
 
@@ -83,12 +82,12 @@ public class ItemListAdapter extends ArrayAdapter<FashionItem> {
                 if (!isDones.get(position)) {
                     isDones.set(position, true);
 
-                    final GetImageFromDeviceTask task = tasks.get(position);
+                    final GetImageTask task = tasks.get(position);
                     task.setListener(createListener());
 
                     task.setActivity(mActivity);
 
-                    GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(imageView.getWidth(),
+                    GetImageTask.Param param = new GetImageTask.Param(imageView.getWidth(),
                             imageView.getHeight(), Uri.parse(item.getLocalDeviceUri()));
 
                     task.execute(param);
@@ -100,8 +99,8 @@ public class ItemListAdapter extends ArrayAdapter<FashionItem> {
         return view;
     }
 
-    private GetImageFromDeviceTask.GetImageFromDeviceListener createListener() {
-        return new GetImageFromDeviceTask.GetImageFromDeviceListener() {
+    private GetImageTask.GetImageFromDeviceListener createListener() {
+        return new GetImageTask.GetImageFromDeviceListener() {
             @Override
             public void onSuccess(Bitmap bitmap) {
 

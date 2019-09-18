@@ -6,8 +6,6 @@ import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +13,7 @@ import java.io.InputStream;
 import lombok.Getter;
 import lombok.Setter;
 
-public class GetImageFromDeviceTask extends AsyncTask<GetImageFromDeviceTask.Param, Integer, Bitmap> {
+public class GetImageTask extends AsyncTask<GetImageTask.Param, Integer, Bitmap> {
 
     private GetImageFromDeviceListener listener;
 
@@ -25,7 +23,6 @@ public class GetImageFromDeviceTask extends AsyncTask<GetImageFromDeviceTask.Par
     protected Bitmap doInBackground(Param... params) {
 
         Bitmap image = null;
-
         try {
             InputStream in = activity.getContentResolver().openInputStream(params[0].getUri());
             ExifInterface exifInterface = new ExifInterface(in);

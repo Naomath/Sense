@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.FashionItem;
-import com.sense.naoto.sense.processings.GetImageFromDeviceTask;
+import com.sense.naoto.sense.processings.GetImageTask;
 import com.sense.naoto.sense.processings.SavedDataHelper;
 
 
@@ -34,7 +34,7 @@ public class ShowRandomItemDialog extends DialogFragment {
     //変数
     private OnShowRandomItemDialogListener mListener;
     private FashionItem mFashionItem;
-    private GetImageFromDeviceTask imageTask;
+    private GetImageTask imageTask;
     private boolean isDoGetImage = false;
 
     //View
@@ -139,11 +139,11 @@ public class ShowRandomItemDialog extends DialogFragment {
                 if (!isDoGetImage) {
                     isDoGetImage = true;
 
-                    imageTask = new GetImageFromDeviceTask();
+                    imageTask = new GetImageTask();
                     imageTask.setListener(createListener());
                     imageTask.setActivity(getActivity());
 
-                    GetImageFromDeviceTask.Param param = new GetImageFromDeviceTask.Param(mImageView.getWidth(),
+                    GetImageTask.Param param = new GetImageTask.Param(mImageView.getWidth(),
                             mImageView.getHeight(), Uri.parse(mFashionItem.getLocalDeviceUri()));
 
                     imageTask.execute(param);
@@ -155,8 +155,8 @@ public class ShowRandomItemDialog extends DialogFragment {
 
     }
 
-    private GetImageFromDeviceTask.GetImageFromDeviceListener createListener() {
-        return new GetImageFromDeviceTask.GetImageFromDeviceListener() {
+    private GetImageTask.GetImageFromDeviceListener createListener() {
+        return new GetImageTask.GetImageFromDeviceListener() {
             @Override
             public void onSuccess(Bitmap bitmap) {
                 mProgressBar.setVisibility(View.GONE);

@@ -38,6 +38,8 @@ public class Fashion implements Parcelable {
     private String imageCode;
     //allなんちゃらで使うよう
 
+    
+
     public Fashion(){}
 
 
