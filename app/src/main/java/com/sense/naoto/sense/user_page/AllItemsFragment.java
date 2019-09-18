@@ -31,6 +31,7 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
     private GridView mGridView;
     private List<ImageView> imvTypeSelected = new ArrayList<>();
     private GridItemAdapter mGridItemAdapter;
+    private TextView txvNoItem;
 
 
     //変数
@@ -71,7 +72,7 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
         itemList = SavedDataHelper.getMyItemsOrderedByNew(getContext());
         ITEM_LIST_SIZE = itemList.size();
 
-        TextView txvNoItem = mView.findViewById(R.id.txv_no_items);
+        txvNoItem = mView.findViewById(R.id.txv_no_items);
 
         HorizontalScrollView typeFrame = mView.findViewById(R.id.horizontalScroll);
 
@@ -139,9 +140,18 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
             i = i - 1;
             //itemadapterではtopsが0扱いなので
             if (i == -1) {
+                txvNoItem.setVisibility(View.GONE);
+
                 mGridItemAdapter.changeToAll();
             } else {
-                mGridItemAdapter.changeToSpecific(i);
+                int number = mGridItemAdapter.changeToSpecific(i);
+                //このナンバーが何この要素が入っているか
+                if (number ==0){
+                    //何も要素が入っていない時
+                    txvNoItem.setVisibility(View.VISIBLE);
+                }else {
+                    txvNoItem.setVisibility(View.GONE);
+                }
             }
         }
 

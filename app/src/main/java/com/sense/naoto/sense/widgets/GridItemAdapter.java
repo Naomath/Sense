@@ -43,7 +43,8 @@ public class GridItemAdapter extends BaseAdapter {
     private List<Boolean> isDones = new ArrayList<>();
     private HashMap<String, Bitmap> bmpMap = new HashMap<>();
 
-    public GridItemAdapter() {}
+    public GridItemAdapter() {
+    }
 
     public GridItemAdapter(LayoutInflater inflater, int layoutId, List<FashionItem> itemList, Activity activity) {
         super();
@@ -53,7 +54,7 @@ public class GridItemAdapter extends BaseAdapter {
         mActivity = activity;
         SIZE = itemList.size();
 
-        for (FashionItem item:itemList){
+        for (FashionItem item : itemList) {
             allitemList.add(item);
         }
 
@@ -82,10 +83,10 @@ public class GridItemAdapter extends BaseAdapter {
             holder = (GridItemAdapter.ViewHolder) view.getTag();
         }
 
-        if (bmpMap.get(item.getPrefKey())!=null){
+        if (bmpMap.get(item.getPrefKey()) != null) {
             holder.imageView.setImageBitmap(bmpMap.get(item.getPrefKey()));
             holder.progressBar.setVisibility(View.GONE);
-        }else {
+        } else {
 
             ViewTreeObserver observer = holder.imageView.getViewTreeObserver();
             observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -115,25 +116,26 @@ public class GridItemAdapter extends BaseAdapter {
     }
 
 
-    public void changeToAll(){
+    public void changeToAll() {
         //ALlに切り替える時
         usedList.clear();
-        for (FashionItem item:allitemList){
+        for (FashionItem item : allitemList) {
             usedList.add(item);
         }
         notifyDataSetChanged();
 
     }
 
-    public void changeToSpecific(int type){
+    public int changeToSpecific(int type) {
         usedList.clear();
-        for (FashionItem item:allitemList){
-            if (item.getType()==type) {
+        for (FashionItem item : allitemList) {
+            if (item.getType() == type) {
                 usedList.add(item);
             }
         }
 
         notifyDataSetChanged();
+        return usedList.size();
     }
 
     @Override

@@ -3,6 +3,7 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_fashion">まだコーディネートが登録されていません。下の『＋』ボタンから登録できます。</string>
+    <string name="no_fav_item">まだお気に入りのコーデが登録されていません。コーディネートのハートボタンから登録できます。</string>
     <string name="no_item">まだアイテムが登録されていません.下の『＋』ボタンから登録できます。</string>
     <string-array name="fashion_type">
         <item>All</item>

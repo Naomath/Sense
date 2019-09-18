@@ -50,7 +50,6 @@ public class GridFashionAdapter extends BaseAdapter {
         super();
         this.inflater = inflater;
         this.layoutId = layoutId;
-        this.usedList = fashionList;
         SIZE = fashionList.size();
         mActivity = activity;
 
@@ -59,6 +58,7 @@ public class GridFashionAdapter extends BaseAdapter {
         }
 
         for (Fashion item : fashionList) {
+            usedList.add(item);
             allList.add(item);
         }
     }
@@ -83,16 +83,6 @@ public class GridFashionAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-
-
-        //お気に入りになっているかどうか
-        if (fashion.isFav()) {
-            holder.imvFav.setImageResource(R.drawable.active_heart);
-        } else {
-            holder.imvFav.setVisibility(View.GONE);
-
-        }
-
 
         //使う画像がすでにあるかどうか
         if (bmpMap.get(fashion.getPrefKey()) != null) {
@@ -124,20 +114,37 @@ public class GridFashionAdapter extends BaseAdapter {
 
         }
 
+        //お気に入りになっているかどうか
+        if (fashion.isFav()) {
+            holder.imvFav.setImageResource(R.drawable.active_heart);
+            holder.imvFav.setVisibility(View.VISIBLE);
+
+        } else {
+            holder.imvFav.setVisibility(View.GONE);
+
+        }
+
         return view;
     }
 
 
     public void changeToAll(){
         //Allに切り替える時
-        usedList = allList;
+        usedList.clear();
+        for (Fashion item:allList){
+            usedList.add(item);
+        }
         notifyDataSetChanged();
     }
 
-    public void changeToFav(List<Fashion> favs){
+    public int changeToFav(List<Fashion> favs){
         //favに切り替える時
-        usedList = favs;
+        usedList.clear();
+        for (Fashion item:favs){
+            usedList.add(item);
+        }
         notifyDataSetChanged();
+        return usedList.size();
     }
 
     @Override

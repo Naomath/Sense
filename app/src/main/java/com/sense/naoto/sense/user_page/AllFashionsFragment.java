@@ -36,6 +36,7 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
     private LayoutInflater mInflater;
     private GridView mGridView;
     private GridFashionAdapter mGridAdapter;
+    private TextView txvNoFashion;
 
     private ImageButton mBtnAll;
     private ImageView mImvAllSelected;
@@ -86,13 +87,13 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
         mList = getAllFashions();
         FASHION_LIST_SIZE = mList.size();
 
-        TextView txvNoFashion = mView.findViewById(R.id.txv_no_fashion);
+        txvNoFashion = mView.findViewById(R.id.txv_no_fashion);
 
         mBtnAll = mView.findViewById(R.id.btn_all);
         mBtnAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mode != 0){
+                if (mode != 0) {
                     mode = 0;
 
                     selectAll();
@@ -105,7 +106,7 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
         mBtnFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mode != 1){
+                if (mode != 1) {
                     mode = 1;
                     selectFav();
                 }
@@ -114,7 +115,7 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
         mImvFavSelected = mView.findViewById(R.id.imv_fav_selected);
 
 
-        if(FASHION_LIST_SIZE > 0) {
+        if (FASHION_LIST_SIZE > 0) {
 
             mGridAdapter = new GridFashionAdapter(mInflater, R.layout.fashion_grid, mList, getActivity());
             mGridView.setAdapter(mGridAdapter);
@@ -139,26 +140,34 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
 
     }
 
-    private void selectAllFirst(){
+    private void selectAllFirst() {
         //最初にallを選択する時の、
         mImvAllSelected.setVisibility(View.VISIBLE);
         mImvFavSelected.setVisibility(View.GONE);
     }
 
-    private void selectAll(){
+    private void selectAll() {
         //Allが選択された時の処理
         mImvAllSelected.setVisibility(View.VISIBLE);
         mImvFavSelected.setVisibility(View.GONE);
 
         mGridAdapter.changeToAll();
+        txvNoFashion.setVisibility(View.GONE);
     }
 
-    private void selectFav(){
+    private void selectFav() {
         //Favが選択された時の処理
         mImvAllSelected.setVisibility(View.GONE);
         mImvFavSelected.setVisibility(View.VISIBLE);
 
-        mGridAdapter.changeToFav(getFavFashions());
+        int number = mGridAdapter.changeToFav(getFavFashions());
+        if (number ==0){
+            //何も入っていなかった時
+            txvNoFashion.setText(R.string.no_fav_item);
+            txvNoFashion.setVisibility(View.VISIBLE);
+        }else {
+            txvNoFashion.setVisibility(View.GONE);
+        }
     }
 
 
@@ -166,11 +175,11 @@ public class AllFashionsFragment extends Fragment implements AdapterView.OnItemC
         return SavedDataHelper.getMyFashionsOrderedByNew(getContext());
     }
 
-    private List<Fashion> getFavFashions(){
+    private List<Fashion> getFavFashions() {
         List<Fashion> favs = new ArrayList<>();
 
-        for (Fashion item:getAllFashions()){
-            if (item.isFav()){
+        for (Fashion item : getAllFashions()) {
+            if (item.isFav()) {
                 favs.add(item);
             }
         }
