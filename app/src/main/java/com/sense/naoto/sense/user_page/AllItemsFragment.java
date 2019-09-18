@@ -30,18 +30,14 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
     private LayoutInflater mInflater;
     private GridView mGridView;
     private List<ImageView> imvTypeSelected = new ArrayList<>();
+    private GridItemAdapter mGridItemAdapter;
 
 
     //変数
     private List<FashionItem> itemList;
     private int ITEM_LIST_SIZE = 0;
+    private int mode = 0;
 
-    //定数
-    private final int NUMBER_ALL = 0;
-    private final int NUMBER_TOP = 1;
-    private final int NUMBER_BOTTOM = 2;
-    private final int NUMBER_ACCESSORY = 3;
-    private final int NUMBER_OTHERS = 4;
 
     public static AllItemsFragment newInstance(String param1, String param2) {
         AllItemsFragment fragment = new AllItemsFragment();
@@ -65,6 +61,8 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
 
         setViews();
 
+        mode = 0;
+
         return mView;
 
     }
@@ -87,6 +85,7 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
         btns.add((ImageButton) mView.findViewById(R.id.btn_all));
         btns.add((ImageButton) mView.findViewById(R.id.btn_tops));
         btns.add((ImageButton) mView.findViewById(R.id.btn_bottom));
+        //todo:
         btns.add((ImageButton) mView.findViewById(R.id.btn_accessory));
         btns.add((ImageButton) mView.findViewById(R.id.btn_other));
 
@@ -104,8 +103,8 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
 
         if (ITEM_LIST_SIZE > 0) {
             mGridView = mView.findViewById(R.id.grid_view);
-            GridItemAdapter adapter = new GridItemAdapter(mInflater, R.layout.fashion_item_grid, itemList, getActivity());
-            mGridView.setAdapter(adapter);
+            mGridItemAdapter = new GridItemAdapter(mInflater, R.layout.fashion_item_grid, itemList, getActivity());
+            mGridView.setAdapter(mGridItemAdapter);
             mGridView.setOnItemClickListener(this);
 
             txvNoItem.setVisibility(View.GONE);
@@ -115,7 +114,6 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
             typeFrame.setVisibility(View.GONE);
 
         }
-
 
     }
 
@@ -127,7 +125,19 @@ public class AllItemsFragment extends Fragment implements AdapterView.OnItemClic
 
         imvTypeSelected.get(i).setVisibility(View.VISIBLE);
 
-        //todo:ここから個別のgridviewの処理
+        if (i != mode) {
+            //違うものが押された時
+            mode = i;
+
+            i = i - 1;
+            //itemadapterではtopsが0扱いなので
+            if (i == -1) {
+                mGridItemAdapter.changeToAll();
+            } else {
+                mGridItemAdapter.changeToSpecific(i);
+            }
+        }
+
     }
 
     @Override

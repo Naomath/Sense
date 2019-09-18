@@ -13,9 +13,10 @@ import android.widget.ProgressBar;
 
 import com.sense.naoto.sense.R;
 import com.sense.naoto.sense.classes.FashionItem;
-import com.sense.naoto.sense.processings.GetImageTask;
+import com.sense.naoto.sense.processings.GetImageTaskForGrid;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GridItemAdapter extends BaseAdapter {
@@ -31,19 +32,16 @@ public class GridItemAdapter extends BaseAdapter {
     private int SIZE = 0;
 
     //変数
-    private List<FashionItem> itemList = new ArrayList<>();
+    private List<FashionItem> allitemList = new ArrayList<>();
+    private List<FashionItem> usedList = new ArrayList<>();
     private LayoutInflater inflater;
     private int layoutId;
     private Activity mActivity;
 
+
     //GetImageTask関連
     private List<Boolean> isDones = new ArrayList<>();
-    private List<GetImageTask> tasks = new ArrayList<>();
-    private int taskFlag = 0;
-
-    private List<ProgressBar> progressBarList = new ArrayList<>();
-    private List<ImageView> imageViewList = new ArrayList<>();
-
+    private HashMap<String, Bitmap> bmpMap = new HashMap<>();
 
     public GridItemAdapter() {}
 
@@ -51,13 +49,16 @@ public class GridItemAdapter extends BaseAdapter {
         super();
         this.inflater = inflater;
         this.layoutId = layoutId;
-        this.itemList = itemList;
+        this.usedList = itemList;
         mActivity = activity;
         SIZE = itemList.size();
 
+        for (FashionItem item:itemList){
+            allitemList.add(item);
+        }
+
         for (int i = 0; i < SIZE; i++) {
             isDones.add(false);
-            tasks.add(new GetImageTask());
         }
     }
 
@@ -65,7 +66,7 @@ public class GridItemAdapter extends BaseAdapter {
     public View getView(final int i, View view, ViewGroup viewGroup) {
         final ViewHolder holder;
 
-        final FashionItem item = itemList.get(i);
+        final FashionItem item = usedList.get(i);
 
         if (view == null) {
             view = inflater.inflate(layoutId, viewGroup, false);
@@ -75,42 +76,68 @@ public class GridItemAdapter extends BaseAdapter {
             holder.imvSelected = view.findViewById(R.id.imgSelected);
             holder.progressBar = view.findViewById(R.id.progressBar);
 
-            progressBarList.add(holder.progressBar);
-            imageViewList.add(holder.imageView);
-
             view.setTag(holder);
 
         } else {
             holder = (GridItemAdapter.ViewHolder) view.getTag();
         }
 
-        ViewTreeObserver observer = holder.imageView.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (!isDones.get(i)) {
-                    isDones.set(i, true);
+        if (bmpMap.get(item.getPrefKey())!=null){
+            holder.imageView.setImageBitmap(bmpMap.get(item.getPrefKey()));
+            holder.progressBar.setVisibility(View.GONE);
+        }else {
 
-                    final GetImageTask task = tasks.get(i);
-                    task.setListener(createListener());
-                    task.setActivity(mActivity);
+            ViewTreeObserver observer = holder.imageView.getViewTreeObserver();
+            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    if (!isDones.get(i)) {
+                        isDones.set(i, true);
 
-                    GetImageTask.Param param = new GetImageTask.Param(holder.imageView.getWidth(),
-                            holder.imageView.getHeight(), Uri.parse(item.getLocalDeviceUri()));
+                        final GetImageTaskForGrid task = new GetImageTaskForGrid();
+                        task.setListener(createListener());
+                        task.setActivity(mActivity);
 
-                    task.execute(param);
+                        GetImageTaskForGrid.Param param = new GetImageTaskForGrid.Param(holder.imageView.getWidth(),
+                                holder.imageView.getHeight(), Uri.parse(item.getLocalDeviceUri()),
+                                holder.imageView, holder.progressBar, item.getPrefKey());
 
+                        task.execute(param);
+
+                    }
                 }
-            }
-        });
+            });
+
+        }
 
 
         return view;
     }
 
+
+    public void changeToAll(){
+        //ALlに切り替える時
+        usedList.clear();
+        for (FashionItem item:allitemList){
+            usedList.add(item);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void changeToSpecific(int type){
+        usedList.clear();
+        for (FashionItem item:allitemList){
+            if (item.getType()==type) {
+                usedList.add(item);
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
-        return itemList.size();
+        return usedList.size();
     }
 
     @Override
@@ -123,14 +150,15 @@ public class GridItemAdapter extends BaseAdapter {
         return 0;
     }
 
-    private GetImageTask.GetImageFromDeviceListener createListener() {
-        return new GetImageTask.GetImageFromDeviceListener() {
+    private GetImageTaskForGrid.GetImageFromDeviceForGridListener createListener() {
+        return new GetImageTaskForGrid.GetImageFromDeviceForGridListener() {
             @Override
-            public void onSuccess(Bitmap bitmap) {
+            public void onSuccess(Bitmap bitmap, String prefKey
+                    , ImageView imageView, ProgressBar progressBar) {
+                imageView.setImageBitmap(bitmap);
+                progressBar.setVisibility(View.GONE);
 
-                progressBarList.get(taskFlag).setVisibility(View.GONE);
-                imageViewList.get(taskFlag).setImageBitmap(bitmap);
-                taskFlag ++;
+                bmpMap.put(prefKey, bitmap);
             }
         };
     }

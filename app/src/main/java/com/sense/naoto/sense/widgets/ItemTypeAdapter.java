@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sense.naoto.sense.R;
+import com.sense.naoto.sense.classes.FashionItem;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,20 +19,22 @@ public class ItemTypeAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private int layoutID;
-    private List<String> typeNames;
-    private List<Integer> typeImageIDs;
+    private List<String> typeNames = new ArrayList<>();
+    private List<Integer> typeImageIDs = new ArrayList<>();
 
-    static class ViewHolder{
+    static class ViewHolder {
         ImageView imageView;
         TextView textView;
     }
 
-    public ItemTypeAdapter(Context context, int resID){
+    public ItemTypeAdapter(Context context, int resID) {
         this.inflater = LayoutInflater.from(context);
         layoutID = resID;
-        typeNames = Arrays.asList("TOP","BOTTOM","ACCESSORY","OTHER");
-        typeImageIDs = Arrays.asList(R.drawable.tops_icon,R.drawable.bottoms_icon,
-                R.drawable.accessories_icon, R.drawable.other_icon);
+
+        for (int i = 0; i < 8; i++) {
+            typeNames.add(FashionItem.getTypeName(i));
+            typeImageIDs.add(FashionItem.getTypeResID(i));
+        }
     }
 
     @Override
@@ -55,7 +59,7 @@ public class ItemTypeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 8;
     }
 
     @Override

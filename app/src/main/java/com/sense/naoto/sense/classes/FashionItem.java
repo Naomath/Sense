@@ -13,11 +13,14 @@ import lombok.Setter;
 public class FashionItem implements Serializable {
 
     //定数
-    private static final int TYPE_TOPS = 0;
-    private static final int TYPE_BOTTOMS = 1;
-    private static final int TYPE_ACCESSORIES = 2;
-    private static final int TYPE_OUTER = 3;
-    private static final int TYPE_OTHER = 4;
+    public static final int TYPE_TOPS = 0;
+    public static final int TYPE_BOTTOMS = 1;
+    public static final int TYPE_OUTER = 2;
+    public static final int TYPE_DRESS = 3;
+    public static final int TYPE_BAG = 4;
+    public static final int TYPE_SHOES = 5;
+    public static final int TYPE_ACCESSORIES = 6;
+    public static final int TYPE_OTHER = 7;
 
     @Getter
     @Setter
@@ -43,11 +46,6 @@ public class FashionItem implements Serializable {
     @Setter
     private int type;
 
-    @Getter
-    @Setter
-    private String imageCode;
-    //base64
-
     public FashionItem() {
     }
 
@@ -68,6 +66,18 @@ public class FashionItem implements Serializable {
             case TYPE_BOTTOMS:
                 return R.drawable.bottoms_icon;
 
+            case TYPE_OUTER:
+                return R.drawable.outer_icon;
+
+            case TYPE_DRESS:
+                return R.drawable.dress_icon;
+
+            case TYPE_BAG:
+                return R.drawable.bag_icon;
+
+            case TYPE_SHOES:
+                return R.drawable.shoes_icon;
+
             case TYPE_ACCESSORIES:
                 return R.drawable.accessories_icon;
 
@@ -76,7 +86,7 @@ public class FashionItem implements Serializable {
         }
     }
 
-    public static String getTypeName(int type){
+    public static String getTypeName(int type) {
         switch (type) {
             case TYPE_TOPS:
                 return "TOP";
@@ -84,11 +94,23 @@ public class FashionItem implements Serializable {
             case TYPE_BOTTOMS:
                 return "BOTTOM";
 
+            case TYPE_OUTER:
+                return "OUTER";
+
+            case TYPE_DRESS:
+               return "DRESS";
+
+            case TYPE_BAG:
+               return "BAG";
+
+            case TYPE_SHOES:
+                return "SHOES";
+
             case TYPE_ACCESSORIES:
                 return "ACCESSORY";
 
             default:
-                return "OTHER";
+                return "OTHERS";
         }
     }
 }
