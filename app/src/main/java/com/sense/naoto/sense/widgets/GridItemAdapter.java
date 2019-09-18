@@ -122,6 +122,7 @@ public class GridItemAdapter extends BaseAdapter {
             usedList.add(item);
         }
         notifyDataSetChanged();
+
     }
 
     public void changeToSpecific(int type){
